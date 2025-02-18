@@ -1,11 +1,9 @@
-CREATE TABLE Users (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100),
-    email VARCHAR(100) UNIQUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- Use the correct database
+USE UserManagement;
+GO
 
-INSERT INTO Users (name, email) VALUES 
-('Paballo Pholo', 'paballo.pholo@sambeconsulting.com');
-
-
+-- Update user email
+UPDATE Users
+SET email = 'john.doe@newmail.com'
+WHERE id = 1;
+GO
