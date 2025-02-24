@@ -1,0 +1,11 @@
+SELECT TOP (1000) [customer_id]
+      ,[first_name]
+      ,[last_name]
+      ,[phone]
+      ,[email]
+      ,[street]
+      ,[city]
+      ,[state]
+      ,[zip_code]
+  FROM [Bikestores].[sales].[customers]
+  WHERE customer_id <> 1 AND city = 'San Diego' 
