@@ -1,39 +1,38 @@
 name: Test SQL Scripts
 
-on:
-  push:
-    paths:
-      - 'DatabaseAdministration/SQLStatements/*.sql'
+on: [push, pull_request]
 
 jobs:
   test-sql:
     runs-on: ubuntu-latest
-
     services:
-      mssql:
+      sqlserver:
         image: mcr.microsoft.com/mssql/server:2019-latest
         env:
-          ACCEPT_EULA: "Y"
+          ACCEPT_EULA: Y
           SA_PASSWORD: "YourStrong!Passw0rd"
         ports:
           - 1433:1433
         options: >-
           --health-cmd "exit 0"
-          --name=mssql-server
-          --restart=always
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Install SQLCMD
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y mssql-tools unixodbc-dev
+      - name: Wait for SQL Server to start
+        run: sleep 20s
 
-    - name: Wait for SQL Server to start
-      run: sleep 20  # Wait for SQL Server to be ready
+      - name: Install SQLCMD
+        run: sudo apt-get install -y mssql-tools unixodbc-dev
 
-    - name: Run SQL script
-      run: |
-        /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "YourStrong!Passw0rd" -d master -i DatabaseAdministration/SQLStatements/test.sql
+      - name: Test SQL Connection
+        run: |
+          sqlcmd -S localhost -U SA -P 'YourStrong!Passw0rd' -Q "SELECT @@VERSION"
+
+      - name: Run SQL Scripts
+        run: |
+          sqlcmd -S localhost -U SA -P 'YourStrong!Passw0rd' -d master -i path/to/your/sql_script.sql
