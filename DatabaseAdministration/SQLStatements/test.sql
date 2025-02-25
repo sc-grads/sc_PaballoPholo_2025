@@ -12,7 +12,7 @@ CREATE TABLE TestTable (
     id INT IDENTITY(1,1) PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
-GO
+
 
 -- Insert some test data
 INSERT INTO TestTable (name) VALUES ('Alice'), ('Bob');
