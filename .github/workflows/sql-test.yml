@@ -1,0 +1,46 @@
+name: Test SQL Scripts
+
+on:
+  push:
+    paths:
+      - 'DatabaseAdministration/SQLStatements/*.sql'  # Trigger on changes in SQL scripts
+  pull_request:
+    paths:
+      - 'DatabaseAdministration/SQLStatements/*.sql'
+
+jobs:
+  test-sql:
+    runs-on: ubuntu-latest
+
+    services:
+      mssql:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: "YourStrongPassword123"  # Replace with a strong password
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "echo 'SELECT 1' | /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P YourStrongPassword123 -Q 'SELECT 1'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Install SQL Server CLI (sqlcmd)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y mssql-tools unixodbc-dev
+
+    - name: Wait for SQL Server to Start
+      run: sleep 20  # Wait for the SQL Server container to be ready
+
+    - name: Run SQL Scripts
+      run: |
+        for file in DatabaseAdministration/SQLStatements/*.sql; do
+          echo "Running $file..."
+          /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "YourStrongPassword123" -i $file
+        done
