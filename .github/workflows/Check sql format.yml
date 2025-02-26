@@ -1,0 +1,40 @@
+name: SQL Syntax Check
+ 
+on:
+  push:
+  pull_request:
+ 
+jobs:
+  sql-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+ 
+      - name: Install MySQL
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mysql-server mysql-client
+ 
+      - name: Start MySQL Service
+        run: |
+          sudo systemctl start mysql
+          sudo systemctl status mysql || true  # Debugging output
+ 
+      - name: Create Database if Not Exists
+        run: |
+          sudo mysql --user=root --password=root -e "CREATE DATABASE IF NOT EXISTS my_local_db;"
+          sudo mysql --user=root --password=root -e "SHOW DATABASES;"
+ 
+      - name: Install SQLFluff
+        run: pip install sqlfluff
+ 
+      - name: Lint SQL files
+        run: sqlfluff lint DatabaseAdministration/Testing_workflow --dialect mysql
+ 
+      - name: Check SQL syntax using MySQL
+        run: |
+          for file in DatabaseAdministration/Testing_workflow/*.sql; do
+            echo "Checking syntax for $file"
+            sudo mysql --user=root --password=root my_local_db < "$file" || exit 1
+          done
