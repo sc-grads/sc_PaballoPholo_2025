@@ -5,5 +5,4 @@ CREATE TABLE users (
     age INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 -- Add an extra blank line below
