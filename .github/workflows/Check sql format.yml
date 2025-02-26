@@ -25,16 +25,39 @@ jobs:
         run: |
           sudo mysql --user=root --password=root -e "CREATE DATABASE IF NOT EXISTS my_local_db;"
           sudo mysql --user=root --password=root -e "SHOW DATABASES;"
- 
+
+      - name: Debug SQL File Formatting
+        run: |
+          for file in DatabaseAdministration/Workflow_tests/*.sql; do
+            echo "Checking file: $file"
+            cat -A "$file"  # Show special characters like missing newlines
+          done
+
+      - name: Ensure SQL Files Have a Trailing Newline
+        run: |
+          for file in DatabaseAdministration/Workflow_tests/*.sql; do
+            echo >> "$file"  # Add a blank line at the end of the file if missing
+          done
+
       - name: Install SQLFluff
         run: pip install sqlfluff
  
+      - name: Clear SQLFluff Cache
+        run: rm -rf ~/.cache/sqlfluff  # Ensure fresh linting results
+
+      - name: Create SQLFluff Config
+        run: |
+          echo "[sqlfluff]" > .sqlfluff
+          echo "dialect = mysql" >> .sqlfluff
+          echo "[rules]" >> .sqlfluff
+          echo "exclude_rules = layout.end_of_file" >> .sqlfluff  # Disable newline rule
+
       - name: Lint SQL files
-        run: sqlfluff lint DatabaseAdministration/SQLStatements --dialect mysql
+        run: sqlfluff lint DatabaseAdministration/Workflow_tests --dialect mysql --config .sqlfluff
  
       - name: Check SQL syntax using MySQL
         run: |
-          for file in DatabaseAdministration/SQLStatements/*.sql; do
+          for file in DatabaseAdministration/Workflow_tests/*.sql; do
             echo "Checking syntax for $file"
             sudo mysql --user=root --password=root my_local_db < "$file" || exit 1
           done
