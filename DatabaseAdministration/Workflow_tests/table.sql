@@ -4,4 +4,7 @@ CREATE TABLE users (
     email VARCHAR(100) UNIQUE,
     age INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
+
+-- Add an extra blank line below
+
