@@ -33,12 +33,6 @@ jobs:
             cat -A "$file"  # Show special characters like missing newlines
           done
 
-      - name: Ensure SQL Files Have a Trailing Newline
-        run: |
-          for file in DatabaseAdministration/Workflow_tests/*.sql; do
-            echo >> "$file"  # Add a blank line at the end of the file if missing
-          done
-
       - name: Install SQLFluff
         run: pip install sqlfluff
  
