@@ -1,0 +1,56 @@
+name: PR Notification
+on:
+  pull_request:
+    types: [opened, reopened]
+ 
+jobs:
+  notify_teams:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Changed Files & PR Description
+        id: pr_info
+        run: |
+          RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "${{ github.event.pull_request.url }}/files")
+ 
+          ADDED_FILES=$(echo "$RESPONSE" | jq -r '.[] | select(.status=="added") | .filename' | paste -sd ", " -)
+          MODIFIED_FILES=$(echo "$RESPONSE" | jq -r '.[] | select(.status=="modified") | .filename' | paste -sd ", " -)
+          DELETED_FILES=$(echo "$RESPONSE" | jq -r '.[] | select(.status=="removed") | .filename' | paste -sd ", " -)
+ 
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_USER="${{ github.event.pull_request.user.login }}"
+          PR_URL="${{ github.event.pull_request.html_url }}"
+          PR_DESCRIPTION="${{ github.event.pull_request.body }}"
+ 
+          MESSAGE="New Pull Request: **'$PR_TITLE'** by **'$PR_USER'**.\n\n"
+          MESSAGE+="🔗 **Review here:** [$PR_URL]($PR_URL)\n\n"
+ 
+          if [[ -n "$PR_DESCRIPTION" ]]; then
+            MESSAGE+="📝 **Description:** $PR_DESCRIPTION\n\n"
+          fi
+ 
+          if [[ -n "$ADDED_FILES" ]]; then
+            MESSAGE+="📂 **Files Added:** $ADDED_FILES\n"
+          fi
+ 
+          if [[ -n "$MODIFIED_FILES" ]]; then
+            MESSAGE+="✏️ **Files Modified:** $MODIFIED_FILES\n"
+          fi
+ 
+          if [[ -n "$DELETED_FILES" ]]; then
+            MESSAGE+="🗑️ **Files Deleted:** $DELETED_FILES\n"
+          fi
+ 
+          # Use EOF to correctly assign multiline values
+          {
+            echo "MESSAGE<<EOF"
+            echo "$MESSAGE"
+            echo "EOF"
+          } >> $GITHUB_ENV
+ 
+      - name: Send Notification to Teams
+        run: |
+          curl -H "Content-Type: application/json" -d "{
+            \"text\": \"${{ env.MESSAGE }}\"
+          }" "https://northerndata.webhook.office.com/webhookb2/50e5f9b7-7bfa-493d-8d93-e7e291fbec10@174c7352-9c5c-4558-b848-be140b444e7d/IncomingWebhook/41db2df7ff774943890c874908da6fd1/dea55bd6-308e-4b50-baff-27a53f6f6a71/V2bBtSqCuY_8Vo6iQz31YYKLRVvY2mce-h0wRsesnQ0B41"
