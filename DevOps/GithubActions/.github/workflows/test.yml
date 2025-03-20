@@ -1,0 +1,22 @@
+name: Test Project # Defines the name of the workflow as "Test Project". This name will appear in the GitHub Actions tab.
+
+on: push # Trigger Event: Runs the workflow when code is pushed to the repository.
+
+jobs:
+  Itest: # Defines a job named "Itest".
+    runs-on: ubuntu-latest # Specifies that the job will run on the latest Ubuntu virtual machine.
+
+    steps:
+      - name: Get code # Step 1: Checks out the repository code.
+        uses: actions/checkout@v3 # Uses GitHub's checkout action to clone the repository.
+
+      - name: Install NodeJS # Step 2: Sets up Node.js for the environment.
+        uses: actions/setup-node@v3 # Uses the official Node.js setup action.
+        with:
+          node-version: 18 # Installs Node.js version 18.
+
+      - name: Install dependencies # Step 3: Installs project dependencies.
+        run: npm ci # Runs "npm ci" to install dependencies from package-lock.json.
+
+      - name: Run tests # Step 4: Executes test cases.
+        run: npm test # Runs "npm test" to execute defined test scripts.
