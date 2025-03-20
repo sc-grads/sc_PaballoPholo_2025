@@ -53,4 +53,4 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" -d "{
             \"text\": \"${{ env.MESSAGE }}\"
-          }" "https://northerndata.webhook.office.com/webhookb2/50e5f9b7-7bfa-493d-8d93-e7e291fbec10@174c7352-9c5c-4558-b848-be140b444e7d/IncomingWebhook/41db2df7ff774943890c874908da6fd1/dea55bd6-308e-4b50-baff-27a53f6f6a71/V2bBtSqCuY_8Vo6iQz31YYKLRVvY2mce-h0wRsesnQ0B41"
+          }" "https://northerndata.webhook.office.com/webhookb2/436ca2b7-8ba6-4bf3-83fd-8d48e5093dfc@174c7352-9c5c-4558-b848-be140b444e7d/IncomingWebhook/75d45d4dc64549d68a3cb58af84f05bd/d6da0a29-420d-4f3a-baaa-d0d029e264a2/V2klzbwgssJ_vXeRuWQsEtCkV0Bya0w2GiLQ8jqcXM7KE1"
