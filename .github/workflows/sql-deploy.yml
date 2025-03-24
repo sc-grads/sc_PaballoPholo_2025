@@ -18,14 +18,11 @@ jobs:
       - name: Set up SQL Server Authentication
         shell: powershell
         run: |
-          $server = "localhost" # Change this if using a remote server
-          $database = "AutoTest"
-          $user = "Auto_user"
-          $password = "YourSecurePassword"
+          $server = "LAPTOP-NTKM1UMO" # Change this if using a remote server
 
           # Execute SQL Scripts
           Get-ChildItem -Path 'DatabaseAdministration/Project' -Filter "*.sql" | ForEach-Object {
             Write-Output "Executing script $($_.Name)..."
             sqlcmd -S $server -U $user -P $password -d master -i $_.FullName
           }
-          Write-Output "Database setup complete!"
+          Write-Host "Database setup complete!"
