@@ -10,20 +10,19 @@ jobs:
     runs-on: windows-latest
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v2
       
     - name: Install SQL Server tools
-      run: choco install sqlcmd -y
+      run: choco install sqlserver-cmdlineutils -y
       
     - name: Run SQL scripts
       env:
-        SQL_SERVER: ${{ secrets.SQL_SERVER }}
-        SQL_USERNAME: ${{ secrets.SQL_USERNAME }}
+        SQL_SERVER: localhost
+        SQL_USER: ${{ secrets.SQL_USER }}
         SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
       run: |
-        sqlcmd -S "$env:SQL_SERVER" -U "$env:SQL_USERNAME" -P "$env:SQL_PASSWORD" -Q "CREATE DATABASE AutoTest"
-        sqlcmd -S "$env:SQL_SERVER" -U "$env:SQL_USERNAME" -P "$env:SQL_PASSWORD" -d AutoTest -Q "CREATE TABLE [user] (Name NVARCHAR(100), Surname NVARCHAR(100), Email NVARCHAR(100))"
-        sqlcmd -S "$env:SQL_SERVER" -U "$env:SQL_USERNAME" -P "$env:SQL_PASSWORD" -d AutoTest -Q "CREATE PROCEDURE InsertUser @Name NVARCHAR(100), @Surname NVARCHAR(100), @Email NVARCHAR(100) AS BEGIN INSERT INTO [user] (Name, Surname, Email) VALUES (@Name, @Surname, @Email) END"
-        sqlcmd -S "$env:SQL_SERVER" -U "$env:SQL_USERNAME" -P "$env:SQL_PASSWORD" -d AutoTest -Q "EXEC InsertUser 'John', 'Doe', 'john.doe@example.com'"
-        sqlcmd -S "$env:SQL_SERVER" -U "$env:SQL_USERNAME" -P "$env:SQL_PASSWORD" -d AutoTest -Q "EXEC InsertUser 'Jane', 'Smith', 'jane.smith@example.com'"
+        sqlcmd -S "$env:SQL_SERVER" -U "$env:SQL_USER" -P "$env:SQL_PASSWORD" -i scripts/create_db.sql
+        sqlcmd -S "$env:SQL_SERVER" -U "$env:SQL_USER" -P "$env:SQL_PASSWORD" -d AutoTest -i scripts/create_table.sql
+        sqlcmd -S "$env:SQL_SERVER" -U "$env:SQL_USER" -P "$env:SQL_PASSWORD" -d AutoTest -i scripts/stored_procedures.sql
+        sqlcmd -S "$env:SQL_SERVER" -U "$env:SQL_USER" -P "$env:SQL_PASSWORD" -d AutoTest -i scripts/insert_data.sql
