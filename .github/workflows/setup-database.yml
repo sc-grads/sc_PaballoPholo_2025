@@ -1,0 +1,37 @@
+name: Setup AutoTest Database
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to the main branch
+
+jobs:
+  setup-database:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install SQL Server tools (sqlcmd) on the runner
+      - name: Install SQL Server tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl gnupg
+          curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+          curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | sudo tee /etc/apt/sources.list.d/msprod.list
+          sudo apt-get update
+          sudo apt-get install -y mssql-tools unixodbc-dev
+          echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+          source ~/.bashrc
+
+      # Run the SQL script to set up the database and table
+      - name: Execute SQL Script
+        env:
+          SQL_SERVER: rncgy-41-121-62-232.a.free.pinggy.link,34327  # Replace with your Pinggy URL
+          SQL_USER: Auto_user
+          SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}  # Store password in GitHub Secrets
+          SQL_DATABASE: master  # Start with master to create the database
+        run: |
+          /opt/mssql-tools/bin/sqlcmd -S $SQL_SERVER -U $SQL_USER -P $SQL_PASSWORD -d $SQL_DATABASE -i DatabaseAdministration/Project/scripts/setup.sql
