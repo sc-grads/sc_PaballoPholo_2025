@@ -15,17 +15,22 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
       
-    - name: Debug SQL connection
+    - name: Network Diagnostics
       shell: cmd
       run: |
-        echo "Testing SQL connection..."
-        sqlcmd -S localhost -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -Q "SELECT @@VERSION" || echo "Connection failed"
+        ping -n 3 localhost
+        netstat -ano | findstr 1454
+        
+    - name: Test SQL connection
+      shell: cmd
+      run: |
+        sqlcmd -S "tcp:localhost,1454" -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -Q "SELECT @@VERSION" -l 30
         
     - name: Run SQL scripts
       shell: cmd
       run: |
-        sqlcmd -S localhost -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -i DatabaseAdministration/Project/scripts/create-user.sql
-        sqlcmd -S localhost -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -i DatabaseAdministration/Project/scripts/create-database.sql
-        sqlcmd -S localhost -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -d AutoTest -i DatabaseAdministration/Project/scripts/create-table.sql
-        sqlcmd -S localhost -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -d AutoTest -i DatabaseAdministration/Project/scripts/stored-procedures.sql
-        sqlcmd -S localhost -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -d AutoTest -i DatabaseAdministration/Project/scripts/insert-data.sql
+        sqlcmd -S "tcp:localhost,1454" -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -i DatabaseAdministration/Project/scripts/create-user.sql
+        sqlcmd -S "tcp:localhost,1454" -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -i DatabaseAdministration/Project/scripts/create-database.sql
+        sqlcmd -S "tcp:localhost,1454" -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -d AutoTest -i DatabaseAdministration/Project/scripts/create-table.sql
+        sqlcmd -S "tcp:localhost,1454" -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -d AutoTest -i DatabaseAdministration/Project/scripts/stored-procedures.sql
+        sqlcmd -S "tcp:localhost,1454" -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -d AutoTest -i DatabaseAdministration/Project/scripts/insert-data.sql
