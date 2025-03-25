@@ -15,11 +15,17 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
       
-    - name: Run SQL scripts
+    - name: Debug SQL connection
+      shell: cmd
       run: |
-        # Note: Adjust these commands based on your SQL Server setup
-        sqlcmd -S localhost -U Auto_user -P ${{ secrets.SQL_PASSWORD }} -i DatabaseAdministration/Project/scripts/create-user.sql
-        sqlcmd -S localhost -U Auto_user -P ${{ secrets.SQL_PASSWORD }} -i DatabaseAdministration/Project/scripts/create-database.sql
-        sqlcmd -S localhost -U Auto_user -P ${{ secrets.SQL_PASSWORD }} -d AutoTest -i DatabaseAdministration/Project/scripts/create-table.sql
-        sqlcmd -S localhost -U Auto_user -P ${{ secrets.SQL_PASSWORD }} -d AutoTest -i DatabaseAdministration/Project/scripts/stored-procedures.sql
-        sqlcmd -S localhost -U Auto_user -P ${{ secrets.SQL_PASSWORD }} -d AutoTest -i DatabaseAdministration/Project/scripts/insert-data.sql
+        echo "Testing SQL connection..."
+        sqlcmd -S localhost -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -Q "SELECT @@VERSION" || echo "Connection failed"
+        
+    - name: Run SQL scripts
+      shell: cmd
+      run: |
+        sqlcmd -S localhost -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -i DatabaseAdministration/Project/scripts/create-user.sql
+        sqlcmd -S localhost -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -i DatabaseAdministration/Project/scripts/create-database.sql
+        sqlcmd -S localhost -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -d AutoTest -i DatabaseAdministration/Project/scripts/create-table.sql
+        sqlcmd -S localhost -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -d AutoTest -i DatabaseAdministration/Project/scripts/stored-procedures.sql
+        sqlcmd -S localhost -U Auto_user -P "${{ secrets.SQL_PASSWORD }}" -d AutoTest -i DatabaseAdministration/Project/scripts/insert-data.sql
