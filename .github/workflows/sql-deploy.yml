@@ -1,28 +1,54 @@
-name: SQL Server Automation
+name: SQL Database Automation
 
 on:
   push:
+    paths:
+      - 'DatabaseAdministration/Project/scripts/**/*.sql'
     branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  automate-sql:
-    runs-on: self-hosted
+  deploy:
+    runs-on: windows-latest
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
       
     - name: Install SQL Server tools
-      run: choco install sqlserver-cmdlineutils -y
+      run: choco install sqlserver-cmdlineutils -y --no-progress
       
-    - name: Run SQL scripts
+    - name: Execute Database Script
+      shell: powershell
       env:
-        SQL_SERVER: localhost
-        SQL_USER: ${{ secrets.SQL_USER }}
-        SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
+        SQL_SERVER: "LAPTOP-NTKM1UMO"  # From your connection details
       run: |
-        sqlcmd -S "$env:SQL_SERVER" -U "$env:SQL_USER" -P "$env:SQL_PASSWORD" -i "DatabaseAdministration/Project/scripts/create_db.sql"
-        sqlcmd -S "$env:SQL_SERVER" -U "$env:SQL_USER" -P "$env:SQL_PASSWORD" -d AutoTest -i "DatabaseAdministration/Project/scripts/create_table.sql"
-        sqlcmd -S "$env:SQL_SERVER" -U "$env:SQL_USER" -P "$env:SQL_PASSWORD" -d AutoTest -i "DatabaseAdministration/Project/scripts/stored_procedures.sql"
-        sqlcmd -S "$env:SQL_SERVER" -U "$env:SQL_USER" -P "$env:SQL_PASSWORD" -d AutoTest -i "DatabaseAdministration/Project/scripts/insert_data.sql"
+        Write-Output "Executing database creation script..."
+        sqlcmd -S "$env:SQL_SERVER" -E -i "DatabaseAdministration/Project/scripts/create_db.sql"
+        
+    - name: Execute Table Script
+      shell: powershell
+      env:
+        SQL_SERVER: "LAPTOP-NTKM1UMO"
+      run: |
+        Write-Output "Executing table creation script..."
+        sqlcmd -S "$env:SQL_SERVER" -E -d AutoTest -i "DatabaseAdministration/Project/scripts/create_table.sql"
+        
+    - name: Execute Stored Procedures
+      shell: powershell
+      env:
+        SQL_SERVER: "LAPTOP-NTKM1UMO"
+      run: |
+        Write-Output "Executing stored procedures..."
+        sqlcmd -S "$env:SQL_SERVER" -E -d AutoTest -i "DatabaseAdministration/Project/scripts/stored_procedures.sql"
+        
+    - name: Insert Sample Data
+      shell: powershell
+      env:
+        SQL_SERVER: "LAPTOP-NTKM1UMO"
+      run: |
+        Write-Output "Inserting sample data..."
+        sqlcmd -S "$env:SQL_SERVER" -E -d AutoTest -i "DatabaseAdministration/Project/scripts/insert_data.sql"
+        
+    - name: Completion Message
+      run: Write-Output "All SQL scripts executed successfully!"
