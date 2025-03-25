@@ -1,6 +1,5 @@
 USE master;
 GO
-
 -- Create login if it doesn't exist
 IF NOT EXISTS (SELECT * FROM sys.server_principals WHERE name = 'Auto_user')
 BEGIN
