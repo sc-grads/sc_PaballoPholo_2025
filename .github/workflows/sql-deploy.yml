@@ -18,7 +18,7 @@ jobs:
       - name: Set up SQL Server Authentication
         shell: powershell
         run: |
-          $server = "LAPTOP-NTKM1UMO" # Change this if using a remote server
+          $server = "localhost" # Change this if using a remote server
 
           # Execute SQL Scripts
           Get-ChildItem -Path 'DatabaseAdministration/Project' -Filter "*.sql" | ForEach-Object {
