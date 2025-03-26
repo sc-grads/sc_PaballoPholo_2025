@@ -31,7 +31,8 @@ BEGIN
     INSERT INTO dbo.[user] (Name, Surname, Email)
     VALUES 
         ('John', 'Doe', 'john.doe@example.com'),
-        ('Jane', 'Smith', 'jane.smith@example.com');
+        ('Jane', 'Smith', 'jane.smith@example.com'),
+        ('Paballo', 'Pholo', 'paballo.pholo@ecample.com');
 END;
 GO
 
