@@ -29,7 +29,7 @@ jobs:
       # Run the SQL script to set up the database and table
       - name: Execute SQL Script
         env:
-          SQL_SERVER: rncgy-41-121-62-232.a.free.pinggy.link,34327  # Replace with your Pinggy URL
+          SQL_SERVER: ${{ secrets.SQL_SERVER }}  # Use secret for Pinggy URL
           SQL_USER: Auto_user
           SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}  # Store password in GitHub Secrets
           SQL_DATABASE: master  # Start with master to create the database
