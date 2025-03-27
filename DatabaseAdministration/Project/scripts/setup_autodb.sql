@@ -1,4 +1,4 @@
--- sql/setup_autodb.sql
+-- sql/setup_autodb.sql second attempt
 USE master;
 GO
 
@@ -17,7 +17,7 @@ GO
 CREATE OR ALTER PROCEDURE dbo.SetupDatabase
 AS
 BEGIN
-    -- Create the user table if it doesn’t exist
+    -- Create the user table if it doesnâ€™t exist
     IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'user')
     BEGIN
         CREATE TABLE dbo.[user] (
