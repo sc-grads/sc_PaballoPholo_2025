@@ -3,14 +3,14 @@ USE master;
 GO
 
 -- Create the database if it doesn't exist
-IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'AutoDBPaballo')
+IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'AutoTest_PJ_27March')
 BEGIN
-    CREATE DATABASE AutoDBPaballo;
+    CREATE DATABASE AutoTest_PJ_27March;
 END
 GO
 
 -- Switch to the AutoDBFirstName database
-USE AutoDBPaballo;
+USE AutoTest_PJ_27March;
 GO
 
 -- Create the stored procedure
