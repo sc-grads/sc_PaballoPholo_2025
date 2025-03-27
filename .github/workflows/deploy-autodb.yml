@@ -36,7 +36,7 @@ jobs:
           SQL_PASSWORD: ${{ secrets.DEV_SQL_PASSWORD }}  # Password for dev
           SQL_DATABASE: master
         run: |
-          /opt/mssql-tools/bin/sqlcmd -S $SQL_SERVER -U $SQL_USER -P $SQL_PASSWORD -d $SQL_DATABASE -i DatabaseAdministration/scripts/setup_autodb.sql
+          /opt/mssql-tools/bin/sqlcmd -S $SQL_SERVER -U $SQL_USER -P $SQL_PASSWORD -d $SQL_DATABASE -i DatabaseAdministration/Project/scripts/setup_autodb.sql
 
   deploy-prod:
     name: Deploy to Production
@@ -70,4 +70,4 @@ jobs:
           SQL_PASSWORD: ${{ secrets.PROD_SQL_PASSWORD }}  # Password for prod
           SQL_DATABASE: master
         run: |
-          /opt/mssql-tools/bin/sqlcmd -S $SQL_SERVER -U $SQL_USER -P $SQL_PASSWORD -d $SQL_DATABASE -i DatabaseAdministration/scripts/setup_autodb.sql
+          /opt/mssql-tools/bin/sqlcmd -S $SQL_SERVER -U $SQL_USER -P $SQL_PASSWORD -d $SQL_DATABASE -i DatabaseAdministration/Project/scripts/setup_autodb.sql
