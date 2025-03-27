@@ -1,4 +1,4 @@
-name: Deploy AutoDBPaballo Database
+name: Deploy AutoDB Database
 
 on:
   workflow_dispatch:  # Trigger manually via GitHub Actions UI
