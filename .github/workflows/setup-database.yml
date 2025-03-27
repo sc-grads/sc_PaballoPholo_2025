@@ -1,9 +1,7 @@
 name: Setup AutoTest Database
 
 on:
-  push:
-    branches:
-      - main  # Trigger on push to the main branch
+  workflow_dispatch:  # Trigger manually via GitHub Actions UI
 
 jobs:
   setup-database:
