@@ -18,8 +18,8 @@ jobs:
         uses: ./.github/actions/deploy-template
         with:
           environment_name: "development"
-          sql_server_secret: "DEV_SQL_SERVER"
-          sql_password_secret: "DEV_SQL_PASSWORD"
+          sql_server: ${{ secrets.DEV_SQL_SERVER }}
+          sql_password: ${{ secrets.DEV_SQL_PASSWORD }}
           display_name: "Development Deployment"
 
   deploy-prod:
@@ -37,6 +37,6 @@ jobs:
         uses: ./.github/actions/deploy-template
         with:
           environment_name: "production"
-          sql_server_secret: "PROD_SQL_SERVER"
-          sql_password_secret: "PROD_SQL_PASSWORD"
+          sql_server: ${{ secrets.PROD_SQL_SERVER }}
+          sql_password: ${{ secrets.PROD_SQL_PASSWORD }}
           display_name: "Production Deployment"
