@@ -5,11 +5,11 @@ inputs:
   environment_name:
     description: 'Target environment (development/production)'
     required: true
-  sql_server_secret:
-    description: 'Secret name for SQL Server URL'
+  sql_server:
+    description: 'SQL Server URL'
     required: true
-  sql_password_secret:
-    description: 'Secret name for SQL password'
+  sql_password:
+    description: 'SQL password'
     required: true
   display_name:
     description: 'Display name for the job'
@@ -21,7 +21,6 @@ runs:
     # Checkout repository
     - name: Checkout repository
       uses: actions/checkout@v4
-      shell: bash
 
     # Install SQL Server tools
     - name: Install SQL Server tools
@@ -40,9 +39,9 @@ runs:
     - name: Execute SQL Script
       shell: bash
       env:
-        SQL_SERVER: ${{ secrets[inputs.sql_server_secret] }}
+        SQL_SERVER: ${{ inputs.sql_server }}
         SQL_USER: Auto_user
-        SQL_PASSWORD: ${{ secrets[inputs.sql_password_secret] }}
+        SQL_PASSWORD: ${{ inputs.sql_password }}
         SQL_DATABASE: master
       run: |
         set -e  # Exit on error
