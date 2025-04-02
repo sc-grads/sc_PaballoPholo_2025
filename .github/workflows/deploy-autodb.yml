@@ -11,6 +11,6 @@ jobs:
 
     steps:
       - name: Deploy Development Environment
-        uses: ./.github/workflows/templates/deploy-template.yml
+        uses: ./.github/actions/deploy-template
         with:
           environment_name: "development"
