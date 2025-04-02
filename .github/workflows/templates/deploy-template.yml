@@ -21,6 +21,7 @@ runs:
     # Checkout repository
     - name: Checkout repository
       uses: actions/checkout@v4
+      shell: bash
 
     # Install SQL Server tools
     - name: Install SQL Server tools
