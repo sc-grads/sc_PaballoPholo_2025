@@ -1,0 +1,99 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{42F5EE03-6F9D-1A11-8736-65191B746418}|SSRSReport\\SSRSReport.rptproj|C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\AddressChart.rdl||{420F4200-DD61-4785-81F3-52669CBC208E}",
+      "RelativeMoniker": "D:0:0:{42F5EE03-6F9D-1A11-8736-65191B746418}|SSRSReport\\SSRSReport.rptproj|solutionrelative:SSRSReport\\AddressChart.rdl||{420F4200-DD61-4785-81F3-52669CBC208E}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42F5EE03-6F9D-1A11-8736-65191B746418}|SSRSReport\\SSRSReport.rptproj|C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\ChartOfProductsBySbucategory.rdl||{420F4200-DD61-4785-81F3-52669CBC208E}",
+      "RelativeMoniker": "D:0:0:{42F5EE03-6F9D-1A11-8736-65191B746418}|SSRSReport\\SSRSReport.rptproj|solutionrelative:SSRSReport\\ChartOfProductsBySbucategory.rdl||{420F4200-DD61-4785-81F3-52669CBC208E}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42F5EE03-6F9D-1A11-8736-65191B746418}|SSRSReport\\SSRSReport.rptproj|C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\ProductReport.rdl||{420F4200-DD61-4785-81F3-52669CBC208E}",
+      "RelativeMoniker": "D:0:0:{42F5EE03-6F9D-1A11-8736-65191B746418}|SSRSReport\\SSRSReport.rptproj|solutionrelative:SSRSReport\\ProductReport.rdl||{420F4200-DD61-4785-81F3-52669CBC208E}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42F5EE03-6F9D-1A11-8736-65191B746418}|SSRSReport\\SSRSReport.rptproj|C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\ProductCategories.rdl||{420F4200-DD61-4785-81F3-52669CBC208E}",
+      "RelativeMoniker": "D:0:0:{42F5EE03-6F9D-1A11-8736-65191B746418}|SSRSReport\\SSRSReport.rptproj|solutionrelative:SSRSReport\\ProductCategories.rdl||{420F4200-DD61-4785-81F3-52669CBC208E}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42F5EE03-6F9D-1A11-8736-65191B746418}|SSRSReport\\SSRSReport.rptproj|C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\ReportWizard.rdl||{420F4200-DD61-4785-81F3-52669CBC208E}",
+      "RelativeMoniker": "D:0:0:{42F5EE03-6F9D-1A11-8736-65191B746418}|SSRSReport\\SSRSReport.rptproj|solutionrelative:SSRSReport\\ReportWizard.rdl||{420F4200-DD61-4785-81F3-52669CBC208E}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AddressChart.rdl [Design]",
+              "DocumentMoniker": "C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\AddressChart.rdl",
+              "RelativeDocumentMoniker": "SSRSReport\\AddressChart.rdl",
+              "ToolTip": "C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\AddressChart.rdl [Design]",
+              "RelativeToolTip": "SSRSReport\\AddressChart.rdl [Design]",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKESURBVDhPY2QAgslSMifV2dhNQWx8gInhX9GKjx9WzHn//gVUCBX8//\u002BfBcpkkEtNYRD38oDysIM7HV0FLkePCHAxMs6a9O7dM6gwAjAyMjKDaC9evlSdwEBpdglxhufrNjB8uX4DBf948pRB1MWZgUNaip/t2w9RjkePuESZmW/e/fXrx4////\u002BBDYMCuAtB4Nu9\u002BwxPFi\u002BB8hCAXVycQTY2moGJnYOBV1dXS\u002B3nD3aBw4e/fPj7d83Bb9\u002BePv/z5xdUKTBYSACPFy5i\u002BPHiOYNUWJgyn5Jyfaq4hKc9N7e0IDMz3GEkGQgCz9euBwbLegajpUs42WXkumL4BULC\u002BflFodKkG/j/92\u002BGj\u002BcvMFyvqmZUKsrnkrSzT7Pj4s7IExaWBsmjhCEhIBHgx8CnpwdmM7GxMghZWTGwcHAqM7GzBb/bvh0Ujq1EufDvjx8Mbw4eAqYKJgZuZSUw5pSVZfhw6jQDt6YGg5CtndZ/BkY/kFqiXPjn40eG6xVVYDYzNxcDCw8vMA3/Y/j99h2DZmc7WBwGSA5DyaAgBtP1axiMly5h4JCRgYoiAIaBoDSn3d/LoDd9KoOouxtUFAFYeLgZOCQkgOrEGJhYMD2IYSALDw\u002BDqLMTgxjQMG4lRago8YCgl1mFhBgErSzBGMQmBAgaKGBizGC8ZBEYg9iEAMmRQghghOrPly8ZrlfXggP809WrDH8\u002Bf2G4WlwKlvt0\u002BQrDtwcPGH6\u002BeMnw788fsFp0gOJCLmAkSAQGMLAKCDAwAyNH0NwcXGyB2CAMYoPEQGyQGpBaLiUlqG4IgLvw\u002B9OnDHz6usB0FgAVIR6A9MIAvArQYOcwA4uQCW78/HEq99kTcwCkwMCocNDs7gAAAABJRU5ErkJggg==",
+              "WhenOpened": "2025-04-07T05:48:18.059Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ChartOfProductsBySbucategory.rdl [Design]",
+              "DocumentMoniker": "C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\ChartOfProductsBySbucategory.rdl",
+              "RelativeDocumentMoniker": "SSRSReport\\ChartOfProductsBySbucategory.rdl",
+              "ToolTip": "C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\ChartOfProductsBySbucategory.rdl [Design]",
+              "RelativeToolTip": "SSRSReport\\ChartOfProductsBySbucategory.rdl [Design]",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKESURBVDhPY2QAgslSMifV2dhNQWx8gInhX9GKjx9WzHn//gVUCBX8//\u002BfBcpkkEtNYRD38oDysIM7HV0FLkePCHAxMs6a9O7dM6gwAjAyMjKDaC9evlSdwEBpdglxhufrNjB8uX4DBf948pRB1MWZgUNaip/t2w9RjkePuESZmW/e/fXrx4////\u002BBDYMCuAtB4Nu9\u002BwxPFi\u002BB8hCAXVycQTY2moGJnYOBV1dXS\u002B3nD3aBw4e/fPj7d83Bb9\u002BePv/z5xdUKTBYSACPFy5i\u002BPHiOYNUWJgyn5Jyfaq4hKc9N7e0IDMz3GEkGQgCz9euBwbLegajpUs42WXkumL4BULC\u002BflFodKkG/j/92\u002BGj\u002BcvMFyvqmZUKsrnkrSzT7Pj4s7IExaWBsmjhCEhIBHgx8CnpwdmM7GxMghZWTGwcHAqM7GzBb/bvh0Ujq1EufDvjx8Mbw4eAqYKJgZuZSUw5pSVZfhw6jQDt6YGg5CtndZ/BkY/kFqiXPjn40eG6xVVYDYzNxcDCw8vMA3/Y/j99h2DZmc7WBwGSA5DyaAgBtP1axiMly5h4JCRgYoiAIaBoDSn3d/LoDd9KoOouxtUFAFYeLgZOCQkgOrEGJhYMD2IYSALDw\u002BDqLMTgxjQMG4lRago8YCgl1mFhBgErSzBGMQmBAgaKGBizGC8ZBEYg9iEAMmRQghghOrPly8ZrlfXggP809WrDH8\u002Bf2G4WlwKlvt0\u002BQrDtwcPGH6\u002BeMnw788fsFp0gOJCLmAkSAQGMLAKCDAwAyNH0NwcXGyB2CAMYoPEQGyQGpBaLiUlqG4IgLvw\u002B9OnDHz6usB0FgAVIR6A9MIAvArQYOcwA4uQCW78/HEq99kTcwCkwMCocNDs7gAAAABJRU5ErkJggg==",
+              "WhenOpened": "2025-04-06T21:42:57.24Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ProductCategories.rdl [Design]",
+              "DocumentMoniker": "C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\ProductCategories.rdl",
+              "RelativeDocumentMoniker": "SSRSReport\\ProductCategories.rdl",
+              "ToolTip": "C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\ProductCategories.rdl [Design]",
+              "RelativeToolTip": "SSRSReport\\ProductCategories.rdl [Design]",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKESURBVDhPY2QAgslSMifV2dhNQWx8gInhX9GKjx9WzHn//gVUCBX8//\u002BfBcpkkEtNYRD38oDysIM7HV0FLkePCHAxMs6a9O7dM6gwAjAyMjKDaC9evlSdwEBpdglxhufrNjB8uX4DBf948pRB1MWZgUNaip/t2w9RjkePuESZmW/e/fXrx4////\u002BBDYMCuAtB4Nu9\u002BwxPFi\u002BB8hCAXVycQTY2moGJnYOBV1dXS\u002B3nD3aBw4e/fPj7d83Bb9\u002BePv/z5xdUKTBYSACPFy5i\u002BPHiOYNUWJgyn5Jyfaq4hKc9N7e0IDMz3GEkGQgCz9euBwbLegajpUs42WXkumL4BULC\u002BflFodKkG/j/92\u002BGj\u002BcvMFyvqmZUKsrnkrSzT7Pj4s7IExaWBsmjhCEhIBHgx8CnpwdmM7GxMghZWTGwcHAqM7GzBb/bvh0Ujq1EufDvjx8Mbw4eAqYKJgZuZSUw5pSVZfhw6jQDt6YGg5CtndZ/BkY/kFqiXPjn40eG6xVVYDYzNxcDCw8vMA3/Y/j99h2DZmc7WBwGSA5DyaAgBtP1axiMly5h4JCRgYoiAIaBoDSn3d/LoDd9KoOouxtUFAFYeLgZOCQkgOrEGJhYMD2IYSALDw\u002BDqLMTgxjQMG4lRago8YCgl1mFhBgErSzBGMQmBAgaKGBizGC8ZBEYg9iEAMmRQghghOrPly8ZrlfXggP809WrDH8\u002Bf2G4WlwKlvt0\u002BQrDtwcPGH6\u002BeMnw788fsFp0gOJCLmAkSAQGMLAKCDAwAyNH0NwcXGyB2CAMYoPEQGyQGpBaLiUlqG4IgLvw\u002B9OnDHz6usB0FgAVIR6A9MIAvArQYOcwA4uQCW78/HEq99kTcwCkwMCocNDs7gAAAABJRU5ErkJggg==",
+              "WhenOpened": "2025-04-06T20:21:14.625Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProductReport.rdl [Design]",
+              "DocumentMoniker": "C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\ProductReport.rdl",
+              "RelativeDocumentMoniker": "SSRSReport\\ProductReport.rdl",
+              "ToolTip": "C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\ProductReport.rdl [Design]",
+              "RelativeToolTip": "SSRSReport\\ProductReport.rdl [Design]",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKESURBVDhPY2QAgslSMifV2dhNQWx8gInhX9GKjx9WzHn//gVUCBX8//\u002BfBcpkkEtNYRD38oDysIM7HV0FLkePCHAxMs6a9O7dM6gwAjAyMjKDaC9evlSdwEBpdglxhufrNjB8uX4DBf948pRB1MWZgUNaip/t2w9RjkePuESZmW/e/fXrx4////\u002BBDYMCuAtB4Nu9\u002BwxPFi\u002BB8hCAXVycQTY2moGJnYOBV1dXS\u002B3nD3aBw4e/fPj7d83Bb9\u002BePv/z5xdUKTBYSACPFy5i\u002BPHiOYNUWJgyn5Jyfaq4hKc9N7e0IDMz3GEkGQgCz9euBwbLegajpUs42WXkumL4BULC\u002BflFodKkG/j/92\u002BGj\u002BcvMFyvqmZUKsrnkrSzT7Pj4s7IExaWBsmjhCEhIBHgx8CnpwdmM7GxMghZWTGwcHAqM7GzBb/bvh0Ujq1EufDvjx8Mbw4eAqYKJgZuZSUw5pSVZfhw6jQDt6YGg5CtndZ/BkY/kFqiXPjn40eG6xVVYDYzNxcDCw8vMA3/Y/j99h2DZmc7WBwGSA5DyaAgBtP1axiMly5h4JCRgYoiAIaBoDSn3d/LoDd9KoOouxtUFAFYeLgZOCQkgOrEGJhYMD2IYSALDw\u002BDqLMTgxjQMG4lRago8YCgl1mFhBgErSzBGMQmBAgaKGBizGC8ZBEYg9iEAMmRQghghOrPly8ZrlfXggP809WrDH8\u002Bf2G4WlwKlvt0\u002BQrDtwcPGH6\u002BeMnw788fsFp0gOJCLmAkSAQGMLAKCDAwAyNH0NwcXGyB2CAMYoPEQGyQGpBaLiUlqG4IgLvw\u002B9OnDHz6usB0FgAVIR6A9MIAvArQYOcwA4uQCW78/HEq99kTcwCkwMCocNDs7gAAAABJRU5ErkJggg==",
+              "WhenOpened": "2025-04-06T14:49:43.233Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ReportWizard.rdl [Design]",
+              "DocumentMoniker": "C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\ReportWizard.rdl",
+              "RelativeDocumentMoniker": "SSRSReport\\ReportWizard.rdl",
+              "ToolTip": "C:\\sc_PaballoPholo_2025\\SSRS\\SSRSReport\\SSRSReport\\ReportWizard.rdl [Design]",
+              "RelativeToolTip": "SSRSReport\\ReportWizard.rdl [Design]",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKESURBVDhPY2QAgslSMifV2dhNQWx8gInhX9GKjx9WzHn//gVUCBX8//\u002BfBcpkkEtNYRD38oDysIM7HV0FLkePCHAxMs6a9O7dM6gwAjAyMjKDaC9evlSdwEBpdglxhufrNjB8uX4DBf948pRB1MWZgUNaip/t2w9RjkePuESZmW/e/fXrx4////\u002BBDYMCuAtB4Nu9\u002BwxPFi\u002BB8hCAXVycQTY2moGJnYOBV1dXS\u002B3nD3aBw4e/fPj7d83Bb9\u002BePv/z5xdUKTBYSACPFy5i\u002BPHiOYNUWJgyn5Jyfaq4hKc9N7e0IDMz3GEkGQgCz9euBwbLegajpUs42WXkumL4BULC\u002BflFodKkG/j/92\u002BGj\u002BcvMFyvqmZUKsrnkrSzT7Pj4s7IExaWBsmjhCEhIBHgx8CnpwdmM7GxMghZWTGwcHAqM7GzBb/bvh0Ujq1EufDvjx8Mbw4eAqYKJgZuZSUw5pSVZfhw6jQDt6YGg5CtndZ/BkY/kFqiXPjn40eG6xVVYDYzNxcDCw8vMA3/Y/j99h2DZmc7WBwGSA5DyaAgBtP1axiMly5h4JCRgYoiAIaBoDSn3d/LoDd9KoOouxtUFAFYeLgZOCQkgOrEGJhYMD2IYSALDw\u002BDqLMTgxjQMG4lRago8YCgl1mFhBgErSzBGMQmBAgaKGBizGC8ZBEYg9iEAMmRQghghOrPly8ZrlfXggP809WrDH8\u002Bf2G4WlwKlvt0\u002BQrDtwcPGH6\u002BeMnw788fsFp0gOJCLmAkSAQGMLAKCDAwAyNH0NwcXGyB2CAMYoPEQGyQGpBaLiUlqG4IgLvw\u002B9OnDHz6usB0FgAVIR6A9MIAvArQYOcwA4uQCW78/HEq99kTcwCkwMCocNDs7gAAAABJRU5ErkJggg==",
+              "WhenOpened": "2025-04-06T11:56:02.017Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
