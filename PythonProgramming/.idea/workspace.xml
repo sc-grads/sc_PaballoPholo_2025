@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5be40ec3-e27d-41e3-9eb9-cc51424302cf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../DatabaseAdministration/Project/SqlApi/obj/Debug/net9.0/SqlApi.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../DatabaseAdministration/Project/SqlApi/obj/Debug/net9.0/SqlApi.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../DatabaseAdministration/Project/SqlApi/obj/Debug/net9.0/SqlApi.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../DatabaseAdministration/Project/SqlApi/obj/Debug/net9.0/SqlApi.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BreakContinue.py" beforeDir="false" afterPath="$PROJECT_DIR$/BreakContinue.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +49,7 @@
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "06May",
+    "git-widget-placeholder": "main",
     "settings.editor.selected.configurable": "preferences.keymap"
   }
 }]]></component>
