@@ -2,13 +2,53 @@
 <BuildLog xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ProjectInfo>
     <Name>SSISWorking</Name>
-    <LastWriteTime>2025-05-26T13:20:58.4279202Z</LastWriteTime>
+    <LastWriteTime>2025-05-27T06:49:55.8155229Z</LastWriteTime>
     <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
   </ProjectInfo>
   <LastBuildInfos>
     <ProjectBuildItemInfo>
       <Name>Package.dtsx</Name>
-      <LastWriteTime>2025-05-26T13:23:46.3245188Z</LastWriteTime>
+      <LastWriteTime>2025-05-27T05:44:21.9676269Z</LastWriteTime>
+      <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>DerivedColumnTask.dtsx</Name>
+      <LastWriteTime>2025-05-26T18:57:24.4588327Z</LastWriteTime>
+      <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>Aggregate.dtsx</Name>
+      <LastWriteTime>2025-05-26T19:29:16.6106778Z</LastWriteTime>
+      <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>Mult-Cast.dtsx</Name>
+      <LastWriteTime>2025-05-26T19:38:13.2090919Z</LastWriteTime>
+      <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>Conditional Split.dtsx</Name>
+      <LastWriteTime>2025-05-27T05:47:50.6282419Z</LastWriteTime>
+      <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>RowPercentage.dtsx</Name>
+      <LastWriteTime>2025-05-27T06:00:29.9293699Z</LastWriteTime>
+      <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>Sorting.dtsx</Name>
+      <LastWriteTime>2025-05-27T06:25:36.8114337Z</LastWriteTime>
+      <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>Excel Source.dtsx</Name>
+      <LastWriteTime>2025-05-27T06:37:36.7612384Z</LastWriteTime>
+      <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>TextToExcel.dtsx</Name>
+      <LastWriteTime>2025-05-27T07:00:36.3037542Z</LastWriteTime>
       <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
   </LastBuildInfos>
