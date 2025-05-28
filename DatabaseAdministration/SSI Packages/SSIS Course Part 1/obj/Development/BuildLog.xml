@@ -2,18 +2,28 @@
 <BuildLog xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ProjectInfo>
     <Name>SSIS Course Part 1</Name>
-    <LastWriteTime>2025-05-27T12:45:26.7693789Z</LastWriteTime>
+    <LastWriteTime>2025-05-27T20:00:21.9429323Z</LastWriteTime>
     <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
   </ProjectInfo>
   <LastBuildInfos>
     <ProjectBuildItemInfo>
       <Name>ExportToFlatFile.dtsx</Name>
-      <LastWriteTime>2025-05-27T12:27:09.9094303Z</LastWriteTime>
+      <LastWriteTime>2025-05-27T12:54:33.5481239Z</LastWriteTime>
       <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>CharacterMapTransformation.dtsx</Name>
-      <LastWriteTime>2025-05-27T12:45:26.7352246Z</LastWriteTime>
+      <LastWriteTime>2025-05-27T12:54:33.5459459Z</LastWriteTime>
+      <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>CopyColumn.dtsx</Name>
+      <LastWriteTime>2025-05-27T19:51:09.8063525Z</LastWriteTime>
+      <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>DerivedColumnTransformation.dtsx</Name>
+      <LastWriteTime>2025-05-27T20:00:21.8996325Z</LastWriteTime>
       <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
   </LastBuildInfos>
