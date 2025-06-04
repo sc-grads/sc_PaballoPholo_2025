@@ -11,23 +11,11 @@
   DTS:LocaleID="7177"
   DTS:ObjectName="TimesheetsDataExtraction"
   DTS:PackageType="5"
-  DTS:VersionBuild="40"
-  DTS:VersionGUID="{3616968D-4763-4392-82FD-1618EA069EA0}">
+  DTS:VersionBuild="42"
+  DTS:VersionGUID="{02203863-491B-4F67-9101-A0D764E2718D}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
-      DTS:CreationName="EXCEL"
-      DTS:DTSID="{87ADA8FD-A8B4-4936-B087-7DD13275E009}"
-      DTS:ObjectName="Excel Connection Manager">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectRetryCount="0"
-          DTS:ConnectRetryInterval="0"
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.16.0;Data Source=C:\Users\PaballoPholo\Documents\Timesheets\Itumeleng\Itumeleng Monyai April Final.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[LocalHost.TimeSheets]"
       DTS:CreationName="OLEDB"
@@ -204,8 +192,8 @@
                   <connections>
                     <connection
                       refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Connections[OleDbConnection]"
-                      connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
-                      connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                      connectionManagerID="{87ADA8FD-A8B4-4936-B087-7DD13275E009}:invalid"
+                      connectionManagerRefId="{87ADA8FD-A8B4-4936-B087-7DD13275E009}:invalid"
                       description="The OLE DB runtime connection used to access the database."
                       name="OleDbConnection" />
                   </connections>
@@ -531,8 +519,13 @@
               </components>
               <paths>
                 <path
-                  refId="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Excel Source Output]"
+                  refId="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Data Conversion Output]"
                   endId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Data Conversion Output"
+                  startId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Excel Source Output]"
+                  endId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Inputs[Data Conversion Input]"
                   name="Excel Source Output"
                   startId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output]" />
               </paths>
@@ -1234,7 +1227,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
     design-time-name="Package\Foreach Loop Container\ExtractTimesheetData">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="140,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source"
@@ -1246,33 +1239,67 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
         <NodeLayout
           Size="156,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion"
-          TopLeft="680.833296134242,141.266665684316" />
+          TopLeft="522.49997145186,169.866665485435" />
         <EdgeLayout
           Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Excel Source Output]"
           TopLeft="530.833308154511,104.866666226718">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="8.93333369758409,162.066665250394"
+              EndConnector="69.6666632973489,64.999999258717"
               Start="0,0"
-              End="8.93333369758409,154.566665250394">
+              End="69.6666632973489,57.499999258717">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,77.0333326251971" />
+                    End="0,28.4999996293585" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,77.0333326251971"
-                    Point2="0,81.0333326251971"
-                    Point3="4,81.0333326251971" />
+                    Point1="0,28.4999996293585"
+                    Point2="0,32.4999996293585"
+                    Point3="4,32.4999996293585" />
                   <mssgle:LineSegment
-                    End="4.93333369758409,81.0333326251971" />
+                    End="65.6666632973489,32.4999996293585" />
                   <mssgle:CubicBezierSegment
-                    Point1="4.93333369758409,81.0333326251971"
-                    Point2="8.93333369758409,81.0333326251971"
-                    Point3="8.93333369758409,85.0333326251971" />
+                    Point1="65.6666632973489,32.4999996293585"
+                    Point2="69.6666632973489,32.4999996293585"
+                    Point3="69.6666632973489,36.4999996293585" />
                   <mssgle:LineSegment
-                    End="8.93333369758409,154.566665250394" />
+                    End="69.6666632973489,57.499999258717" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Data Conversion Output]"
+          TopLeft="600.49997145186,211.466665485435">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-60.7333295997648,55.4666659916772"
+              Start="0,0"
+              End="-60.7333295997648,47.9666659916772">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.7333329958386" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.7333329958386"
+                    Point2="0,27.7333329958386"
+                    Point3="-4,27.7333329958386" />
+                  <mssgle:LineSegment
+                    End="-56.7333295997648,27.7333329958386" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-56.7333295997648,27.7333329958386"
+                    Point2="-60.7333295997648,27.7333329958386"
+                    Point3="-60.7333295997648,31.7333329958386" />
+                  <mssgle:LineSegment
+                    End="-60.7333295997648,47.9666659916772" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
