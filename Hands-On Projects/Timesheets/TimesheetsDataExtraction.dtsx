@@ -11,11 +11,37 @@
   DTS:LocaleID="7177"
   DTS:ObjectName="TimesheetsDataExtraction"
   DTS:PackageType="5"
-  DTS:VersionBuild="42"
-  DTS:VersionGUID="{02203863-491B-4F67-9101-A0D764E2718D}">
+  DTS:VersionBuild="54"
+  DTS:VersionGUID="{F05995FB-66DC-4F0D-AC57-A26311714390}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{4FF5ADBD-BDA2-4632-AF2A-F5FCEE431FC1}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:PropertyExpression
+        DTS:Name="ExcelFilePath">@[User::var_filename]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.16.0;Data Source=C:\Users\PaballoPholo\Documents\Timesheets\Itumeleng\1_Itumeleng Monyai March Final.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.TimesheetDB 1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{DA0AF7BA-3BB6-4B66-B432-189BA4E78651}"
+      DTS:ObjectName="LocalHost.TimesheetDB 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{DA0AF7BA-3BB6-4B66-B432-189BA4E78651}LocalHost.TimesheetDB 1;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[LocalHost.TimeSheets]"
       DTS:CreationName="OLEDB"
@@ -57,8 +83,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="var_filename">
       <DTS:VariableValue
-        DTS:DataType="8"
-        xml:space="preserve"></DTS:VariableValue>
+        DTS:DataType="8">C:\Users\PaballoPholo\Documents\Timesheets\Itumeleng\1_Itumeleng Monyai March Final.xlsx</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:Executables>
@@ -104,6 +129,95 @@
               version="1">
               <components>
                 <component
+                  refId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split"
+                  componentClassID="Microsoft.ConditionalSplit"
+                  contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+                  name="Conditional Split"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split.Inputs[Conditional Split Input]"
+                      description="Input to the Conditional Split Transformation"
+                      name="Conditional Split Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split.Inputs[Conditional Split Input].Columns[Date]"
+                          cachedDataType="date"
+                          cachedName="Date"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Date]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split.Outputs[Case 1]"
+                      description="Output 1 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Case 1"
+                      synchronousInputId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">![ISNULL](#{Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Date]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">!ISNULL(Date)</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">0</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split.Outputs[Conditional Split Default Output]"
+                      description="Default Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      name="Conditional Split Default Output"
+                      synchronousInputId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split.Inputs[Conditional Split Input]">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          name="IsDefaultOut">true</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split.Outputs[Conditional Split Error Output]"
+                      description="Error Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Conditional Split Error Output"
+                      synchronousInputId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split.Inputs[Conditional Split Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
                   refId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion"
                   componentClassID="Microsoft.DataConvert"
                   contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
@@ -114,6 +228,34 @@
                     <input
                       refId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Inputs[Data Conversion Input]"
                       name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Inputs[Data Conversion Input].Columns[Date]"
+                          cachedDataType="date"
+                          cachedName="Date"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Date]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Inputs[Data Conversion Input].Columns[Comments]"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
+                          cachedName="Comments"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Comments]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Inputs[Data Conversion Input].Columns[Total Hours]"
+                          cachedDataType="date"
+                          cachedName="Total Hours"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Total Hours]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Inputs[Data Conversion Input].Columns[Start Time]"
+                          cachedDataType="date"
+                          cachedName="Start Time"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Start Time]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Inputs[Data Conversion Input].Columns[End Time]"
+                          cachedDataType="date"
+                          cachedName="End Time"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[End Time]" />
+                      </inputColumns>
                       <externalMetadataColumns />
                     </input>
                   </inputs>
@@ -123,6 +265,109 @@
                       exclusionGroup="1"
                       name="Data Conversion Output"
                       synchronousInputId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Date]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Date]"
+                          name="Copy of Date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Date]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Comments]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="4000"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Comments]"
+                          name="Copy of Comments"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Comments]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Total Hours]"
+                          dataType="dbTime"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Total Hours]"
+                          name="Copy of Total Hours"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Total Hours]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Start Time]"
+                          dataType="dbTime"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Start Time]"
+                          name="Copy of Start Time"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Start Time]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of End Time]"
+                          dataType="dbTime"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of End Time]"
+                          name="Copy of End Time"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[End Time]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
                       <externalMetadataColumns />
                     </output>
                     <output
@@ -142,6 +387,55 @@
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
                           dataType="i4"
                           lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="Derived Column"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Inputs[Derived Column Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -174,7 +468,7 @@
                       dataType="System.String"
                       description="The SQL command to be executed."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT * FROM [Sheet1$A8:Z]</property>
                     <property
                       dataType="System.String"
                       description="The variable that contains the SQL command to be executed."
@@ -183,7 +477,7 @@
                       dataType="System.Int32"
                       description="Specifies the mode used to access the database."
                       name="AccessMode"
-                      typeConverter="AccessMode">0</property>
+                      typeConverter="AccessMode">2</property>
                     <property
                       dataType="System.String"
                       description="The mapping from parameters in the SQL command to variables."
@@ -192,8 +486,8 @@
                   <connections>
                     <connection
                       refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Connections[OleDbConnection]"
-                      connectionManagerID="{87ADA8FD-A8B4-4936-B087-7DD13275E009}:invalid"
-                      connectionManagerRefId="{87ADA8FD-A8B4-4936-B087-7DD13275E009}:invalid"
+                      connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                      connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
                       description="The OLE DB runtime connection used to access the database."
                       name="OleDbConnection" />
                   </connections>
@@ -202,6 +496,15 @@
                       refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output]"
                       name="Excel Source Output">
                       <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Date]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date]"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Date]"
+                          name="Date"
+                          truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[D of Week]"
                           dataType="wstr"
@@ -213,13 +516,44 @@
                           name="D of Week"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Date]"
-                          dataType="date"
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Description]"
+                          dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date]"
-                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Date]"
-                          name="Date"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Description]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Description]"
+                          name="Description"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Comments]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Comments]"
+                          length="4000"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Comments]"
+                          name="Comments"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Client]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Client]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Client]"
+                          name="Client"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Client Project Name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Client Project Name]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Client Project Name]"
+                          name="Client Project Name"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Billable or Non Billable]"
@@ -232,23 +566,31 @@
                           name="Billable or Non Billable"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Comments]"
-                          dataType="nText"
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Total Hours]"
+                          dataType="date"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Comments]"
-                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Comments]"
-                          name="Comments"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Total Hours]"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Total Hours]"
+                          name="Total Hours"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Description]"
-                          dataType="wstr"
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Start Time]"
+                          dataType="date"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Description]"
-                          length="255"
-                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Description]"
-                          name="Description"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Start Time]"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Start Time]"
+                          name="Start Time"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[End Time]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[End Time]"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[End Time]"
+                          name="End Time"
                           truncationRowDisposition="FailComponent" />
                       </outputColumns>
                       <externalMetadataColumns
@@ -284,7 +626,8 @@
                           name="Billable or Non Billable" />
                         <externalMetadataColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Comments]"
-                          dataType="nText"
+                          dataType="wstr"
+                          length="255"
                           name="Comments" />
                         <externalMetadataColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Total Hours]"
@@ -306,6 +649,29 @@
                       name="Excel Source Error Output">
                       <outputColumns>
                         <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Date]"
+                          dataType="date"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Date]"
+                          name="Date" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[D of Week]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[D of Week]"
+                          name="D of Week" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Description]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Description]"
+                          name="Description" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Comments]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Comments]"
+                          name="Comments" />
+                        <outputColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
                           dataType="i4"
                           lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
@@ -318,16 +684,17 @@
                           name="ErrorColumn"
                           specialFlags="2" />
                         <outputColumn
-                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[D of Week]"
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Client]"
                           dataType="wstr"
                           length="255"
-                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[D of Week]"
-                          name="D of Week" />
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Client]"
+                          name="Client" />
                         <outputColumn
-                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Date]"
-                          dataType="date"
-                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Date]"
-                          name="Date" />
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Client Project Name]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Client Project Name]"
+                          name="Client Project Name" />
                         <outputColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Billable or Non Billable]"
                           dataType="wstr"
@@ -335,16 +702,20 @@
                           lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Billable or Non Billable]"
                           name="Billable or Non Billable" />
                         <outputColumn
-                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Comments]"
-                          dataType="nText"
-                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Comments]"
-                          name="Comments" />
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Total Hours]"
+                          dataType="date"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Total Hours]"
+                          name="Total Hours" />
                         <outputColumn
-                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Description]"
-                          dataType="wstr"
-                          length="255"
-                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Description]"
-                          name="Description" />
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Start Time]"
+                          dataType="date"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Start Time]"
+                          name="Start Time" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[End Time]"
+                          dataType="date"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[End Time]"
+                          name="End Time" />
                       </outputColumns>
                       <externalMetadataColumns />
                     </output>
@@ -366,7 +737,7 @@
                     <property
                       dataType="System.String"
                       description="Specifies the name of the database object used to open a rowset."
-                      name="OpenRowset">[dbo].[TimeEntries]</property>
+                      name="OpenRowset">[dbo].[Timesheet]</property>
                     <property
                       dataType="System.String"
                       description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -409,8 +780,8 @@
                   <connections>
                     <connection
                       refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Connections[OleDbConnection]"
-                      connectionManagerID="Package.ConnectionManagers[LocalHost.TimeSheets]"
-                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.TimeSheets]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.TimesheetDB 1]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.TimesheetDB 1]"
                       description="The OLE DB runtime connection used to access the database."
                       name="OleDbConnection" />
                   </connections>
@@ -423,19 +794,78 @@
                       name="OLE DB Destination Input">
                       <inputColumns>
                         <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Date]"
+                          cachedDataType="dbDate"
+                          cachedName="Copy of Date"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[EntryDate]"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Date]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Comments]"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
+                          cachedName="Copy of Comments"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Comments]"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Comments]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Total Hours]"
+                          cachedDataType="dbTime"
+                          cachedName="Copy of Total Hours"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TotalHours]"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Total Hours]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Start Time]"
+                          cachedDataType="dbTime"
+                          cachedName="Copy of Start Time"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StartTime]"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Start Time]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of End Time]"
+                          cachedDataType="dbTime"
+                          cachedName="Copy of End Time"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[EndTime]"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of End Time]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Billable or Non Billable]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billable or Non Billable"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Billable]"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Billable or Non Billable]" />
+                        <inputColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[D of Week]"
                           cachedDataType="wstr"
                           cachedLength="255"
                           cachedName="D of Week"
                           externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DayOfWeek]"
                           lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[D of Week]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Description]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Description"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Description]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Client]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Client"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Client]"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Client]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Client Project Name]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Client Project Name"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ClientProjectName]"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Client Project Name]" />
                       </inputColumns>
                       <externalMetadataColumns
                         isUsed="True">
                         <externalMetadataColumn
-                          refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TimeEntryID]"
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TimesheetID]"
                           dataType="i4"
-                          name="TimeEntryID" />
+                          name="TimesheetID" />
                         <externalMetadataColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ConsultantID]"
                           dataType="i4"
@@ -450,44 +880,46 @@
                           name="EntryDate" />
                         <externalMetadataColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DayOfWeek]"
-                          codePage="1252"
-                          dataType="str"
-                          length="10"
+                          dataType="nText"
                           name="DayOfWeek" />
                         <externalMetadataColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
-                          codePage="1252"
-                          dataType="str"
-                          length="255"
+                          dataType="nText"
                           name="Description" />
                         <externalMetadataColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Billable]"
-                          dataType="bool"
+                          dataType="wstr"
+                          length="50"
                           name="Billable" />
                         <externalMetadataColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Comments]"
-                          codePage="1252"
-                          dataType="str"
-                          length="255"
+                          dataType="nText"
                           name="Comments" />
                         <externalMetadataColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TotalHours]"
-                          dataType="numeric"
+                          dataType="dbTime2"
                           name="TotalHours"
-                          precision="10"
-                          scale="6" />
+                          scale="7" />
                         <externalMetadataColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StartTime]"
-                          dataType="numeric"
+                          dataType="dbTime2"
                           name="StartTime"
-                          precision="10"
-                          scale="6" />
+                          scale="7" />
                         <externalMetadataColumn
                           refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[EndTime]"
-                          dataType="numeric"
+                          dataType="dbTime2"
                           name="EndTime"
-                          precision="10"
-                          scale="6" />
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Client]"
+                          dataType="wstr"
+                          length="50"
+                          name="Client" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ClientProjectName]"
+                          dataType="wstr"
+                          length="50"
+                          name="ClientProjectName" />
                       </externalMetadataColumns>
                     </input>
                   </inputs>
@@ -519,15 +951,25 @@
               </components>
               <paths>
                 <path
+                  refId="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Case 1]"
+                  endId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Case 1"
+                  startId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split.Outputs[Case 1]" />
+                <path
                   refId="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Data Conversion Output]"
                   endId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input]"
                   name="Data Conversion Output"
                   startId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Outputs[Data Conversion Output]" />
                 <path
                   refId="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Excel Source Output]"
-                  endId="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion.Inputs[Data Conversion Input]"
+                  endId="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split.Inputs[Conditional Split Input]"
                   name="Excel Source Output"
                   startId="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output]" />
+                <path
+                  refId="Package\Foreach Loop Container\ExtractTimesheetData.Paths[OLE DB Destination Error Output]"
+                  endId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Inputs[Derived Column Input]"
+                  name="OLE DB Destination Error Output"
+                  startId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Outputs[OLE DB Destination Error Output]" />
               </paths>
             </pipeline>
           </DTS:ObjectData>
@@ -549,15 +991,6 @@
               VSTAMinorVersion="0"
               Language="CSharp"
               ReadWriteVariables="User::var_filename">
-              <ProjectItem
-                Name="Properties\Settings.settings"
-                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
-</SettingsFile>]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.resx"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -677,6 +1110,35 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 </root>]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\Settings.Designer.cs"
+                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_5d7f8ce13d984d00b2e3c99463ed45b0.Properties.Settings.get_Default():ST_5d7f8ce13d984d00b2e3c99463ed45b0.Properties.Sett" +
+    "ings")]
+
+namespace ST_5d7f8ce13d984d00b2e3c99463ed45b0.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
               <ProjectItem
                 Name="ScriptMain.cs"
                 Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
@@ -900,35 +1362,6 @@ namespace ST_5d7f8ce13d984d00b2e3c99463ed45b0
   </ProjectExtensions>
 </Project>]]></ProjectItem>
               <ProjectItem
-                Name="Properties\Settings.Designer.cs"
-                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
-// <auto-generated>
-//     This code was generated by a tool.
-//
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
-// </auto-generated>
-//------------------------------------------------------------------------------
-
-[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_5d7f8ce13d984d00b2e3c99463ed45b0.Properties.Settings.get_Default():ST_5d7f8ce13d984d00b2e3c99463ed45b0.Properties.Sett" +
-    "ings")]
-
-namespace ST_5d7f8ce13d984d00b2e3c99463ed45b0.Properties {
-    
-    
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
-        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        private static Settings defaultInstance = new Settings();
-        
-        public static Settings Default {
-            get {
-                return defaultInstance;
-            }
-        }
-    }
-}]]></ProjectItem>
-              <ProjectItem
                 Name="Properties\AssemblyInfo.cs"
                 Encoding="UTF8"><![CDATA[using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -958,6 +1391,15 @@ using System.Runtime.CompilerServices;
 // by using the '*' as shown below:
 
 [assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\Settings.settings"
+                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.Designer.cs"
                 Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
@@ -1143,7 +1585,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
-          DTS:DTSID="{F77812A4-43D7-435A-85AE-38377E5657F3}"
+          DTS:DTSID="{E71C3DFC-F886-4CA7-AC2E-4F0BC574B479}"
           DTS:From="Package\Foreach Loop Container\Script Task"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
@@ -1172,39 +1614,39 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="181.6,41.6"
-          Id="Package\Foreach Loop Container\ExtractTimesheetData"
-          TopLeft="58.4666534625829,125.19999750495" />
-        <NodeLayout
           Size="130.4,41.6"
           Id="Package\Foreach Loop Container\Script Task"
           TopLeft="32.7666470426661,18.6666657747163" />
+        <NodeLayout
+          Size="181.6,41.6"
+          Id="Package\Foreach Loop Container\ExtractTimesheetData"
+          TopLeft="86.7999852478511,142.53333071775" />
         <EdgeLayout
           Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint]"
           TopLeft="97.9666470426661,60.2666657747163">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="51.3000064199168,64.9333317302334"
+              EndConnector="79.633338205185,82.2666649430334"
               Start="0,0"
-              End="51.3000064199168,57.4333317302334">
+              End="79.633338205185,74.7666649430334">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,28.4666658651167" />
+                    End="0,37.1333324715167" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,28.4666658651167"
-                    Point2="0,32.4666658651167"
-                    Point3="4,32.4666658651167" />
+                    Point1="0,37.1333324715167"
+                    Point2="0,41.1333324715167"
+                    Point3="4,41.1333324715167" />
                   <mssgle:LineSegment
-                    End="47.3000064199168,32.4666658651167" />
+                    End="75.633338205185,41.1333324715167" />
                   <mssgle:CubicBezierSegment
-                    Point1="47.3000064199168,32.4666658651167"
-                    Point2="51.3000064199168,32.4666658651167"
-                    Point3="51.3000064199168,36.4666658651167" />
+                    Point1="75.633338205185,41.1333324715167"
+                    Point2="79.633338205185,41.1333324715167"
+                    Point3="79.633338205185,45.1333324715167" />
                   <mssgle:LineSegment
-                    End="51.3000064199168,57.4333317302334" />
+                    End="79.633338205185,74.7666649430334" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1227,45 +1669,89 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
     design-time-name="Package\Foreach Loop Container\ExtractTimesheetData">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="140,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source"
-          TopLeft="460.833308154511,63.2666662267182" />
+          TopLeft="60,60" />
         <NodeLayout
-          Size="171.2,41.6"
-          Id="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination"
-          TopLeft="454.166641852095,266.933331477112" />
+          Size="152.8,41.6"
+          Id="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column"
+          TopLeft="441.66664581332,280.199998535514" />
         <NodeLayout
           Size="156,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion"
-          TopLeft="522.49997145186,169.866665485435" />
+          TopLeft="104.999997541308,164.066666009757" />
+        <NodeLayout
+          Size="171.2,41.6"
+          Id="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination"
+          TopLeft="124.166663160754,260.199998607834" />
+        <NodeLayout
+          Size="153.6,41.6"
+          Id="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split"
+          TopLeft="331.6666485452,75.3999996203184" />
         <EdgeLayout
-          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Excel Source Output]"
-          TopLeft="530.833308154511,104.866666226718">
+          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[OLE DB Destination Error Output]"
+          TopLeft="295.366663160754,280.999998607834">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="69.6666632973489,64.999999258717"
+              EndConnector="146.299982652566,19.99999992768"
               Start="0,0"
-              End="69.6666632973489,57.499999258717">
+              End="138.799982652566,19.99999992768">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,28.4999996293585" />
+                    End="69.149991326283,0" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,28.4999996293585"
-                    Point2="0,32.4999996293585"
-                    Point3="4,32.4999996293585" />
+                    Point1="69.149991326283,0"
+                    Point2="73.149991326283,0"
+                    Point3="73.149991326283,4" />
                   <mssgle:LineSegment
-                    End="65.6666632973489,32.4999996293585" />
+                    End="73.149991326283,15.99999992768" />
                   <mssgle:CubicBezierSegment
-                    Point1="65.6666632973489,32.4999996293585"
-                    Point2="69.6666632973489,32.4999996293585"
-                    Point3="69.6666632973489,36.4999996293585" />
+                    Point1="73.149991326283,15.99999992768"
+                    Point2="73.149991326283,19.99999992768"
+                    Point3="77.149991326283,19.99999992768" />
                   <mssgle:LineSegment
-                    End="69.6666632973489,57.499999258717" />
+                    End="138.799982652566,19.99999992768" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-0.0589149237170119,-17.43359375,146.4178125,11.43359375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Data Conversion Output]"
+          TopLeft="182.999997541308,205.666666009757">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="26.766665619446,54.533332598077"
+              Start="0,0"
+              End="26.766665619446,47.033332598077">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.2666662990385" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.2666662990385"
+                    Point2="0,27.2666662990385"
+                    Point3="4,27.2666662990385" />
+                  <mssgle:LineSegment
+                    End="22.766665619446,27.2666662990385" />
+                  <mssgle:CubicBezierSegment
+                    Point1="22.766665619446,27.2666662990385"
+                    Point2="26.766665619446,27.2666662990385"
+                    Point3="26.766665619446,31.2666662990385" />
+                  <mssgle:LineSegment
+                    End="26.766665619446,47.033332598077" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1275,37 +1761,73 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Data Conversion Output]"
-          TopLeft="600.49997145186,211.466665485435">
+          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Excel Source Output]"
+          TopLeft="200,80.8">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-60.7333295997648,55.4666659916772"
+              EndConnector="131.6666485452,15.3999996203184"
               Start="0,0"
-              End="-60.7333295997648,47.9666659916772">
+              End="124.1666485452,15.3999996203184">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,23.7333329958386" />
+                    End="61.8333242725999,0" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,23.7333329958386"
-                    Point2="0,27.7333329958386"
-                    Point3="-4,27.7333329958386" />
+                    Point1="61.8333242725999,0"
+                    Point2="65.8333242725999,0"
+                    Point3="65.8333242725999,4" />
                   <mssgle:LineSegment
-                    End="-56.7333295997648,27.7333329958386" />
+                    End="65.8333242725999,11.3999996203184" />
                   <mssgle:CubicBezierSegment
-                    Point1="-56.7333295997648,27.7333329958386"
-                    Point2="-60.7333295997648,27.7333329958386"
-                    Point3="-60.7333295997648,31.7333329958386" />
+                    Point1="65.8333242725999,11.3999996203184"
+                    Point2="65.8333242725999,15.3999996203184"
+                    Point3="69.8333242725999,15.3999996203184" />
                   <mssgle:LineSegment
-                    End="-60.7333295997648,47.9666659916772" />
+                    End="124.1666485452,15.3999996203184" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Case 1]"
+          TopLeft="408.4666485452,116.999999620318">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-225.466651003892,47.0666663894386"
+              Start="0,0"
+              End="-225.466651003892,39.5666663894386">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5333331947193" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.5333331947193"
+                    Point2="0,23.5333331947193"
+                    Point3="-4,23.5333331947193" />
+                  <mssgle:LineSegment
+                    End="-221.466651003892,23.5333331947193" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-221.466651003892,23.5333331947193"
+                    Point2="-225.466651003892,23.5333331947193"
+                    Point3="-225.466651003892,27.5333331947193" />
+                  <mssgle:LineSegment
+                    End="-225.466651003892,39.5666663894386" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-127.951411439446,28.5333331947193,30.436171875,9.5537109375"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -1316,11 +1838,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>

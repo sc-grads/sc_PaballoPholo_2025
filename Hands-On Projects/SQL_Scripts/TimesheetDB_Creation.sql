@@ -51,19 +51,23 @@ CREATE TABLE Project (
 GO
 
 -- Create Timesheet table with TIME datatypes and NULL allowances for testing
+DROP TABLE IF EXISTS [dbo].[Timesheet]
+Go
 CREATE TABLE Timesheet (
     TimesheetID INT IDENTITY(1,1) PRIMARY KEY,
     ConsultantID INT FOREIGN KEY REFERENCES Consultant(ConsultantID),
     ProjectID INT FOREIGN KEY REFERENCES Project(ProjectID),
-    EntryDate DATE NOT NULL,
-    DayOfWeek VARCHAR(10),
-    Description VARCHAR(255),
-    Billable BIT,
-    Comments VARCHAR(255),
-    TotalHours TIME NOT NULL,
-    StartTime TIME NOT NULL,
-    EndTime TIME NOT NULL,
-    CONSTRAINT CHK_Time CHECK (StartTime < EndTime)
+    EntryDate DATE ,
+    DayOfWeek nvarchar(MAX),
+	Client nvarchar(50),
+	ClientProjectName nvarchar(50),
+    Description nvarchar(MAX),
+    Billable nvarchar(50),
+    Comments nvarchar(MAX),
+    TotalHours TIME ,
+    StartTime TIME ,
+    EndTime TIME ,
+    --CONSTRAINT CHK_Time CHECK (StartTime < EndTime)
 );
 GO
 
