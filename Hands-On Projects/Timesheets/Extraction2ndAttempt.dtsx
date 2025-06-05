@@ -1,0 +1,1203 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/4/2025 1:54:51 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LAPTOP-NTKM1UMO"
+  DTS:CreatorName="LAPTOP-NTKM1UMO\PaballoPholo"
+  DTS:DTSID="{D8931FF5-9CCB-4036-ADAA-02039319FD26}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5685.0"
+  DTS:LocaleID="7177"
+  DTS:ObjectName="Extraction2ndAttempt"
+  DTS:PackageType="5"
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{4B9E199B-5C17-4BAF-ADEF-077C6F51F17E}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ExcelConnection]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{08D4BAA8-3530-4E95-BBE1-3A40C4919981}"
+      DTS:ObjectName="ExcelConnection">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @[User::FilePath] + ";Extended Properties=\"EXCEL 12.0;HDR=YES;IMEX=1\";"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\PaballoPholo\Documents\Timesheets\Itumeleng\Itumeleng Monyai April Final.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SQLServerConnection]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{64BF6921-F4CC-4863-97E4-6298B9451EA2}"
+      DTS:ObjectName="SQLServerConnection">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Extraction2ndAttempt-{64BF6921-F4CC-4863-97E4-6298B9451EA2}LocalHost.TimesheetDB;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{498C97C2-DFB4-483E-ABA5-7B90492F15C4}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ExcelConnectionString">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E4090723-8C40-49B4-84CB-CF71B0F6E566}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="FilePath">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\Users\PaballoPholo\Documents\Timesheets\Itumeleng\Itumeleng Monyai April Final.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5E43FC74-A76B-4B4E-9CF6-923B363A00BA}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SheetName">
+      <DTS:VariableValue
+        DTS:DataType="8">Apr$</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F781A46F-D7CA-43B2-8C17-DC73F182DD3C}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="SheetNames">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\LoopThroughFiles"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{1D39D139-CA23-4D23-A85F-E9972C56BD5C}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="LoopThroughFiles">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{154CE32F-719C-4FEF-9591-7AE9AC8CE1AE}"
+        DTS:ObjectName="{154CE32F-719C-4FEF-9591-7AE9AC8CE1AE}">
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="C:\Users\PaballoPholo\Documents\Timesheets" />
+            <FEFEProperty
+              FileSpec="*.xlsx" />
+            <FEFEProperty
+              FileNameRetrievalType="0" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\LoopThroughFiles\GetSheetNames"
+          DTS:CreationName="Microsoft.ScriptTask"
+          DTS:Description="Script Task"
+          DTS:DTSID="{73A8DE6E-756C-4748-B84E-27CACA860033}"
+          DTS:ExecutableType="Microsoft.ScriptTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="GetSheetNames"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ScriptProject
+              Name="ST_53d4822852714cbfa4c2ff06f9f193fa"
+              VSTAMajorVersion="16"
+              VSTAMinorVersion="0"
+              Language="CSharp"
+              ReadOnlyVariables="User::FilePath"
+              ReadWriteVariables="User::SheetNames">
+              <ProjectItem
+                Name="Properties\Settings.settings"
+                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\Resources.resx"
+                Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></ProjectItem>
+              <ProjectItem
+                Name="ScriptMain.cs"
+                Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
+/* The Script Task allows you to perform virtually any operation that can be accomplished in
+ * a .Net application within the context of an Integration Services control flow. 
+ * 
+ * Expand the other regions which have "Help" prefixes for examples of specific ways to use
+ * Integration Services features within this script task. */
+#endregion
+
+
+#region Namespaces
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Runtime;
+using System.Windows.Forms;
+#endregion
+
+namespace ST_53d4822852714cbfa4c2ff06f9f193fa
+{
+    /// <summary>
+    /// ScriptMain is the entry point class of the script.  Do not change the name, attributes,
+    /// or parent of this class.
+    /// </summary>
+	[Microsoft.SqlServer.Dts.Tasks.ScriptTask.SSISScriptTaskEntryPointAttribute]
+	public partial class ScriptMain : Microsoft.SqlServer.Dts.Tasks.ScriptTask.VSTARTScriptObjectModelBase
+	{
+        #region Help:  Using Integration Services variables and parameters in a script
+        /* To use a variable in this script, first ensure that the variable has been added to 
+         * either the list contained in the ReadOnlyVariables property or the list contained in 
+         * the ReadWriteVariables property of this script task, according to whether or not your
+         * code needs to write to the variable.  To add the variable, save this script, close this instance of
+         * Visual Studio, and update the ReadOnlyVariables and 
+         * ReadWriteVariables properties in the Script Transformation Editor window.
+         * To use a parameter in this script, follow the same steps. Parameters are always read-only.
+         * 
+         * Example of reading from a variable:
+         *  DateTime startTime = (DateTime) Dts.Variables["System::StartTime"].Value;
+         * 
+         * Example of writing to a variable:
+         *  Dts.Variables["User::myStringVariable"].Value = "new value";
+         * 
+         * Example of reading from a package parameter:
+         *  int batchId = (int) Dts.Variables["$Package::batchId"].Value;
+         *  
+         * Example of reading from a project parameter:
+         *  int batchId = (int) Dts.Variables["$Project::batchId"].Value;
+         * 
+         * Example of reading from a sensitive project parameter:
+         *  int batchId = (int) Dts.Variables["$Project::batchId"].GetSensitiveValue();
+         * */
+
+        #endregion
+
+        #region Help:  Firing Integration Services events from a script
+        /* This script task can fire events for logging purposes.
+         * 
+         * Example of firing an error event:
+         *  Dts.Events.FireError(18, "Process Values", "Bad value", "", 0);
+         * 
+         * Example of firing an information event:
+         *  Dts.Events.FireInformation(3, "Process Values", "Processing has started", "", 0, ref fireAgain)
+         * 
+         * Example of firing a warning event:
+         *  Dts.Events.FireWarning(14, "Process Values", "No values received for input", "", 0);
+         * */
+        #endregion
+
+        #region Help:  Using Integration Services connection managers in a script
+        /* Some types of connection managers can be used in this script task.  See the topic 
+         * "Working with Connection Managers Programatically" for details.
+         * 
+         * Example of using an ADO.Net connection manager:
+         *  object rawConnection = Dts.Connections["Sales DB"].AcquireConnection(Dts.Transaction);
+         *  SqlConnection myADONETConnection = (SqlConnection)rawConnection;
+         *  //Use the connection in some code here, then release the connection
+         *  Dts.Connections["Sales DB"].ReleaseConnection(rawConnection);
+         *
+         * Example of using a File connection manager
+         *  object rawConnection = Dts.Connections["Prices.zip"].AcquireConnection(Dts.Transaction);
+         *  string filePath = (string)rawConnection;
+         *  //Use the connection in some code here, then release the connection
+         *  Dts.Connections["Prices.zip"].ReleaseConnection(rawConnection);
+         * */
+        #endregion
+
+
+        /// <summary>
+        /// This method is called when this script task executes in the control flow.
+        /// Before returning from this method, set the value of Dts.TaskResult to indicate success or failure.
+        /// To open Help, press F1.
+        /// </summary>
+        public void Main()
+        {
+            try
+            {
+                // Get the file path from the SSIS variable
+                string filePath = Dts.Variables["User::FilePath"].Value.ToString();
+
+                // Define the connection string for the Excel file
+                string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filePath + ";Extended Properties=\"EXCEL 12.0;HDR=YES;IMEX=1\";";
+
+                // Use OleDbConnection to get the schema (sheet names)
+                System.Data.DataTable schemaTable;
+                using (System.Data.OleDb.OleDbConnection connection = new System.Data.OleDb.OleDbConnection(connectionString))
+                {
+                    connection.Open();
+                    schemaTable = connection.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, null);
+                    connection.Close();
+                }
+
+                // Filter sheet names and store in a new DataTable
+                System.Data.DataTable sheetNamesTable = new System.Data.DataTable();
+                sheetNamesTable.Columns.Add("SheetName", typeof(string));
+
+                foreach (System.Data.DataRow row in schemaTable.Rows)
+                {
+                    string sheetName = row["TABLE_NAME"].ToString();
+                    // Filter for valid sheets (e.g., those ending with '$')
+                    if (sheetName.EndsWith("$"))
+                    {
+                        sheetNamesTable.Rows.Add(sheetName);
+                    }
+                }
+
+                // Store the DataTable in the SSIS variable
+                Dts.Variables["User::SheetNames"].Value = sheetNamesTable;
+
+                Dts.TaskResult = (int)ScriptResults.Success;
+            }
+            catch (Exception ex)
+            {
+                Dts.Events.FireError(0, "Script Task", ex.Message, String.Empty, 0);
+                Dts.TaskResult = (int)ScriptResults.Failure;
+            }
+        }
+
+        #region ScriptResults declaration
+        /// <summary>
+        /// This enum provides a convenient shorthand within the scope of this class for setting the
+        /// result of the script.
+        /// 
+        /// This code was generated automatically.
+        /// </summary>
+        enum ScriptResults
+        {
+            Success = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success,
+            Failure = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure
+        };
+        #endregion
+
+	}
+}]]></ProjectItem>
+              <ProjectItem
+                Name="ST_53d4822852714cbfa4c2ff06f9f193fa.csproj"
+                Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{f7a29335-a180-4309-9d9e-d22a65784020}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ST_53d4822852714cbfa4c2ff06f9f193fa</RootNamespace>
+    <AssemblyName>ST_53d4822852714cbfa4c2ff06f9f193fa</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.ScriptTask, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+         <Generator>ResXFileCodeGenerator</Generator>
+         <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+             <AutoGen>True</AutoGen>
+         <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+         <Generator>SettingsSingleFileGenerator</Generator>
+         <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+         <AutoGen>True</AutoGen>
+         <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptMain.cs">
+         <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <!-- Include the build rules for a C# project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="ScriptTask"
+                           HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}"
+                           ApplicationType="usd"
+                           Language="cs"
+                           TemplatesPath=""
+                           DebugInfoCommandLine=""
+                           DebugInfoWorkingDir=""
+                           IconImageList=""/>
+        <Host Name="ScriptTask" GeneratedNamespace="$safeprojectname" IconIndex="">
+        </Host>
+        <ProjectClient>
+            <HostIdentifier>SSIS_ST160</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>]]></ProjectItem>
+              <ProjectItem
+                Name="Project"
+                Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
+  <msb:PropertyGroup>
+    <msb:Language>msBuild</msb:Language>
+    <msb:CodeName>ST_53d4822852714cbfa4c2ff06f9f193fa</msb:CodeName>
+    <msb:DisplayName>ST_53d4822852714cbfa4c2ff06f9f193fa</msb:DisplayName>
+    <msb:ProjectId>{0DE7E5C6-8755-4F3D-A533-2A49DE806BEA}</msb:ProjectId>
+  </msb:PropertyGroup>
+  <msb:ItemGroup>
+    <msb:Project Include="ST_53d4822852714cbfa4c2ff06f9f193fa.csproj" />
+    <msb:File Include="Properties\Settings.Designer.cs" />
+    <msb:File Include="Properties\Settings.settings" />
+    <msb:File Include="Properties\AssemblyInfo.cs" />
+    <msb:File Include="Properties\Resources.resx" />
+    <msb:File Include="Properties\Resources.Designer.cs" />
+    <msb:File Include="ScriptMain.cs" />
+  </msb:ItemGroup>
+</c:Project>]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\Settings.Designer.cs"
+                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_53d4822852714cbfa4c2ff06f9f193fa.Properties.Settings.get_Default():ST_53d4822852714cbfa4c2ff06f9f193fa.Properties.Sett" +
+    "ings")]
+
+namespace ST_53d4822852714cbfa4c2ff06f9f193fa.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\AssemblyInfo.cs"
+                Encoding="UTF8"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_53d4822852714cbfa4c2ff06f9f193fa")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("HP")]
+[assembly: AssemblyProduct("ST_53d4822852714cbfa4c2ff06f9f193fa")]
+[assembly: AssemblyCopyright("Copyright @ HP 2025")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\Resources.Designer.cs"
+                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_53d4822852714cbfa4c2ff06f9f193fa.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_53d4822852714cbfa4c2ff06f9f193fa.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_53d4822852714cbfa4c2ff06f9f193fa.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace ST_53d4822852714cbfa4c2ff06f9f193fa.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ST_53d4822852714cbfa4c2ff06f9f193fa.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}]]></ProjectItem>
+              <BinaryItem
+                Name="ST_53d4822852714cbfa4c2ff06f9f193fa.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAE9EQGgAAAAAAAAAAOAAIiALATAAABQAAAAIAAAAAAAALjMA
+AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAACAAAAAAgAAAAAAAAMAYIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAANwyAABPAAAAAEAAAIAEAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAANBMAAAAgAAAAFAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAIAEAAAAQAAAAAYAAAAWAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAHAAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAAAQ
+MwAAAAAAAEgAAAACAAUAXCIAAMgPAAABAAAAAAAAACQyAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAABswBgBLAQAAAQAAEQIoEAAACm8RAAAKcgEAAHBvEgAACm8T
+AAAKbxQAAAoKch8AAHAGcn0AAHAoFQAACnMWAAAKDQlvFwAACgl+GAAAChRvGQAACgsJbxoAAAre
+CgksBglvGwAACtxzHAAACgwIbx0AAApy4QAAcNAgAAABKB4AAApvHwAACiYHbyAAAApvIQAAChME
+K0IRBG8iAAAKdCoAAAFy9QAAcG8jAAAKbxQAAAoTBREFcgsBAHBvJAAACiwXCG8gAAAKF40WAAAB
+JRYRBaJvJQAACiYRBG8mAAAKLbXeFREEdRIAAAETBhEGLAcRBm8bAAAK3AIoEAAACm8RAAAKcg8B
+AHBvEgAACghvJwAACgIoEAAAChZvKAAACt40EwcCKBAAAApvKQAAChZyMQEAcBEHbyoAAAp+KwAA
+ChZvLAAACiYCKBAAAAoXbygAAAreACoAQUwAAAIAAAA2AAAAGwAAAFEAAAAKAAAAAAAAAAIAAACJ
+AAAATwAAANgAAAAVAAAAAAAAAAAAAAAAAAAAFgEAABYBAAA0AAAAEwAAAR4CKC0AAAoqHgIoLgAA
+CiqufgEAAAQtHnJJAQBw0AMAAAIoHgAACm8vAAAKczAAAAqAAQAABH4BAAAEKhp+AgAABCoeAoAC
+AAAEKhp+AwAABCoeAigxAAAKKi5zCAAABoADAAAEKgAAQlNKQgEAAQAAAAAADAAAAHY0LjAuMzAz
+MTkAAAAABQBsAAAAsAQAACN+AAAcBQAAAAcAACNTdHJpbmdzAAAAABwMAAC8AQAAI1VTANgNAAAQ
+AAAAI0dVSUQAAADoDQAA4AEAACNCbG9iAAAAAAAAAAIAAAFXHaIBCQMAAAD6ATMAFgAAAQAAACwA
+AAAFAAAABgAAAAkAAAABAAAAMQAAAAIAAAAQAAAAAQAAAAIAAAADAAAABAAAAAEAAAAFAAAAAQAA
+AAEAAAAAABkEAQAAAAAABgC2AoUFBgBFA4UFBgACAnIFDwD5BQAABgAvAqcEBgCZAqcEBgB6AqcE
+BgAsA6cEBgDWAqcEBgDvAqcEBgBGAqcEBgBhAn0DCgAKA8gDCgBYAcgDDgDAAFUADgDgBGEABgBL
+BWEGBgDTAEoEBgDwBEoEBgBRBEoEBgDlAXIFBgCtBkoEBgAdBaUFBgANBZIEEgC1AQMEEgAWAgME
+EgCPAX0EBgDKAYUFCgDxA8gDFgBCBgMBFgDKAAMBBgCZA0oEDgDjBPoEDgCAAGEABgCLAEoEDgC5
+BFUABgAjAUoEBgDfAEoEDgByBFUADgDOBFUADgB0AVUADgDkBlUACgAtBcgDBgDwBqcEAAAAAAEA
+AAAAAAEAAQABABAAZwQxADkAAQABAAAAEACsBQgGWQABAAMAAAEQAEwGCAZtAAMABwADAQAAhAYA
+AFEABAAKABEAVgTVABEASAHZABEAkADdAAYGKQDhAFaAdAbkAFaAKAHkAFAgAAAAAIYAbQQGAAEA
+9CEAAAAAhhhlBQYAAQD8IQAAAACDGGUFBgABAAQiAAAAAJMIGQXoAAEAMCIAAAAAkwgwAe0AAQA3
+IgAAAACTCDwB8gABAD8iAAAAAJYItAb4AAIARiIAAAAAhhhlBQYAAgBOIgAAAACRGGsF/QACAAAA
+AQB3AwkAZQUBABEAZQUGABkAZQUKACkAZQUQADEAZQUQADkAZQUQAEEAZQUQAEkAZQUQAFEAZQUQ
+AFkAZQUQAGEAZQUQAGkAZQUGAKkAZQUGANEAZQUVAOEAZQUGAHEAfAYsAOkAPgYxAPEAQQQ2APkA
+YwM8ALEAlwNAAAEBpgZEAIEAZQUQAAkBYgQGABEBNwZLAIEArABQAAkBpwEGAJEArQEGAHkAZQUG
+AHkAVQZaACkB8QBgACEBfABpAHkAnQZzAEkBVwV5AIkAzwY8AFEBQQR+AAEBoAODAEEBfACIAIkA
+2waQAPkAbQOUAOkAwAYBAOkAkgaZAJkAoABAAAEB+QafAFkBQQWiAHEAZQUGALEAZQUGACkB7Aar
+ALkAZQWxANkAZQUGAAgAFADLAAgAGADQACkAcwA4AS4ACwAQAS4AEwAZAS4AGwA4AS4AIwBBAS4A
+KwBqAS4AMwBqAS4AOwBwAS4AQwBBAS4ASwB4AS4AUwBqAS4AWwCRAUMAYwDQAEkAcwA4AWEAewDQ
+AGMAawDQABsAAwABAAQAAwAAAB0FAQEAAFABBgEAALgGCwECAAQAAwACAAUABQABAAYABQACAAcA
+BwAEgAAAAQAAAEYk92kAAAAAAAAxAAAABAAAAAAAAAAAAAAAuQBzAAAAAAAQAAAAAAAAAAAAAADC
+AKkDAAAAAAQAAAAAAAAAAAAAALkAVQAAAAAABAAAAAAAAAAAAAAAuQBKBAAAAAAQAAAAAAAAAAAA
+AADCAAoAAAAAAAAAAAABAAAAtgUAAAUAAgAAAAAAADxNb2R1bGU+AE1pY3Jvc29mdC5TcWxTZXJ2
+ZXIuTWFuYWdlZERUUwB2YWx1ZV9fAFNUXzUzZDQ4MjI4NTI3MTRjYmZhNGMyZmYwNmY5ZjE5M2Zh
+AFN5c3RlbS5EYXRhAFN5c3RlbS5EYXRhLk9sZURiAG1zY29ybGliAEFkZABPbGVEYlNjaGVtYUd1
+aWQAZGVmYXVsdEluc3RhbmNlAGdldF9NZXNzYWdlAEdldE9sZURiU2NoZW1hVGFibGUARGF0YVRh
+YmxlAFZhcmlhYmxlAElEaXNwb3NhYmxlAFJ1bnRpbWVUeXBlSGFuZGxlAEdldFR5cGVGcm9tSGFu
+ZGxlAE1pY3Jvc29mdC5TcWxTZXJ2ZXIuRHRzLlJ1bnRpbWUAVHlwZQBGYWlsdXJlAGdldF9DdWx0
+dXJlAHNldF9DdWx0dXJlAHJlc291cmNlQ3VsdHVyZQBWU1RBUlRTY3JpcHRPYmplY3RNb2RlbEJh
+c2UASW50ZXJuYWxEYXRhQ29sbGVjdGlvbkJhc2UAQXBwbGljYXRpb25TZXR0aW5nc0Jhc2UAQ2xv
+c2UARGlzcG9zZQBFZGl0b3JCcm93c2FibGVTdGF0ZQBDb21waWxlckdlbmVyYXRlZEF0dHJpYnV0
+ZQBEZWJ1Z2dlck5vblVzZXJDb2RlQXR0cmlidXRlAERlYnVnZ2FibGVBdHRyaWJ1dGUARWRpdG9y
+QnJvd3NhYmxlQXR0cmlidXRlAEFzc2VtYmx5VGl0bGVBdHRyaWJ1dGUAQXNzZW1ibHlUcmFkZW1h
+cmtBdHRyaWJ1dGUAVGFyZ2V0RnJhbWV3b3JrQXR0cmlidXRlAEFzc2VtYmx5Q29uZmlndXJhdGlv
+bkF0dHJpYnV0ZQBBc3NlbWJseURlc2NyaXB0aW9uQXR0cmlidXRlAENvbXBpbGF0aW9uUmVsYXhh
+dGlvbnNBdHRyaWJ1dGUAQXNzZW1ibHlQcm9kdWN0QXR0cmlidXRlAEFzc2VtYmx5Q29weXJpZ2h0
+QXR0cmlidXRlAFNTSVNTY3JpcHRUYXNrRW50cnlQb2ludEF0dHJpYnV0ZQBBc3NlbWJseUNvbXBh
+bnlBdHRyaWJ1dGUAUnVudGltZUNvbXBhdGliaWxpdHlBdHRyaWJ1dGUAZ2V0X1ZhbHVlAHNldF9W
+YWx1ZQB2YWx1ZQBTeXN0ZW0uUnVudGltZS5WZXJzaW9uaW5nAFRvU3RyaW5nAEVuZHNXaXRoAE1p
+Y3Jvc29mdC5TcWxTZXJ2ZXIuU2NyaXB0VGFzawBNaWNyb3NvZnQuU3FsU2VydmVyLkR0cy5UYXNr
+cy5TY3JpcHRUYXNrAFNjcmlwdE9iamVjdE1vZGVsAFN5c3RlbS5Db21wb25lbnRNb2RlbABTVF81
+M2Q0ODIyODUyNzE0Y2JmYTRjMmZmMDZmOWYxOTNmYS5kbGwAZ2V0X0l0ZW0AU3lzdGVtAEVudW0A
+cmVzb3VyY2VNYW4AT3BlbgBTY3JpcHRNYWluAERhdGFDb2x1bW4AU3lzdGVtLkNvbmZpZ3VyYXRp
+b24AU3lzdGVtLkdsb2JhbGl6YXRpb24AU3lzdGVtLlJlZmxlY3Rpb24ARGF0YUNvbHVtbkNvbGxl
+Y3Rpb24ARGF0YVJvd0NvbGxlY3Rpb24AT2xlRGJDb25uZWN0aW9uAEV4Y2VwdGlvbgBTeXN0ZW0u
+RGF0YS5Db21tb24AQ3VsdHVyZUluZm8AZ2V0X1Jlc291cmNlTWFuYWdlcgBFdmVudHNPYmplY3RX
+cmFwcGVyAEZpcmVFcnJvcgBJRW51bWVyYXRvcgBHZXRFbnVtZXJhdG9yAC5jdG9yAC5jY3RvcgBT
+eXN0ZW0uRGlhZ25vc3RpY3MAU3lzdGVtLlJ1bnRpbWUuQ29tcGlsZXJTZXJ2aWNlcwBTeXN0ZW0u
+UmVzb3VyY2VzAFNUXzUzZDQ4MjI4NTI3MTRjYmZhNGMyZmYwNmY5ZjE5M2ZhLlByb3BlcnRpZXMu
+UmVzb3VyY2VzLnJlc291cmNlcwBEZWJ1Z2dpbmdNb2RlcwBTVF81M2Q0ODIyODUyNzE0Y2JmYTRj
+MmZmMDZmOWYxOTNmYS5Qcm9wZXJ0aWVzAFRhYmxlcwBnZXRfVmFyaWFibGVzAFNldHRpbmdzAGdl
+dF9Db2x1bW5zAFN5c3RlbS5Db2xsZWN0aW9ucwBTdWNjZXNzAGdldF9EdHMAU2NyaXB0UmVzdWx0
+cwBnZXRfRXZlbnRzAGdldF9Sb3dzAENvbmNhdABPYmplY3QAZ2V0X0RlZmF1bHQAc2V0X1Rhc2tS
+ZXN1bHQAZ2V0X0N1cnJlbnQATW92ZU5leHQARGF0YVJvdwBnZXRfQXNzZW1ibHkARW1wdHkAAAAd
+VQBzAGUAcgA6ADoARgBpAGwAZQBQAGEAdABoAABdUAByAG8AdgBpAGQAZQByAD0ATQBpAGMAcgBv
+AHMAbwBmAHQALgBBAEMARQAuAE8ATABFAEQAQgAuADEAMgAuADAAOwBEAGEAdABhACAAUwBvAHUA
+cgBjAGUAPQAAYzsARQB4AHQAZQBuAGQAZQBkACAAUAByAG8AcABlAHIAdABpAGUAcwA9ACIARQBY
+AEMARQBMACAAMQAyAC4AMAA7AEgARABSAD0AWQBFAFMAOwBJAE0ARQBYAD0AMQAiADsAABNTAGgA
+ZQBlAHQATgBhAG0AZQAAFVQAQQBCAEwARQBfAE4AQQBNAEUAAAMkAAAhVQBzAGUAcgA6ADoAUwBo
+AGUAZQB0AE4AYQBtAGUAcwAAF1MAYwByAGkAcAB0ACAAVABhAHMAawAAcVMAVABfADUAMwBkADQA
+OAAyADIAOAA1ADIANwAxADQAYwBiAGYAYQA0AGMAMgBmAGYAMAA2AGYAOQBmADEAOQAzAGYAYQAu
+AFAAcgBvAHAAZQByAHQAaQBlAHMALgBSAGUAcwBvAHUAcgBjAGUAcwAAADMKmpf7RV9Ijjyrp9ET
+k8QABCABAQgDIAABBSABARERBCABAQ4FIAEBEWUQBwgOEj0SPRJBEkUOEkkSTQQgABJ1BCAAEnkF
+IAESfRwDIAAcAyAADgYAAw4ODg4EBhGAjQkgAhI9EYCNHRwFIAASgJEIAAESgJURgJkJIAISgJ0O
+EoCVBSAAEoChBCAAEkUEIAEcDgQgAQIOByABEoCpHRwDIAACBCABARwFIAASgK0CBg4IIAUCCA4O
+DggFIAASgLEHIAIBDhKAsQi3elxWGTTgiQiJhF3NgIDMkQQAAAAABAEAAAADBhJdAwYSYQMGEhAC
+BggDBhEUBAAAEl0EAAASYQUAAQESYQQAABIQAwAAAQQIABJdBAgAEmEECAASEAgBAAgAAAAAAB4B
+AAEAVAIWV3JhcE5vbkV4Y2VwdGlvblRocm93cwEIAQACAAAAAAAoAQAjU1RfNTNkNDgyMjg1Mjcx
+NGNiZmE0YzJmZjA2ZjlmMTkzZmEAAAUBAAAAAAcBAAJIUAAAGAEAE0NvcHlyaWdodCBAIEhQIDIw
+MjUAAE0BABwuTkVURnJhbWV3b3JrLFZlcnNpb249djQuNy4yAQBUDhRGcmFtZXdvcmtEaXNwbGF5
+TmFtZRQuTkVUIEZyYW1ld29yayA0LjcuMgC0AAAAzsrvvgEAAACRAAAAbFN5c3RlbS5SZXNvdXJj
+ZXMuUmVzb3VyY2VSZWFkZXIsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1
+dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OSNTeXN0ZW0uUmVzb3VyY2VzLlJ1
+bnRpbWVSZXNvdXJjZVNldAIAAAAAAAAAAAAAAFBBRFBBRFC0AAAABDMAAAAAAAAAAAAAHjMAAAAg
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAzAAAAAAAAAAAAAAAAX0NvckRsbE1haW4AbXNjb3JlZS5k
+bGwAAAAAAP8lACAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAQAQAAAAGAAAgAAAAAAAAAAAAAAAAAAAAQABAAAAMAAAgAAAAAAAAAAAAAAAAAAAAQAAAAAA
+SAAAAFhAAAAiBAAAAAAAAAAAAAAiBDQAAABWAFMAXwBWAEUAUgBTAEkATwBOAF8ASQBOAEYATwAA
+AAAAvQTv/gAAAQAAAAEA92lGJAAAAQD3aUYkPwAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAEQA
+AAABAFYAYQByAEYAaQBsAGUASQBuAGYAbwAAAAAAJAAEAAAAVAByAGEAbgBzAGwAYQB0AGkAbwBu
+AAAAAAAAALAEggMAAAEAUwB0AHIAaQBuAGcARgBpAGwAZQBJAG4AZgBvAAAAXgMAAAEAMAAwADAA
+MAAwADQAYgAwAAAAGgABAAEAQwBvAG0AbQBlAG4AdABzAAAAAAAAACYAAwABAEMAbwBtAHAAYQBu
+AHkATgBhAG0AZQAAAAAASABQAAAAAABwACQAAQBGAGkAbABlAEQAZQBzAGMAcgBpAHAAdABpAG8A
+bgAAAAAAUwBUAF8ANQAzAGQANAA4ADIAMgA4ADUAMgA3ADEANABjAGIAZgBhADQAYwAyAGYAZgAw
+ADYAZgA5AGYAMQA5ADMAZgBhAAAAPgAPAAEARgBpAGwAZQBWAGUAcgBzAGkAbwBuAAAAAAAxAC4A
+MAAuADkAMgA4ADYALgAyADcAMQAyADcAAAAAAHAAKAABAEkAbgB0AGUAcgBuAGEAbABOAGEAbQBl
+AAAAUwBUAF8ANQAzAGQANAA4ADIAMgA4ADUAMgA3ADEANABjAGIAZgBhADQAYwAyAGYAZgAwADYA
+ZgA5AGYAMQA5ADMAZgBhAC4AZABsAGwAAABMABQAAQBMAGUAZwBhAGwAQwBvAHAAeQByAGkAZwBo
+AHQAAABDAG8AcAB5AHIAaQBnAGgAdAAgAEAAIABIAFAAIAAyADAAMgA1AAAAKgABAAEATABlAGcA
+YQBsAFQAcgBhAGQAZQBtAGEAcgBrAHMAAAAAAAAAAAB4ACgAAQBPAHIAaQBnAGkAbgBhAGwARgBp
+AGwAZQBuAGEAbQBlAAAAUwBUAF8ANQAzAGQANAA4ADIAMgA4ADUAMgA3ADEANABjAGIAZgBhADQA
+YwAyAGYAZgAwADYAZgA5AGYAMQA5ADMAZgBhAC4AZABsAGwAAABoACQAAQBQAHIAbwBkAHUAYwB0
+AE4AYQBtAGUAAAAAAFMAVABfADUAMwBkADQAOAAyADIAOAA1ADIANwAxADQAYwBiAGYAYQA0AGMA
+MgBmAGYAMAA2AGYAOQBmADEAOQAzAGYAYQAAAEIADwABAFAAcgBvAGQAdQBjAHQAVgBlAHIAcwBp
+AG8AbgAAADEALgAwAC4AOQAyADgANgAuADIANwAxADIANwAAAAAARgAPAAEAQQBzAHMAZQBtAGIA
+bAB5ACAAVgBlAHIAcwBpAG8AbgAAADEALgAwAC4AOQAyADgANgAuADIANwAxADIANwAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAMAAAAMDMAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
+            </ScriptProject>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\LoopThroughFiles\LoopThroughSheets"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{4AB05F94-6F47-406A-A720-EC33F96B0B57}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="LoopThroughSheets">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.ForEachFromVarEnumerator"
+            DTS:DTSID="{94235679-C51E-4167-B891-A32B78A8A97E}"
+            DTS:ObjectName="{94235679-C51E-4167-B891-A32B78A8A97E}">
+            <DTS:ObjectData>
+              <FEEFVE
+                VariableName="User::SheetNames" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData"
+              DTS:CreationName="Microsoft.Pipeline"
+              DTS:Description="Data Flow Task"
+              DTS:DTSID="{2F709C6F-27FF-4B90-99D7-5CBF1538DB71}"
+              DTS:ExecutableType="Microsoft.Pipeline"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="ExtractTimesheetData"
+              DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <pipeline
+                  version="1">
+                  <components>
+                    <component
+                      refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source"
+                      componentClassID="Microsoft.ExcelSource"
+                      contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                      description="Excel Source"
+                      name="Excel Source"
+                      usesDispositions="true"
+                      version="1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">Apr$</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT *
+FROM     [@{User::SheetName}]</property>
+                        <property
+                          dataType="System.String"
+                          description="The variable that contains the SQL command to be executed."
+                          name="SqlCommandVariable"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">2</property>
+                        <property
+                          dataType="System.String"
+                          description="The mapping from parameters in the SQL command to variables."
+                          name="ParameterMapping"></property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[ExcelConnection]"
+                          connectionManagerRefId="Package.ConnectionManagers[ExcelConnection]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <outputs>
+                        <output
+                          refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output]"
+                          name="Excel Source Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Consultant]"
+                              dataType="date"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Consultant]"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Consultant]"
+                              name="Consultant"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Itumeleng]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Itumeleng]"
+                              length="255"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[Itumeleng]"
+                              name="Itumeleng"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F3]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F3]"
+                              length="255"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F3]"
+                              name="F3"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F4]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F4]"
+                              length="255"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F4]"
+                              name="F4"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F5]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F5]"
+                              length="255"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F5]"
+                              name="F5"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F6]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F6]"
+                              length="255"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F6]"
+                              name="F6"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F7]"
+                              dataType="nText"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F7]"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F7]"
+                              name="F7"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F8]"
+                              dataType="date"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F8]"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F8]"
+                              name="F8"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F9]"
+                              dataType="date"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F9]"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F9]"
+                              name="F9"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F10]"
+                              dataType="date"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F10]"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].Columns[F10]"
+                              name="F10"
+                              truncationRowDisposition="FailComponent" />
+                          </outputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Consultant]"
+                              dataType="date"
+                              name="Consultant" />
+                            <externalMetadataColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[Itumeleng]"
+                              dataType="wstr"
+                              length="255"
+                              name="Itumeleng" />
+                            <externalMetadataColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F3]"
+                              dataType="wstr"
+                              length="255"
+                              name="F3" />
+                            <externalMetadataColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F4]"
+                              dataType="wstr"
+                              length="255"
+                              name="F4" />
+                            <externalMetadataColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F5]"
+                              dataType="wstr"
+                              length="255"
+                              name="F5" />
+                            <externalMetadataColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F6]"
+                              dataType="wstr"
+                              length="255"
+                              name="F6" />
+                            <externalMetadataColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F7]"
+                              dataType="nText"
+                              name="F7" />
+                            <externalMetadataColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F8]"
+                              dataType="date"
+                              name="F8" />
+                            <externalMetadataColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F9]"
+                              dataType="date"
+                              name="F9" />
+                            <externalMetadataColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Output].ExternalColumns[F10]"
+                              dataType="date"
+                              name="F10" />
+                          </externalMetadataColumns>
+                        </output>
+                        <output
+                          refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output]"
+                          isErrorOut="true"
+                          name="Excel Source Error Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Consultant]"
+                              dataType="date"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Consultant]"
+                              name="Consultant" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Itumeleng]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[Itumeleng]"
+                              name="Itumeleng" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F3]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F3]"
+                              name="F3" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F4]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F4]"
+                              name="F4" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F5]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F5]"
+                              name="F5" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F6]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F6]"
+                              name="F6" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F7]"
+                              dataType="nText"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F7]"
+                              name="F7" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F8]"
+                              dataType="date"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F8]"
+                              name="F8" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F9]"
+                              dataType="date"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F9]"
+                              name="F9" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F10]"
+                              dataType="date"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[F10]"
+                              name="F10" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                  </components>
+                </pipeline>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{226B3145-8F9A-4453-B1B6-44EE522EB6E2}"
+              DTS:ObjectName="{226B3145-8F9A-4453-B1B6-44EE522EB6E2}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::SheetNames" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{0F5FAABB-C92C-4268-A321-CE8A7D141FAC}"
+          DTS:ObjectName="{0F5FAABB-C92C-4268-A321-CE8A7D141FAC}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::FilePath" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="155.2,41.6"
+          Id="Package\LoopThroughFiles\GetSheetNames"
+          TopLeft="163.633309793639,17.6666662267182" />
+        <NodeLayout
+          Size="181.6,53.6"
+          Id="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData"
+          TopLeft="23.2666436278166,34.2666650153533" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="248.8,143.2"
+          Size="248.8,186.4"
+          Id="Package\LoopThroughFiles\LoopThroughSheets"
+          TopLeft="131.133311569361,116.999998824795" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="463.2,358.4"
+          Size="463.2,401.6"
+          Id="Package\LoopThroughFiles"
+          TopLeft="267.499985384445,40.7333330500788" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="140,41.6"
+          Id="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source"
+          TopLeft="430.833309793639,29.4666664617591" />
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\LoopThroughFiles\LoopThroughSheets\ExtractTimesheetData\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
