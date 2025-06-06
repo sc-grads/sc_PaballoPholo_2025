@@ -1,0 +1,12 @@
+# Ignore everything by default
+*
+
+# Allow .sql and .dtsx files anywhere
+!*.sql
+!*.dtsx
+
+# Explicitly ignore the 'obj/Development' folder (even if it has .dtsx files)
+obj/Development/
+
+# Allow the .gitignore file itself
+!.gitignore
