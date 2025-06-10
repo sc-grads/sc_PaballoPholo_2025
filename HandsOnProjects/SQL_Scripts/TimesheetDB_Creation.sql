@@ -16,9 +16,11 @@ CREATE TABLE Consultant (
 GO
 
 -- Create LeaveType table
+DROP TABLE IF EXISTS [dbo].[LeaveType]
+Go
 CREATE TABLE LeaveType (
     LeaveTypeID INT IDENTITY(1,1) PRIMARY KEY,
-    LeaveTypeName VARCHAR(50) NOT NULL
+    LeaveTypeName NVARCHAR(50) NOT NULL
 );
 GO
 
@@ -30,8 +32,7 @@ CREATE TABLE Leave (
     StartDate DATE NOT NULL,
     EndDate DATE NOT NULL,
     NumberOfDays DECIMAL(5,2) NOT NULL,
-    ApprovalObtained BIT NOT NULL DEFAULT 0,
-    SickNote BIT NOT NULL DEFAULT 0
+    ApprovalObtained NVARCHAR(50)
 );
 GO
 
@@ -44,15 +45,6 @@ CREATE TABLE Client (
 );
 GO
 
--- Create Project table
-DROP TABLE IF EXISTS [dbo].[Project]
-Go
-CREATE TABLE Project (
-    ProjectID INT IDENTITY(1,1) PRIMARY KEY,
-    ClientID INT FOREIGN KEY REFERENCES Client(ClientID),
-    ProjectName VARCHAR(100) NOT NULL
-);
-GO
 
 -- Create Timesheet table with TIME datatypes and NULL allowances for testing
 DROP TABLE IF EXISTS [dbo].[Timesheet]
@@ -60,10 +52,9 @@ Go
 CREATE TABLE Timesheet (
     TimesheetID INT IDENTITY(1,1) PRIMARY KEY,
     ConsultantID INT FOREIGN KEY REFERENCES Consultant(ConsultantID),
-    ProjectID INT FOREIGN KEY REFERENCES Project(ProjectID),
+	ClientID INT FOREIGN KEY REFERENCES Client(ClientID),
     EntryDate DATE ,
     DayOfWeek nvarchar(MAX),
-	Client nvarchar(50),
 	ClientProjectName nvarchar(50),
     Description nvarchar(MAX),
     Billable nvarchar(50),
@@ -79,10 +70,10 @@ GO
 CREATE TABLE Expense (
     ExpenseID INT IDENTITY(1,1) PRIMARY KEY,
     ConsultantID INT FOREIGN KEY REFERENCES Consultant(ConsultantID),
-    ExpenseDate DATE NOT NULL,
-    ExpenseDescription VARCHAR(100) NOT NULL,
-    ExpenseType VARCHAR(50) NOT NULL,
-    Cost DECIMAL(10,2) NOT NULL,
-    CONSTRAINT CHK_Cost CHECK (Cost >= 0)
+    ExpenseDate DATE,
+    ExpenseDescription NVARCHAR(100) NULL,
+    ExpenseType NVARCHAR(50) NULL,
+    Cost DECIMAL(10,2) NULL,
+    --CONSTRAINT CHK_Cost CHECK (Cost >= 0)
 );
 GO
