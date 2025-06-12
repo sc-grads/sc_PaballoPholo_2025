@@ -77,3 +77,33 @@ CREATE TABLE Expense (
     --CONSTRAINT CHK_Cost CHECK (Cost >= 0)
 );
 GO
+
+--Create AuditLog table
+DROP TABLE IF EXISTS [dbo].[AuditLog]
+Go
+
+
+-- Create the new table
+CREATE TABLE [dbo].[AuditLog] (
+    AuditID INT IDENTITY(1,1) PRIMARY KEY,
+    Timestamp DATETIME,
+    EmployeeName NVARCHAR(100),
+    Type NVARCHAR(50) DEFAULT 'Log',
+    Month AS DATENAME(month, Timestamp), -- Removed PERSISTED
+    Details NVARCHAR(255)
+);
+
+/*
+CREATE TABLE [dbo].[AuditLog] (
+    AuditID INT IDENTITY(1,1) PRIMARY KEY,
+    PackageName NVARCHAR(255),
+    SheetFileName NVARCHAR(255),
+    ExecutionStatus NVARCHAR(50),
+    StartTime DATETIME,
+	Destination NVARCHAR(100),
+	EndTime DATETIME,
+    RowsProcessed INT,
+    RowsFailed INT,
+    TaskName NVARCHAR(255)
+);	
+*/
