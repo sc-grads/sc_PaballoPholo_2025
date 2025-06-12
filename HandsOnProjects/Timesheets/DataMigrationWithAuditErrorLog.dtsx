@@ -5,21 +5,21 @@
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="LAPTOP-NTKM1UMO"
   DTS:CreatorName="LAPTOP-NTKM1UMO\PaballoPholo"
-  DTS:DTSID="{E350B9C5-5628-4E5C-8F73-283807039F31}"
+  DTS:DTSID="{7803FFCC-8B3F-4D7B-B869-EE6331B46922}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="16.0.5685.0"
   DTS:LocaleID="7177"
-  DTS:ObjectName="TimesheetsDataExtraction_Modified"
+  DTS:ObjectName="DataMigrationWithAuditErrorLog"
   DTS:PackageType="5"
-  DTS:VersionBuild="140"
-  DTS:VersionGUID="{B5E0CB35-208C-446E-9FE5-5D4F2910FE75}">
+  DTS:VersionBuild="175"
+  DTS:VersionGUID="{694E5918-5374-4F61-9174-C022C8B4342B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
       DTS:CreationName="EXCEL"
-      DTS:DTSID="{16549304-3D67-4BC5-83A1-AE05A5DFF05C}"
+      DTS:DTSID="{97C62600-62C7-49DA-81CA-64AEA2DD1A5C}"
       DTS:ObjectName="Excel Connection Manager">
       <DTS:PropertyExpression
         DTS:Name="ExcelFilePath">@[User::var_filename]</DTS:PropertyExpression>
@@ -33,7 +33,7 @@
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Excel Connection Manager 1]"
       DTS:CreationName="EXCEL"
-      DTS:DTSID="{465EFACD-B701-4E6C-B288-9E3BB81A6F4A}"
+      DTS:DTSID="{C190A595-0FFB-46B1-B4AC-32760E4C7D17}"
       DTS:ObjectName="Excel Connection Manager 1">
       <DTS:ObjectData>
         <DTS:ConnectionManager
@@ -45,7 +45,7 @@
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Excel Connection Manager 2]"
       DTS:CreationName="EXCEL"
-      DTS:DTSID="{BD96812E-0A5F-43E0-B4CA-4F3C2650DC67}"
+      DTS:DTSID="{B306CA3D-A9C7-412D-8682-3A759B632C9C}"
       DTS:ObjectName="Excel Connection Manager 2">
       <DTS:ObjectData>
         <DTS:ConnectionManager
@@ -57,7 +57,7 @@
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Excel Connection Manager 3]"
       DTS:CreationName="EXCEL"
-      DTS:DTSID="{D4C4F5B9-8422-4A20-9E19-B63E1CBAEDCB}"
+      DTS:DTSID="{9409B3EE-AD7D-4A4A-B10A-90E4E528739A}"
       DTS:ObjectName="Excel Connection Manager 3">
       <DTS:ObjectData>
         <DTS:ConnectionManager
@@ -69,7 +69,7 @@
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Excel Connection Manager 4]"
       DTS:CreationName="EXCEL"
-      DTS:DTSID="{B1983A20-7E94-43AF-A273-592BEB44D20E}"
+      DTS:DTSID="{9675BC0E-C4B5-4463-A667-A4893C10A6AE}"
       DTS:ObjectName="Excel Connection Manager 4">
       <DTS:ObjectData>
         <DTS:ConnectionManager
@@ -81,7 +81,7 @@
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Excel Connection Manager 5]"
       DTS:CreationName="EXCEL"
-      DTS:DTSID="{B374E734-0EDC-4E97-BBFC-052E766D7428}"
+      DTS:DTSID="{22ABD79E-C4F5-4CF3-81F3-57D872A6C186}"
       DTS:ObjectName="Excel Connection Manager 5">
       <DTS:PropertyExpression
         DTS:Name="ExcelFilePath">@[User::var_filename]</DTS:PropertyExpression>
@@ -95,92 +95,101 @@
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[LocalHost.TimesheetDB]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{378ABE98-4F98-4B46-96B3-C167A2D1B457}"
+      DTS:DTSID="{902A9F73-75D3-43BC-90D0-D4A5787AB750}"
       DTS:ObjectName="LocalHost.TimesheetDB">
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectRetryCount="1"
           DTS:ConnectRetryInterval="5"
-          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{378ABE98-4F98-4B46-96B3-C167A2D1B457}LocalHost.TimesheetDB;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{902A9F73-75D3-43BC-90D0-D4A5787AB750}LocalHost.TimesheetDB;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[LocalHost.TimesheetDB 1]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{937EE503-0DE9-41C3-ADE0-68ABC024212B}"
+      DTS:DTSID="{565E77B6-016D-41D0-B35D-583F0A16BE6B}"
       DTS:ObjectName="LocalHost.TimesheetDB 1">
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectRetryCount="1"
           DTS:ConnectRetryInterval="5"
-          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{937EE503-0DE9-41C3-ADE0-68ABC024212B}LocalHost.TimesheetDB 1;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{565E77B6-016D-41D0-B35D-583F0A16BE6B}LocalHost.TimesheetDB 1;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[LocalHost.TimesheetDB 1 1]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{3CC4A4AC-DFBD-40F8-B6BE-80CE97A6E8F7}"
+      DTS:DTSID="{EE20D480-3F05-40C0-B27D-3C0E90743632}"
       DTS:ObjectName="LocalHost.TimesheetDB 1 1">
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectRetryCount="1"
           DTS:ConnectRetryInterval="5"
-          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{3CC4A4AC-DFBD-40F8-B6BE-80CE97A6E8F7}LocalHost.TimesheetDB 1;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{EE20D480-3F05-40C0-B27D-3C0E90743632}LocalHost.TimesheetDB 1;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[LocalHost.TimesheetDB 2]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{E5CC3BAB-8172-4011-962E-EC0AA1C47847}"
+      DTS:DTSID="{5272DF4A-F557-4C23-8BD2-1D64FF6AC9FE}"
       DTS:ObjectName="LocalHost.TimesheetDB 2">
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectRetryCount="1"
           DTS:ConnectRetryInterval="5"
-          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{E5CC3BAB-8172-4011-962E-EC0AA1C47847}LocalHost.TimesheetDB;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{5272DF4A-F557-4C23-8BD2-1D64FF6AC9FE}LocalHost.TimesheetDB;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[LocalHost.TimesheetDB 3]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{060FBE3A-F2F4-4C3D-A324-BBDDBBD5AD23}"
+      DTS:DTSID="{0323DDBB-E409-449F-9241-CA1667ACDA61}"
       DTS:ObjectName="LocalHost.TimesheetDB 3">
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectRetryCount="1"
           DTS:ConnectRetryInterval="5"
-          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{060FBE3A-F2F4-4C3D-A324-BBDDBBD5AD23}LocalHost.TimesheetDB;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{0323DDBB-E409-449F-9241-CA1667ACDA61}LocalHost.TimesheetDB;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[LocalHost.TimesheetDB 4]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{A9D3FD38-1FBF-4E28-86A2-75232ECA81B0}"
+      DTS:DTSID="{C9245526-2DC4-4D24-9C76-A3B5C0F368DD}"
       DTS:ObjectName="LocalHost.TimesheetDB 4">
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectRetryCount="1"
           DTS:ConnectRetryInterval="5"
-          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{A9D3FD38-1FBF-4E28-86A2-75232ECA81B0}LocalHost.TimesheetDB;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{C9245526-2DC4-4D24-9C76-A3B5C0F368DD}LocalHost.TimesheetDB;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[LocalHost.TimeSheets]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{D41EEA18-6096-474E-8336-1C56414583C7}"
+      DTS:DTSID="{FEF5410A-FA87-495A-856C-4EBE281B6B5C}"
       DTS:ObjectName="LocalHost.TimeSheets">
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectRetryCount="1"
           DTS:ConnectRetryInterval="5"
-          DTS:ConnectionString="Data Source=.;Initial Catalog=TimeSheets;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-TimesheetsDataExtraction-{D41EEA18-6096-474E-8336-1C56414583C7}LocalHost.TimeSheets;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=.;Initial Catalog=TimeSheets;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-TimesheetsDataExtraction-{FEF5410A-FA87-495A-856C-4EBE281B6B5C}LocalHost.TimeSheets;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
-      DTS:DTSID="{14732A2E-77D7-4628-8324-F337ACA62ABC}"
+      DTS:DTSID="{FC9B8842-53F7-4554-B765-E9B0A732768E}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="AuditID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B0533C7D-E6BB-4581-B889-FBC0A2F6AD81}"
       DTS:EvaluateAsExpression="True"
       DTS:Expression="RIGHT(&#xA;  LEFT(@[User::var_filename], LEN(@[User::var_filename]) - FINDSTRING(REVERSE(@[User::var_filename]), &quot;\\&quot;, 1)),&#xA;  FINDSTRING(REVERSE(LEFT(@[User::var_filename], LEN(@[User::var_filename]) - FINDSTRING(REVERSE(@[User::var_filename]), &quot;\\&quot;, 1))), &quot;\\&quot;, 1) - 1&#xA;)"
       DTS:IncludeInDebugDump="2345"
@@ -191,7 +200,26 @@
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
-      DTS:DTSID="{B5C8D8AB-44DC-431C-8C07-F4945670DEA1}"
+      DTS:DTSID="{CF82E6F7-38A8-4A5F-9177-0288ADCBA8D2}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ErrorMsgOutput">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C07E153C-4583-415F-9039-1AAE84A6669F}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="FailedRows">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{16AD1C8D-E348-410D-9116-992E35B6B9AF}"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
       DTS:ObjectName="FilePath">
@@ -200,7 +228,36 @@
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
-      DTS:DTSID="{09327690-6717-440D-BE96-C466187C3D89}"
+      DTS:DTSID="{1729B39A-9C3F-46F5-9402-EAC1C9B89367}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="PackageStatus">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E6D7F29D-3B4A-4884-A0E8-D46365C38F3A}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="ProcessedRows">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{07E5BE8E-18B3-4AE3-A412-E9D4DD0A3485}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="TaskName">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F8969378-E582-48E4-98F1-E34C866AC1EF}"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
       DTS:ObjectName="var_filename">
@@ -213,14 +270,14 @@
       DTS:refId="Package\Foreach Loop Container"
       DTS:CreationName="STOCK:FOREACHLOOP"
       DTS:Description="Foreach Loop Container"
-      DTS:DTSID="{B21F7FC7-3FC0-461D-B314-59A2E2394CB3}"
+      DTS:DTSID="{9AB4163C-9A94-4B1F-98FA-B465699E7CB7}"
       DTS:ExecutableType="STOCK:FOREACHLOOP"
       DTS:LocaleID="-1"
       DTS:ObjectName="Foreach Loop Container">
       <DTS:ForEachEnumerator
         DTS:CreationName="Microsoft.ForEachFileEnumerator"
-        DTS:DTSID="{F36ABB9A-5FE0-4905-B1E8-382D407D61F8}"
-        DTS:ObjectName="{F36ABB9A-5FE0-4905-B1E8-382D407D61F8}">
+        DTS:DTSID="{C6743BC7-7110-4DF5-B20B-E1DB7527FBDF}"
+        DTS:ObjectName="{C6743BC7-7110-4DF5-B20B-E1DB7527FBDF}">
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
             <FEFEProperty
@@ -234,13 +291,93 @@
           </ForEachFileEnumeratorProperties>
         </DTS:ObjectData>
       </DTS:ForEachEnumerator>
-      <DTS:Variables />
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{98043CA3-9383-4891-8793-CBAA2762C75B}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="Variable">
+          <DTS:VariableValue
+            DTS:DataType="8">ProcessedRows</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
       <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\AuditLog_After"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{FBF31703-5FCA-49EA-B90A-DD7A7C3CF90C}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="AuditLog_After"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{902A9F73-75D3-43BC-90D0-D4A5787AB750}"
+              SQLTask:SqlStatementSource="UPDATE [dbo].[AuditLog]&#xA;SET&#xA;    EndTime = GETDATE(),&#xA;    ExecutionStatus = 'Completed',&#xA;    RowsProcessed = ?,&#xA;    RowsFailed = ?,&#xA;    TaskName = 'Import Client Timesheet Data',&#xA;    Destination = 'Client'&#xA;WHERE AuditID = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::ProcessedRows"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="2"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::FailedRows"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="2"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::AuditID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="2"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\AuditLog_Before"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{09776D01-6DD2-4DE2-901E-1CDED709C92B}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="AuditLog_Before"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{EE20D480-3F05-40C0-B27D-3C0E90743632}"
+              SQLTask:SqlStatementSource="INSERT INTO [dbo].[AuditLog] (&#xA;    PackageName, SheetFileName, ExecutionStatus, StartTime&#xA;)&#xA;OUTPUT INSERTED.AuditID&#xA;VALUES (?,?, 'Running', GETDATE())"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::AuditID" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="System::PackageName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::var_filename"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
         <DTS:Executable
           DTS:refId="Package\Foreach Loop Container\ExtractTimesheetData"
           DTS:CreationName="Microsoft.Pipeline"
           DTS:Description="Data Flow Task"
-          DTS:DTSID="{CD0E5BB5-1CE8-419F-85FF-3D5E3D7DCFBA}"
+          DTS:DTSID="{B97A1EDF-CEA7-4426-8AB3-955CDD019870}"
           DTS:ExecutableType="Microsoft.Pipeline"
           DTS:LocaleID="-1"
           DTS:ObjectName="ExtractTimesheetData"
@@ -3030,6 +3167,230 @@ where [refTable].[ConsultantName] = ?</property>
                   </outputs>
                 </component>
                 <component
+                  refId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup"
+                  componentClassID="Microsoft.Lookup"
+                  contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+                  description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+                  name="DataValidationLookup"
+                  usesDispositions="true"
+                  version="6">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the SQL statement that generates the lookup table."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT ClientID, ConsultantID, EntryDate
+FROM Timesheet</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                      expressionType="Notify"
+                      name="SqlCommandParam"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (SELECT ClientID, ConsultantID, EntryDate
+FROM Timesheet) [refTable]
+where [refTable].[EntryDate] = ? and [refTable].[ConsultantID] = ? and [refTable].[ClientID] = ?</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the type of connection used to access the reference dataset."
+                      name="ConnectionType"
+                      typeConverter="LookupConnectionType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the cache type of the lookup table."
+                      name="CacheType"
+                      typeConverter="CacheType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                      name="NoMatchBehavior"
+                      typeConverter="LookupNoMatchBehavior">1</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                      name="NoMatchCachePercentage">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                      name="MaxMemoryUsage">25</property>
+                    <property
+                      dataType="System.Int64"
+                      description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                      name="MaxMemoryUsage64">25</property>
+                    <property
+                      dataType="System.String"
+                      description="Indicates whether to reference metadata in an XML format."
+                      name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ClientID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ConsultantID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="EntryDate" dataType="DT_DBDATE" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                      name="ParameterMap">#{Package\Foreach Loop Container\ExtractTimesheetData\Union All 1.Outputs[Union All Output 1].Columns[Copy of Date]};#{Package\Foreach Loop Container\ExtractTimesheetData\Union All 1.Outputs[Union All Output 1].Columns[ConsultantID]};#{Package\Foreach Loop Container\ExtractTimesheetData\Union All 1.Outputs[Union All Output 1].Columns[ClientID]};</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                      name="TreatDuplicateKeysAsError">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.TimesheetDB]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.TimesheetDB]"
+                      description="Connection manager used to access lookup data."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Inputs[Lookup Input]"
+                      name="Lookup Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Inputs[Lookup Input].Columns[Copy of Date]"
+                          cachedDataType="dbDate"
+                          cachedName="Copy of Date"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Union All 1.Outputs[Union All Output 1].Columns[Copy of Date]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Specifies the column in the reference table that a column joins."
+                              name="JoinToReferenceColumn">EntryDate</property>
+                            <property
+                              dataType="System.Null"
+                              description="Specifies the column in the reference table from which a column is copied."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Inputs[Lookup Input].Columns[ConsultantID]"
+                          cachedDataType="i4"
+                          cachedName="ConsultantID"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Union All 1.Outputs[Union All Output 1].Columns[ConsultantID]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Specifies the column in the reference table that a column joins."
+                              name="JoinToReferenceColumn">ConsultantID</property>
+                            <property
+                              dataType="System.Null"
+                              description="Specifies the column in the reference table from which a column is copied."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Inputs[Lookup Input].Columns[ClientID]"
+                          cachedDataType="i4"
+                          cachedName="ClientID"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Union All 1.Outputs[Union All Output 1].Columns[ClientID]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Specifies the column in the reference table that a column joins."
+                              name="JoinToReferenceColumn">ClientID</property>
+                            <property
+                              dataType="System.Null"
+                              description="Specifies the column in the reference table from which a column is copied."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Outputs[Lookup Match Output]"
+                      errorOrTruncationOperation="Lookup"
+                      exclusionGroup="1"
+                      name="Lookup Match Output"
+                      synchronousInputId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Inputs[Lookup Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Outputs[Lookup No Match Output]"
+                      description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                      exclusionGroup="1"
+                      name="Lookup No Match Output"
+                      synchronousInputId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Inputs[Lookup Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Outputs[Lookup Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Lookup Error Output"
+                      synchronousInputId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Inputs[Lookup Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="Derived Column"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Inputs[Derived Column Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
                   refId="Package\Foreach Loop Container\ExtractTimesheetData\Error Output"
                   componentClassID="Microsoft.DerivedColumn"
                   contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
@@ -5076,6 +5437,11 @@ where [refTable].[ConsultantName] = ?</property>
                   name="Lookup Match Output"
                   startId="Package\Foreach Loop Container\ExtractTimesheetData\ClientIDLookup.Outputs[Lookup Match Output]" />
                 <path
+                  refId="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Lookup Match Output2]"
+                  endId="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column.Inputs[Derived Column Input]"
+                  name="Lookup Match Output"
+                  startId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Outputs[Lookup Match Output]" />
+                <path
                   refId="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Lookup No Match Output]"
                   endId="Package\Foreach Loop Container\ExtractTimesheetData\ConsultantID Fuzzy Lookup.Inputs[Fuzzy Lookup Input]"
                   name="Lookup No Match Output"
@@ -5085,6 +5451,11 @@ where [refTable].[ConsultantName] = ?</property>
                   endId="Package\Foreach Loop Container\ExtractTimesheetData\ClientID Fuzzy Lookup.Inputs[Fuzzy Lookup Input]"
                   name="Lookup No Match Output"
                   startId="Package\Foreach Loop Container\ExtractTimesheetData\ClientIDLookup.Outputs[Lookup No Match Output]" />
+                <path
+                  refId="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Lookup No Match Output2]"
+                  endId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Lookup No Match Output"
+                  startId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Outputs[Lookup No Match Output]" />
                 <path
                   refId="Package\Foreach Loop Container\ExtractTimesheetData.Paths[OLE DB Destination Error Output]"
                   endId="Package\Foreach Loop Container\ExtractTimesheetData\Error Output.Inputs[Derived Column Input]"
@@ -5097,7 +5468,7 @@ where [refTable].[ConsultantName] = ?</property>
                   startId="Package\Foreach Loop Container\ExtractTimesheetData\Union All.Outputs[Union All Output 1]" />
                 <path
                   refId="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Union All Output 11]"
-                  endId="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  endId="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup.Inputs[Lookup Input]"
                   name="Union All Output 1"
                   startId="Package\Foreach Loop Container\ExtractTimesheetData\Union All 1.Outputs[Union All Output 1]" />
               </paths>
@@ -5109,11 +5480,11 @@ where [refTable].[ConsultantName] = ?</property>
           DTS:CreationName="Microsoft.ScriptTask"
           DTS:Description="Script Task"
           DTS:Disabled="True"
-          DTS:DTSID="{11D62B89-4F10-46E5-A183-B49246394CE5}"
+          DTS:DTSID="{F9E637DB-F27B-473E-85C9-1E67997E7605}"
           DTS:ExecutableType="Microsoft.ScriptTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Script Task"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <ScriptProject
@@ -5716,17 +6087,33 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
-          DTS:DTSID="{A374D13B-5237-4A55-BA26-2809E2F2429E}"
+          DTS:DTSID="{5544DB5A-58D7-4BC9-870D-176370D7E80E}"
           DTS:From="Package\Foreach Loop Container\Script Task"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
           DTS:To="Package\Foreach Loop Container\ExtractTimesheetData" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{6DC11718-C80E-4C82-8E54-A32973840363}"
+          DTS:From="Package\Foreach Loop Container\AuditLog_Before"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Foreach Loop Container\ExtractTimesheetData" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{57205BFE-9C03-47CE-BE7D-9E00246D457F}"
+          DTS:From="Package\Foreach Loop Container\ExtractTimesheetData"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Foreach Loop Container\AuditLog_After" />
       </DTS:PrecedenceConstraints>
       <DTS:ForEachVariableMappings>
         <DTS:ForEachVariableMapping
           DTS:CreationName=""
-          DTS:DTSID="{4691B85E-94C1-4C38-BAE5-50B162188191}"
-          DTS:ObjectName="{4691B85E-94C1-4C38-BAE5-50B162188191}"
+          DTS:DTSID="{26658B64-7E67-40D2-920A-E1DC0FD0DE99}"
+          DTS:ObjectName="{26658B64-7E67-40D2-920A-E1DC0FD0DE99}"
           DTS:ValueIndex="0"
           DTS:VariableName="User::var_filename" />
       </DTS:ForEachVariableMappings>
@@ -5735,13 +6122,13 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
       DTS:refId="Package\Foreach Loop Container 1"
       DTS:CreationName="STOCK:FOREACHLOOP"
       DTS:Description="Foreach Loop Container"
-      DTS:DTSID="{A5DE6F7B-D4C7-4C00-9A5C-88830319171F}"
+      DTS:DTSID="{48F239EF-9917-4293-9BB2-A2AF6BE2E811}"
       DTS:ExecutableType="STOCK:FOREACHLOOP"
       DTS:LocaleID="-1"
       DTS:ObjectName="Foreach Loop Container 1">
       <DTS:ForEachEnumerator
         DTS:CreationName="Microsoft.ForEachFileEnumerator"
-        DTS:DTSID="{841B5F28-A4F7-406C-A833-D54882FF8AB3}"
+        DTS:DTSID="{5604D6F7-0AD8-4D2D-8BE0-25FE0F74D1A4}"
         DTS:ObjectName="{CFFA6220-0D17-4A34-AD6E-10388E9E6BBE}">
         <DTS:ObjectData>
           <ForEachFileEnumeratorProperties>
@@ -5762,7 +6149,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
           DTS:refId="Package\Foreach Loop Container 1\ExtractLeaveData"
           DTS:CreationName="Microsoft.Pipeline"
           DTS:Description="Data Flow Task"
-          DTS:DTSID="{EE8B1EEB-AAE0-4FEB-9ACD-2F0E58205B11}"
+          DTS:DTSID="{429CFC1A-6E58-4BFA-94D4-77BD3E9432A8}"
           DTS:ExecutableType="Microsoft.Pipeline"
           DTS:LocaleID="-1"
           DTS:ObjectName="ExtractLeaveData"
@@ -7286,11 +7673,11 @@ where [refTable].[LeaveTypeName] = ?</property>
           DTS:refId="Package\Foreach Loop Container 1\Script Task"
           DTS:CreationName="Microsoft.ScriptTask"
           DTS:Description="Script Task"
-          DTS:DTSID="{FF73BBAA-D58A-4207-A9DF-C5BFB1A5C1D9}"
+          DTS:DTSID="{B9191AB3-62A7-4F02-895A-89E506C52D96}"
           DTS:ExecutableType="Microsoft.ScriptTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Script Task"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <ScriptProject
@@ -7811,7 +8198,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint]"
           DTS:CreationName=""
-          DTS:DTSID="{0918F8D1-6A38-407E-A725-6720F7283FA9}"
+          DTS:DTSID="{9D42787F-8BD6-4431-98E6-F2B335C586F4}"
           DTS:From="Package\Foreach Loop Container 1\Script Task"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
@@ -7820,8 +8207,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
       <DTS:ForEachVariableMappings>
         <DTS:ForEachVariableMapping
           DTS:CreationName=""
-          DTS:DTSID="{3C745110-4C00-45A0-9520-EB5E796D7408}"
-          DTS:ObjectName="{3C745110-4C00-45A0-9520-EB5E796D7408}"
+          DTS:DTSID="{EF92604F-3D1A-4637-AD44-AFA542C9AE5E}"
+          DTS:ObjectName="{EF92604F-3D1A-4637-AD44-AFA542C9AE5E}"
           DTS:ValueIndex="0"
           DTS:VariableName="User::var_filename" />
       </DTS:ForEachVariableMappings>
@@ -7830,7 +8217,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
       DTS:refId="Package\Sequence Container"
       DTS:CreationName="STOCK:SEQUENCE"
       DTS:Description="Sequence Container"
-      DTS:DTSID="{A96DF8A8-6C4C-4302-9CB5-85FD5E27C5CC}"
+      DTS:DTSID="{91F4C4C1-532B-4377-8B20-73CBDEAD7E2F}"
       DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
       DTS:ObjectName="Sequence Container">
@@ -7840,7 +8227,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
           DTS:refId="Package\Sequence Container\ExtractClientData"
           DTS:CreationName="Microsoft.Pipeline"
           DTS:Description="Data Flow Task"
-          DTS:DTSID="{AFC04E61-C7DA-4062-ACE7-1C68A7334EC4}"
+          DTS:DTSID="{A2A69ADA-2224-481B-A0E8-2AF9CBCEFE75}"
           DTS:ExecutableType="Microsoft.Pipeline"
           DTS:LocaleID="-1"
           DTS:ObjectName="ExtractClientData"
@@ -7945,6 +8332,148 @@ FROM [Key$B2:B41]</property>
                           refId="Package\Sequence Container\ExtractClientData\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
                           dataType="i4"
                           lineageId="Package\Sequence Container\ExtractClientData\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\ExtractClientData\Lookup"
+                  componentClassID="Microsoft.Lookup"
+                  contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+                  description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+                  name="Lookup"
+                  usesDispositions="true"
+                  version="6">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the SQL statement that generates the lookup table."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Client]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                      expressionType="Notify"
+                      name="SqlCommandParam"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Client]) [refTable]
+where [refTable].[ClientName] = ?</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the type of connection used to access the reference dataset."
+                      name="ConnectionType"
+                      typeConverter="LookupConnectionType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the cache type of the lookup table."
+                      name="CacheType"
+                      typeConverter="CacheType">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                      name="NoMatchBehavior"
+                      typeConverter="LookupNoMatchBehavior">1</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                      name="NoMatchCachePercentage">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                      name="MaxMemoryUsage">25</property>
+                    <property
+                      dataType="System.Int64"
+                      description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                      name="MaxMemoryUsage64">25</property>
+                    <property
+                      dataType="System.String"
+                      description="Indicates whether to reference metadata in an XML format."
+                      name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ClientID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ClientName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                      name="ParameterMap">#{Package\Sequence Container\ExtractClientData\Excel Source.Outputs[Excel Source Output].Columns[F1]};</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                      name="TreatDuplicateKeysAsError">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\ExtractClientData\Lookup.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.TimesheetDB]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.TimesheetDB]"
+                      description="Connection manager used to access lookup data."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\ExtractClientData\Lookup.Inputs[Lookup Input]"
+                      name="Lookup Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\ExtractClientData\Lookup.Inputs[Lookup Input].Columns[F1]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="F1"
+                          lineageId="Package\Sequence Container\ExtractClientData\Excel Source.Outputs[Excel Source Output].Columns[F1]">
+                          <properties>
+                            <property
+                              dataType="System.String"
+                              description="Specifies the column in the reference table that a column joins."
+                              name="JoinToReferenceColumn">ClientName</property>
+                            <property
+                              dataType="System.Null"
+                              description="Specifies the column in the reference table from which a column is copied."
+                              name="CopyFromReferenceColumn" />
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\ExtractClientData\Lookup.Outputs[Lookup Match Output]"
+                      errorOrTruncationOperation="Lookup"
+                      exclusionGroup="1"
+                      name="Lookup Match Output"
+                      synchronousInputId="Package\Sequence Container\ExtractClientData\Lookup.Inputs[Lookup Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\ExtractClientData\Lookup.Outputs[Lookup No Match Output]"
+                      description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                      exclusionGroup="1"
+                      name="Lookup No Match Output"
+                      synchronousInputId="Package\Sequence Container\ExtractClientData\Lookup.Inputs[Lookup Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\ExtractClientData\Lookup.Outputs[Lookup Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Lookup Error Output"
+                      synchronousInputId="Package\Sequence Container\ExtractClientData\Lookup.Inputs[Lookup Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\ExtractClientData\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\ExtractClientData\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\ExtractClientData\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\ExtractClientData\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -8075,9 +8604,14 @@ FROM [Key$B2:B41]</property>
               <paths>
                 <path
                   refId="Package\Sequence Container\ExtractClientData.Paths[Excel Source Output]"
-                  endId="Package\Sequence Container\ExtractClientData\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  endId="Package\Sequence Container\ExtractClientData\Lookup.Inputs[Lookup Input]"
                   name="Excel Source Output"
                   startId="Package\Sequence Container\ExtractClientData\Excel Source.Outputs[Excel Source Output]" />
+                <path
+                  refId="Package\Sequence Container\ExtractClientData.Paths[Lookup No Match Output]"
+                  endId="Package\Sequence Container\ExtractClientData\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Lookup No Match Output"
+                  startId="Package\Sequence Container\ExtractClientData\Lookup.Outputs[Lookup No Match Output]" />
               </paths>
             </pipeline>
           </DTS:ObjectData>
@@ -8086,7 +8620,7 @@ FROM [Key$B2:B41]</property>
           DTS:refId="Package\Sequence Container\ExtractConsulatantData"
           DTS:CreationName="Microsoft.Pipeline"
           DTS:Description="Data Flow Task"
-          DTS:DTSID="{C8AAA558-A192-4717-BB23-071C7F0B17F3}"
+          DTS:DTSID="{D8625240-24B4-43D6-856F-7F37CEC7AF94}"
           DTS:ExecutableType="Microsoft.Pipeline"
           DTS:LocaleID="-1"
           DTS:ObjectName="ExtractConsulatantData"
@@ -8332,7 +8866,7 @@ FROM [Key$H2:H74]</property>
           DTS:refId="Package\Sequence Container\ExtractLeaveTypeData"
           DTS:CreationName="Microsoft.Pipeline"
           DTS:Description="Data Flow Task"
-          DTS:DTSID="{52F801CB-2265-456F-928A-1F0812A8C0D7}"
+          DTS:DTSID="{FE794064-D23C-4E72-B51A-A74FE1BFC5C8}"
           DTS:ExecutableType="Microsoft.Pipeline"
           DTS:LocaleID="-1"
           DTS:ObjectName="ExtractLeaveTypeData"
@@ -8580,7 +9114,7 @@ WHERE Description LIKE '%Leave%'</property>
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 2]"
           DTS:CreationName=""
-          DTS:DTSID="{15EBFE23-8EA2-43DB-9FFC-EC405026F518}"
+          DTS:DTSID="{618CB781-5763-4F1B-8537-620DCED53702}"
           DTS:From="Package\Sequence Container\ExtractClientData"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 2"
@@ -8588,7 +9122,7 @@ WHERE Description LIKE '%Leave%'</property>
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 3]"
           DTS:CreationName=""
-          DTS:DTSID="{EA6DC518-BC6F-415F-9DE5-ED430DA61712}"
+          DTS:DTSID="{69BA6664-C128-46AB-B4FC-95D81E428224}"
           DTS:From="Package\Sequence Container\ExtractConsulatantData"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 3"
@@ -8600,7 +9134,7 @@ WHERE Description LIKE '%Leave%'</property>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{F6532C31-1992-4E22-AD50-57775BD06A26}"
+      DTS:DTSID="{16481FCE-D927-47E9-A5DE-42BBEA5F5FBE}"
       DTS:From="Package\Sequence Container"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
@@ -8608,7 +9142,7 @@ WHERE Description LIKE '%Leave%'</property>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
-      DTS:DTSID="{66F91D40-1587-419F-9793-7F4E2122D8C3}"
+      DTS:DTSID="{7BD774DB-3C31-404E-8E34-4147A095145B}"
       DTS:From="Package\Sequence Container"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
@@ -8625,7 +9159,7 @@ WHERE Description LIKE '%Leave%'</property>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="181.6,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData"
@@ -8668,11 +9202,87 @@ WHERE Description LIKE '%Leave%'</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="156,41.6"
+          Id="Package\Foreach Loop Container\AuditLog_Before"
+          TopLeft="181.733316759931,14.599999764959" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="259.733316759931,56.199999764959">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-79.0333301006091,39.5333312782324"
+              Start="0,0"
+              End="-79.0333301006091,32.0333312782324">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5128372056561" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.5128372056561"
+                    Point2="0,23.5128372056561"
+                    Point3="-4,23.5128372056561" />
+                  <mssgle:LineSegment
+                    End="-75.0333301006091,23.5128372056561" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-75.0333301006091,23.5128372056561"
+                    Point2="-79.0333301006091,23.5128372056561"
+                    Point3="-79.0333301006091,27.5128372056561" />
+                  <mssgle:LineSegment
+                    End="-79.0333301006091,32.0333312782324" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="147.2,41.6"
+          Id="Package\Foreach Loop Container\AuditLog_After"
+          TopLeft="145.899985384445,166.533331874874" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 2]"
+          TopLeft="151.766653325989,137.333331043191">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="67.733332058456,29.2000008316826"
+              Start="0,0"
+              End="67.733332058456,21.7000008316826">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,10.6000004158413" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,10.6000004158413"
+                    Point2="0,14.6000004158413"
+                    Point3="4,14.6000004158413" />
+                  <mssgle:LineSegment
+                    End="63.733332058456,14.6000004158413" />
+                  <mssgle:CubicBezierSegment
+                    Point1="63.733332058456,14.6000004158413"
+                    Point2="67.733332058456,14.6000004158413"
+                    Point3="67.733332058456,18.6000004158413" />
+                  <mssgle:LineSegment
+                    End="67.733332058456,21.7000008316826" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="389.6,143.2"
-          Size="389.6,186.4"
+          PanelSize="406.4,263.2"
+          Size="406.4,306.4"
           Id="Package\Foreach Loop Container"
           TopLeft="121.666660019094,65.0333354908881" />
         <NodeLayout
@@ -8723,7 +9333,7 @@ WHERE Description LIKE '%Leave%'</property>
           PanelSize="384,152.8"
           Size="384,196"
           Id="Package\Foreach Loop Container 1"
-          TopLeft="119.166660155688,351.399997884631" />
+          TopLeft="152.499991667768,474.799997360309" />
         <NodeLayout
           Size="159.2,41.6"
           Id="Package\Sequence Container\ExtractClientData"
@@ -8813,30 +9423,30 @@ WHERE Description LIKE '%Leave%'</property>
           TopLeft="657.499964075785,123.800000018081" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="657.499964075785,232.866666684747">
+          TopLeft="657.499964075785,232.866666684748">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-146.233304056691,-74.6333311938592"
+              EndConnector="-129.433304056691,-34.2333311938595"
               Start="0,0"
-              End="-138.733304056691,-74.6333311938592">
+              End="-121.933304056691,-34.2333311938595">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="-54.9255382849128,0" />
+                    End="-48.1558831124992,0" />
                   <mssgle:CubicBezierSegment
-                    Point1="-54.9255382849128,0"
-                    Point2="-58.9255382849128,0"
-                    Point3="-58.9255382849128,-4" />
+                    Point1="-48.1558831124992,0"
+                    Point2="-52.1558831124992,0"
+                    Point3="-52.1558831124992,-4" />
                   <mssgle:LineSegment
-                    End="-58.9255382849128,-70.6333311938592" />
+                    End="-52.1558831124992,-30.2333311938595" />
                   <mssgle:CubicBezierSegment
-                    Point1="-58.9255382849128,-70.6333311938592"
-                    Point2="-58.9255382849128,-74.6333311938592"
-                    Point3="-62.9255382849128,-74.6333311938592" />
+                    Point1="-52.1558831124992,-30.2333311938595"
+                    Point2="-52.1558831124992,-34.2333311938595"
+                    Point3="-56.1558831124992,-34.2333311938595" />
                   <mssgle:LineSegment
-                    End="-138.733304056691,-74.6333311938592" />
+                    End="-121.933304056691,-34.2333311938595" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -8847,30 +9457,30 @@ WHERE Description LIKE '%Leave%'</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="657.499964075785,337.933333351414">
+          TopLeft="845.899964075785,447.000000018081">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-154.333303920097,111.466664533217"
+              EndConnector="-501.399972408017,27.7999973422279"
               Start="0,0"
-              End="-146.833303920097,111.466664533217">
+              End="-501.399972408017,20.2999973422279">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="-58.1894791165711,0" />
+                    End="0,9.89999867111396" />
                   <mssgle:CubicBezierSegment
-                    Point1="-58.1894791165711,0"
-                    Point2="-62.1894791165711,0"
-                    Point3="-62.1894791165711,4" />
+                    Point1="0,9.89999867111396"
+                    Point2="0,13.899998671114"
+                    Point3="-4,13.899998671114" />
                   <mssgle:LineSegment
-                    End="-62.1894791165711,107.466664533217" />
+                    End="-497.399972408017,13.899998671114" />
                   <mssgle:CubicBezierSegment
-                    Point1="-62.1894791165711,107.466664533217"
-                    Point2="-62.1894791165711,111.466664533217"
-                    Point3="-66.1894791165711,111.466664533217" />
+                    Point1="-497.399972408017,13.899998671114"
+                    Point2="-501.399972408017,13.899998671114"
+                    Point3="-501.399972408017,17.899998671114" />
                   <mssgle:LineSegment
-                    End="-146.833303920097,111.466664533217" />
+                    End="-501.399972408017,20.2999973422279" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -8890,160 +9500,84 @@ WHERE Description LIKE '%Leave%'</property>
         <NodeLayout
           Size="156,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\ConsultantName"
-          TopLeft="254.999986067415,62.3999997107188" />
-        <NodeLayout
-          Size="135.2,41.6"
-          Id="Package\Foreach Loop Container\ExtractTimesheetData\Error Output"
-          TopLeft="916.999959414206,568.46666227811" />
+          TopLeft="265.833318808841,79.1999997107188" />
         <NodeLayout
           Size="153.6,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\Conditional Split"
-          TopLeft="498.333306105602,67.5999996745586" />
+          TopLeft="509.166638847028,84.3999996745586" />
         <NodeLayout
           Size="156,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\Data Conversion"
-          TopLeft="104.999997541308,164.066666009757" />
+          TopLeft="416.666647179259,166.133332778877" />
         <NodeLayout
           Size="120,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\Union All"
-          TopLeft="410.833310886391,280.666665159994" />
+          TopLeft="746.666625870601,278.399998625915" />
         <NodeLayout
           Size="128.8,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\Union All 1"
-          TopLeft="697.99998959899,439.399996647239" />
+          TopLeft="708.833322340416,456.199996647239" />
         <NodeLayout
           Size="158.4,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\Split Error Output"
-          TopLeft="734.166626553571,62.3999995660781" />
+          TopLeft="744.999959294997,79.1999995660781" />
         <NodeLayout
           Size="172.8,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\ConsultantIDLookup"
-          TopLeft="332.499981833002,175.599999059836" />
-        <NodeLayout
-          Size="171.2,41.6"
-          Id="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination"
-          TopLeft="639.999990463257,518.599995455146" />
+          TopLeft="644.166631470953,177.666665828956" />
         <NodeLayout
           Size="205.6,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\ConsultantID Fuzzy Lookup"
-          TopLeft="545.833303510316,181.866665847037" />
+          TopLeft="857.499953148267,183.933332616157" />
         <NodeLayout
           Size="149.6,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\ClientIDLookup"
-          TopLeft="525.999992161989,342.199995782971" />
+          TopLeft="536.833324903415,358.999995782971" />
         <NodeLayout
           Size="183.2,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\ClientID Fuzzy Lookup"
-          TopLeft="803.999982655048,345.599995589256" />
+          TopLeft="814.833315396474,362.399995589256" />
         <NodeLayout
           Size="140,41.6"
           Id="Package\Foreach Loop Container\ExtractTimesheetData\Excel Source"
-          TopLeft="60,60" />
-        <EdgeLayout
-          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Union All Output 11]"
-          TopLeft="762.39998959899,480.999996647239">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-36.7999991357325,37.599998807907"
-              Start="0,0"
-              End="-36.7999991357325,30.099998807907">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,14.7999994039535" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,14.7999994039535"
-                    Point2="0,18.7999994039535"
-                    Point3="-4,18.7999994039535" />
-                  <mssgle:LineSegment
-                    End="-32.7999991357325,18.7999994039535" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-32.7999991357325,18.7999994039535"
-                    Point2="-36.7999991357325,18.7999994039535"
-                    Point3="-36.7999991357325,22.7999994039535" />
-                  <mssgle:LineSegment
-                    End="-36.7999991357325,30.099998807907" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          TopLeft="70.8333327414261,76.8" />
         <EdgeLayout
           Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Union All Output 1]"
-          TopLeft="530.833310886391,301.466665159994">
+          TopLeft="806.666625870601,319.999998625915">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="69.9666812755981,40.7333306229774"
+              EndConnector="-195.033300967185,38.9999971570564"
               Start="0,0"
-              End="69.9666812755981,33.2333306229774">
+              End="-195.033300967185,31.4999971570564">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="65.9666812755981,0" />
+                    End="0,15.4999985785282" />
                   <mssgle:CubicBezierSegment
-                    Point1="65.9666812755981,0"
-                    Point2="69.9666812755981,0"
-                    Point3="69.9666812755981,4" />
+                    Point1="0,15.4999985785282"
+                    Point2="0,19.4999985785282"
+                    Point3="-4,19.4999985785282" />
                   <mssgle:LineSegment
-                    End="69.9666812755981,33.2333306229774" />
+                    End="-191.033300967185,19.4999985785282" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-191.033300967185,19.4999985785282"
+                    Point2="-195.033300967185,19.4999985785282"
+                    Point3="-195.033300967185,23.4999985785282" />
+                  <mssgle:LineSegment
+                    End="-195.033300967185,31.4999971570564" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[OLE DB Destination Error Output]"
-          TopLeft="811.199990463257,539.399995455146">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="105.799968950949,49.8666668229638"
-              Start="0,0"
-              End="98.2999689509486,49.8666668229638">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="48.8999844754743,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="48.8999844754743,0"
-                    Point2="52.8999844754743,0"
-                    Point3="52.8999844754743,4" />
-                  <mssgle:LineSegment
-                    End="52.8999844754743,45.8666668229638" />
-                  <mssgle:CubicBezierSegment
-                    Point1="52.8999844754743,45.8666668229638"
-                    Point2="52.8999844754743,49.8666668229638"
-                    Point3="56.8999844754743,49.8666668229638" />
-                  <mssgle:LineSegment
-                    End="98.2999689509486,49.8666668229638" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-20.3089217745257,-17.43359375,146.4178125,11.43359375"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Lookup No Match Output1]"
-          TopLeft="675.599992161989,364.699995686114">
+          TopLeft="686.433324903415,381.499995686114">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -9061,13 +9595,13 @@ WHERE Description LIKE '%Leave%'</property>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="4.64360852777957,5,111.6127734375,11.609375"
+              BoundingBox="4.6436085277795,5,111.6127734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Lookup No Match Output]"
-          TopLeft="505.299981833002,199.533332453437">
+          TopLeft="816.966631470953,201.599999222557">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -9085,13 +9619,13 @@ WHERE Description LIKE '%Leave%'</property>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-39.289725880093,5,111.6127734375,11.609375"
+              BoundingBox="-39.2897258800931,5,111.6127734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Lookup Match Output1]"
-          TopLeft="600.799992161989,383.799995782971">
+          TopLeft="611.633324903415,400.599995782971">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -9121,49 +9655,49 @@ WHERE Description LIKE '%Leave%'</property>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="32.6086119997502,32.8000004321336,96.3827734375,11.609375"
+              BoundingBox="32.60861199975,32.8000004321336,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Lookup Match Output]"
-          TopLeft="418.899981833002,217.199999059836">
+          TopLeft="730.566631470953,219.266665828956">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="33.2666623867223,63.466666100158"
+              EndConnector="57.4333277329811,59.1333327969581"
               Start="0,0"
-              End="33.2666623867223,55.966666100158">
+              End="57.4333277329811,51.6333327969581">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,33.5789470329883" />
+                    End="0,31.0131575771462" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,33.5789470329883"
-                    Point2="0,37.5789470329883"
-                    Point3="4,37.5789470329883" />
+                    Point1="0,31.0131575771462"
+                    Point2="0,35.0131575771462"
+                    Point3="4,35.0131575771462" />
                   <mssgle:LineSegment
-                    End="29.2666623867223,37.5789470329883" />
+                    End="53.4333277329811,35.0131575771462" />
                   <mssgle:CubicBezierSegment
-                    Point1="29.2666623867223,37.5789470329883"
-                    Point2="33.2666623867223,37.5789470329883"
-                    Point3="33.2666623867223,41.5789470329883" />
+                    Point1="53.4333277329811,35.0131575771462"
+                    Point2="57.4333277329811,35.0131575771462"
+                    Point3="57.4333277329811,39.0131575771462" />
                   <mssgle:LineSegment
-                    End="33.2666623867223,55.966666100158" />
+                    End="57.4333277329811,51.6333327969581" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-31.5580555253888,42.5789470329883,96.3827734375,11.609375"
+              BoundingBox="-19.4747228522595,40.0131575771462,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Fuzzy Lookup Output1]"
-          TopLeft="895.599982655048,387.199995589256">
+          TopLeft="906.433315396474,403.999995589256">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -9192,74 +9726,46 @@ WHERE Description LIKE '%Leave%'</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Fuzzy Lookup Output]"
-          TopLeft="648.633303510316,223.466665847037">
+          TopLeft="960.299953148267,225.533332616157">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-159.133325957258,57.199999312957"
+              EndConnector="-134.966660611,52.8666660097571"
               Start="0,0"
-              End="-159.133325957258,49.699999312957">
+              End="-134.966660611,45.3666660097571">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,29.8684206458298" />
+                    End="0,27.3026311899877" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,29.8684206458298"
-                    Point2="0,33.8684206458298"
-                    Point3="-4,33.8684206458298" />
+                    Point1="0,27.3026311899877"
+                    Point2="0,31.3026311899877"
+                    Point3="-4,31.3026311899877" />
                   <mssgle:LineSegment
-                    End="-155.133325957258,33.8684206458298" />
+                    End="-130.966660611,31.3026311899877" />
                   <mssgle:CubicBezierSegment
-                    Point1="-155.133325957258,33.8684206458298"
-                    Point2="-159.133325957258,33.8684206458298"
-                    Point3="-159.133325957258,37.8684206458298" />
+                    Point1="-130.966660611,31.3026311899877"
+                    Point2="-134.966660611,31.3026311899877"
+                    Point3="-134.966660611,35.3026311899877" />
                   <mssgle:LineSegment
-                    End="-159.133325957258,49.699999312957" />
+                    End="-134.966660611,45.3666660097571" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Excel Source Output]"
-          TopLeft="200,81.9999998553594">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="54.999986067415,0"
-              Start="0,0"
-              End="47.499986067415,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="47.499986067415,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Derived Column Output]"
-          TopLeft="410.999986067415,85.7999996926387">
+          TopLeft="421.833318808841,102.599999692639">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -9276,50 +9782,12 @@ WHERE Description LIKE '%Leave%'</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Data Conversion Output]"
-          TopLeft="260.999997541308,184.866666009757">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="71.499984291694,11.533333050079"
-              Start="0,0"
-              End="63.999984291694,11.533333050079">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="31.749992145847,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="31.749992145847,0"
-                    Point2="35.749992145847,0"
-                    Point3="35.749992145847,4" />
-                  <mssgle:LineSegment
-                    End="35.749992145847,7.53333305007899" />
-                  <mssgle:CubicBezierSegment
-                    Point1="35.749992145847,7.53333305007899"
-                    Point2="35.749992145847,11.533333050079"
-                    Point3="39.749992145847,11.533333050079" />
-                  <mssgle:LineSegment
-                    End="63.999984291694,11.533333050079" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Conditional Split Error Output]"
-          TopLeft="651.933306105602,85.7999996203184">
+          TopLeft="662.766638847028,102.599999620318">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -9343,56 +9811,233 @@ WHERE Description LIKE '%Leave%'</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Case 1]"
-          TopLeft="575.133306105602,109.199999674559">
+          TopLeft="585.966638847028,125.999999674559">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-392.133308564294,54.8666663351984"
+              EndConnector="-91.2999916677685,40.1333331043188"
               Start="0,0"
-              End="-392.133308564294,47.3666663351984">
+              End="-91.2999916677685,32.6333331043188">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,23.4333331675992" />
+                    End="0,16.0666665521594" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,23.4333331675992"
-                    Point2="0,27.4333331675992"
-                    Point3="-4,27.4333331675992" />
+                    Point1="0,16.0666665521594"
+                    Point2="0,20.0666665521594"
+                    Point3="-4,20.0666665521594" />
                   <mssgle:LineSegment
-                    End="-388.133308564294,27.4333331675992" />
+                    End="-87.2999916677685,20.0666665521594" />
                   <mssgle:CubicBezierSegment
-                    Point1="-388.133308564294,27.4333331675992"
-                    Point2="-392.133308564294,27.4333331675992"
-                    Point3="-392.133308564294,31.4333331675992" />
+                    Point1="-87.2999916677685,20.0666665521594"
+                    Point2="-91.2999916677685,20.0666665521594"
+                    Point3="-91.2999916677685,24.0666665521594" />
                   <mssgle:LineSegment
-                    End="-392.133308564294,47.3666663351984" />
+                    End="-91.2999916677685,32.6333331043188" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-211.284740219647,32.4333331675992,30.436171875,9.5537109375"
+              BoundingBox="-60.8680817713842,25.0666665521594,30.436171875,9.5537109375"
               RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Data Conversion Output]"
+          TopLeft="572.666647179259,186.933332778877">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="71.499984291694,11.533333050079"
+              Start="0,0"
+              End="63.999984291694,11.533333050079">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="31.7499921458472,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="31.7499921458472,0"
+                    Point2="35.7499921458472,0"
+                    Point3="35.7499921458472,4" />
+                  <mssgle:LineSegment
+                    End="35.7499921458472,7.53333305007899" />
+                  <mssgle:CubicBezierSegment
+                    Point1="35.7499921458472,7.53333305007899"
+                    Point2="35.7499921458472,11.533333050079"
+                    Point3="39.7499921458472,11.533333050079" />
+                  <mssgle:LineSegment
+                    End="63.999984291694,11.533333050079" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="180,41.6"
+          Id="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup"
+          TopLeft="684.16662928545,546.133331260151" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Excel Source Output]"
+          TopLeft="210.833332741426,98.7999998553594">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="54.999986067415,0"
+              Start="0,0"
+              End="47.499986067415,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="47.499986067415,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="171.2,41.6"
+          Id="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination"
+          TopLeft="682.499988141159,688.733328089383" />
+        <NodeLayout
+          Size="135.2,41.6"
+          Id="Package\Foreach Loop Container\ExtractTimesheetData\Error Output"
+          TopLeft="941.999958048266,676.199995346269" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[OLE DB Destination Error Output]"
+          TopLeft="853.699988141159,709.533328089383">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="88.299969907107,-12.5333327431142"
+              Start="0,0"
+              End="80.799969907107,-12.5333327431142">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="40.1499849535535,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="40.1499849535535,0"
+                    Point2="44.1499849535535,0"
+                    Point3="44.1499849535535,-4" />
+                  <mssgle:LineSegment
+                    End="44.1499849535535,-8.53333274311422" />
+                  <mssgle:CubicBezierSegment
+                    Point1="44.1499849535535,-8.53333274311422"
+                    Point2="44.1499849535535,-12.5333327431142"
+                    Point3="48.1499849535535,-12.5333327431142" />
+                  <mssgle:LineSegment
+                    End="80.799969907107,-12.5333327431142" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-29.0589212964465,1,146.4178125,11.43359375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="152.8,41.6"
+          Id="Package\Foreach Loop Container\ExtractTimesheetData\Derived Column"
+          TopLeft="450.833308700887,537.933332579997" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Lookup Match Output2]"
+          TopLeft="684.16662928545,566.933331260151">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-80.5333205845628,-8.19999868015418"
+              Start="0,0"
+              End="-73.0333205845628,-8.19999868015418">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-36.2666602922814,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-36.2666602922814,0"
+                    Point2="-40.2666602922814,0"
+                    Point3="-40.2666602922814,-4" />
+                  <mssgle:LineSegment
+                    End="-40.2666602922814,-4.19999868015418" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-40.2666602922814,-4.19999868015418"
+                    Point2="-40.2666602922814,-8.19999868015418"
+                    Point3="-44.2666602922814,-8.19999868015418" />
+                  <mssgle:LineSegment
+                    End="-73.0333205845628,-8.19999868015418" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-97.3266993547814,1,114.120078125,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Lookup No Match Output2]"
+          TopLeft="771.133308713305,587.733331260151">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,100.999996829232"
+              Start="0,0"
+              End="0,93.499996829232">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,93.499996829232" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-55.80638671875,40.945310914616,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container\ExtractTimesheetData.Paths[Union All Output 11]"
+          TopLeft="773.699975812933,497.799996647239">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48.3333346129119"
+              Start="0,0"
+              End="0,40.8333346129119">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.8333346129119" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Foreach Loop Container\ExtractTimesheetData\ClientIDLookup">
     <Properties>
@@ -9767,7 +10412,7 @@ WHERE Description LIKE '%Leave%'</property>
     design-time-name="Package\Sequence Container\ExtractClientData">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="171.2,41.6"
           Id="Package\Sequence Container\ExtractClientData\OLE DB Destination"
@@ -9776,39 +10421,77 @@ WHERE Description LIKE '%Leave%'</property>
           Size="140,41.6"
           Id="Package\Sequence Container\ExtractClientData\Excel Source"
           TopLeft="299.999983608723,51.1333329777585" />
+        <NodeLayout
+          Size="112.8,41.6"
+          Id="Package\Sequence Container\ExtractClientData\Lookup"
+          TopLeft="393.999994128942,132.999998018146" />
         <EdgeLayout
           Id="Package\Sequence Container\ExtractClientData.Paths[Excel Source Output]"
           TopLeft="369.999983608723,92.7333329777585">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="93.9333290533889,123.066665521595"
+              EndConnector="80.4000105202194,40.2666650403871"
               Start="0,0"
-              End="93.9333290533889,115.566665521595">
+              End="80.4000105202194,32.7666650403871">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,57.5333327607976" />
+                    End="0,16.1333325201936" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,57.5333327607976"
-                    Point2="0,61.5333327607976"
-                    Point3="4,61.5333327607976" />
+                    Point1="0,16.1333325201936"
+                    Point2="0,20.1333325201936"
+                    Point3="4,20.1333325201936" />
                   <mssgle:LineSegment
-                    End="89.9333290533889,61.5333327607976" />
+                    End="76.4000105202194,20.1333325201936" />
                   <mssgle:CubicBezierSegment
-                    Point1="89.9333290533889,61.5333327607976"
-                    Point2="93.9333290533889,61.5333327607976"
-                    Point3="93.9333290533889,65.5333327607976" />
+                    Point1="76.4000105202194,20.1333325201936"
+                    Point2="80.4000105202194,20.1333325201936"
+                    Point3="80.4000105202194,24.1333325201936" />
                   <mssgle:LineSegment
-                    End="93.9333290533889,115.566665521595" />
+                    End="80.4000105202194,32.7666650403871" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container\ExtractClientData.Paths[Lookup No Match Output]"
+          TopLeft="450.399994128942,174.599998018146">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="13.5333185331696,41.2000004812084"
+              Start="0,0"
+              End="13.5333185331696,33.7000004812084">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.6000002406042" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.6000002406042"
+                    Point2="0,20.6000002406042"
+                    Point3="4,20.6000002406042" />
+                  <mssgle:LineSegment
+                    End="9.53331853316956,20.6000002406042" />
+                  <mssgle:CubicBezierSegment
+                    Point1="9.53331853316956,20.6000002406042"
+                    Point2="13.5333185331696,20.6000002406042"
+                    Point3="13.5333185331696,24.6000002406042" />
+                  <mssgle:LineSegment
+                    End="13.5333185331696,33.7000004812084" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
+              BoundingBox="-49.0397274521652,25.6000002406042,111.6127734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -9963,6 +10646,65 @@ WHERE Description LIKE '%Leave%'</property>
         <Name>TableInfoObjectType</Name>
         <Value
           type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Foreach Loop Container\ExtractTimesheetData\DataValidationLookup">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Foreach Loop Container\ExtractTimesheetData\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\ExtractClientData\Lookup">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Client]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
