@@ -1,0 +1,1815 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/4/2025 3:18:44 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LAPTOP-NTKM1UMO"
+  DTS:CreatorName="LAPTOP-NTKM1UMO\PaballoPholo"
+  DTS:DTSID="{DFA8C291-C19F-4860-8B04-D7ECDDCA0EBC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5685.0"
+  DTS:LocaleID="7177"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="39"
+  DTS:VersionGUID="{1EBC9E4F-8DDB-43BC-BB7D-47530906599F}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AnotherTry]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{872F5F9C-CA2C-4E82-A0FF-64BB61A7336B}"
+      DTS:ObjectName="AnotherTry">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.16.0;Data Source=C:\Users\PaballoPholo\Documents\Timesheets\Itumeleng\Itumeleng Monyai April Final.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{4FF5ADBD-BDA2-4632-AF2A-F5FCEE431FC1}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.16.0;Data Source=C:\Users\PaballoPholo\Documents\Timesheets\Itumeleng\Itumeleng Monyai April Final.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.TimesheetDB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{9E8317B8-5506-461D-A45F-9C86287922BE}"
+      DTS:ObjectName="LocalHost.TimesheetDB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{9E8317B8-5506-461D-A45F-9C86287922BE}LocalHost.TimesheetDB;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.TimesheetDB 1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{DA0AF7BA-3BB6-4B66-B432-189BA4E78651}"
+      DTS:ObjectName="LocalHost.TimesheetDB 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=TimesheetDB;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{DA0AF7BA-3BB6-4B66-B432-189BA4E78651}LocalHost.TimesheetDB 1;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{308CBF5B-F656-42A0-8702-BD1805C51617}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input].Columns[Date]"
+                      cachedDataType="date"
+                      cachedName="Date"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Date]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input].Columns[D of Week]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="D of Week"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[D of Week]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input].Columns[Description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Description"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Description]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input].Columns[Comments]"
+                      cachedDataType="nText"
+                      cachedName="Comments"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Comments]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Date]"
+                      name="Copy of Date"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Date]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of D of Week]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="10"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of D of Week]"
+                      name="Copy of D of Week"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[D of Week]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]"
+                      name="Copy of Description"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Description]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Comments]"
+                      codePage="1252"
+                      dataType="text"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Comments]"
+                      name="Copy of Comments"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Comments]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Data Flow Task\Derived Column.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Data Flow Task\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Apr$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT * FROM [Apr$A8:Z]</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Date]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date]"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Date]"
+                      name="Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[D of Week]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[D of Week]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[D of Week]"
+                      name="D of Week"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Description]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Description]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Description]"
+                      name="Description"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Comments]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Comments]"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Comments]"
+                      name="Comments"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Client]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Client]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Client]"
+                      name="Client"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Client Project Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Client Project Name]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Client Project Name]"
+                      name="Client Project Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Billable or Non Billable]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billable or Non Billable]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Billable or Non Billable]"
+                      name="Billable or Non Billable"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Total Hours]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Total Hours]"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Total Hours]"
+                      name="Total Hours"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Start Time]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Start Time]"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[Start Time]"
+                      name="Start Time"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[End Time]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[End Time]"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[End Time]"
+                      name="End Time"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date]"
+                      dataType="date"
+                      name="Date" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[D of Week]"
+                      dataType="wstr"
+                      length="255"
+                      name="D of Week" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Client]"
+                      dataType="wstr"
+                      length="255"
+                      name="Client" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Client Project Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Client Project Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billable or Non Billable]"
+                      dataType="wstr"
+                      length="255"
+                      name="Billable or Non Billable" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Comments]"
+                      dataType="nText"
+                      name="Comments" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Total Hours]"
+                      dataType="date"
+                      name="Total Hours" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Start Time]"
+                      dataType="date"
+                      name="Start Time" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[End Time]"
+                      dataType="date"
+                      name="End Time" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Date]"
+                      dataType="date"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Date]"
+                      name="Date" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[D of Week]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[D of Week]"
+                      name="D of Week" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Description]"
+                      name="Description" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Comments]"
+                      dataType="nText"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Comments]"
+                      name="Comments" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Client]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Client]"
+                      name="Client" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Client Project Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Client Project Name]"
+                      name="Client Project Name" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Billable or Non Billable]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Billable or Non Billable]"
+                      name="Billable or Non Billable" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Total Hours]"
+                      dataType="date"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Total Hours]"
+                      name="Total Hours" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Start Time]"
+                      dataType="date"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[Start Time]"
+                      name="Start Time" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[End Time]"
+                      dataType="date"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[End Time]"
+                      name="End Time" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Timesheet]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.TimesheetDB 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.TimesheetDB 1]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="RedirectRow"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Date]"
+                      cachedDataType="dbDate"
+                      cachedName="Copy of Date"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[EntryDate]"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Date]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of D of Week]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="Copy of D of Week"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DayOfWeek]"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of D of Week]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Description]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copy of Description"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Comments]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="Copy of Comments"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Comments]"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Comments]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TimesheetID]"
+                      dataType="i4"
+                      name="TimesheetID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ConsultantID]"
+                      dataType="i4"
+                      name="ConsultantID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProjectID]"
+                      dataType="i4"
+                      name="ProjectID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[EntryDate]"
+                      dataType="dbDate"
+                      name="EntryDate" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DayOfWeek]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="DayOfWeek" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Billable]"
+                      dataType="bool"
+                      name="Billable" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Comments]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="Comments" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TotalHours]"
+                      dataType="dbTime2"
+                      name="TotalHours"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StartTime]"
+                      dataType="dbTime2"
+                      name="StartTime"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[EndTime]"
+                      dataType="dbTime2"
+                      name="EndTime"
+                      scale="7" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[Data Conversion Output]"
+              endId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Excel Source Output]"
+              endId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input]"
+              name="Excel Source Output"
+              startId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Destination Error Output]"
+              endId="Package\Data Flow Task\Derived Column.Inputs[Derived Column Input]"
+              name="OLE DB Destination Error Output"
+              startId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task 1"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{6A65A01F-E963-4213-8A7E-63C5D9A4189F}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task 1"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task 1\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task 1\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Inputs[Data Conversion Input].Columns[Date]"
+                      cachedDataType="date"
+                      cachedName="Date"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Date]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Inputs[Data Conversion Input].Columns[D of Week]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="D of Week"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[D of Week]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Inputs[Data Conversion Input].Columns[Client]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Client"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Client]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Inputs[Data Conversion Input].Columns[Client Project Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Client Project Name"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Client Project Name]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Inputs[Data Conversion Input].Columns[Description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Description"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Description]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Inputs[Data Conversion Input].Columns[Billable or Non Billable]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Billable or Non Billable"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Billable or Non Billable]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Inputs[Data Conversion Input].Columns[Comments]"
+                      cachedDataType="nText"
+                      cachedName="Comments"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Comments]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Inputs[Data Conversion Input].Columns[Total Hours]"
+                      cachedDataType="date"
+                      cachedName="Total Hours"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Total Hours]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Inputs[Data Conversion Input].Columns[Start Time]"
+                      cachedDataType="date"
+                      cachedName="Start Time"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Start Time]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Inputs[Data Conversion Input].Columns[End Time]"
+                      cachedDataType="date"
+                      cachedName="End Time"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[End Time]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Data Flow Task 1\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Date]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Date]"
+                      name="Copy of Date"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Date]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of D of Week]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="10"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of D of Week]"
+                      name="Copy of D of Week"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[D of Week]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Client]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Client]"
+                      name="Copy of Client"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Client]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Client Project Name]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Client Project Name]"
+                      name="Copy of Client Project Name"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Client Project Name]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]"
+                      name="Copy of Description"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Description]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Billable or Non Billable]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Billable or Non Billable]"
+                      name="Copy of Billable or Non Billable"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Billable or Non Billable]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Comments]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Comments]"
+                      name="Copy of Comments"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Comments]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Total Hours]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Total Hours]"
+                      name="Copy of Total Hours"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Total Hours]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Start Time]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Start Time]"
+                      name="Copy of Start Time"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Start Time]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of End Time]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of End Time]"
+                      name="Copy of End Time"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[End Time]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Data Flow Task 1\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task 1\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task 1\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Derived Column.Inputs[Derived Column Input].Columns[Copy of Total Hours]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Copy of Total Hours"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Total Hours]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Derived Column.Inputs[Derived Column Input].Columns[Copy of Start Time]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Copy of Start Time"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Start Time]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Derived Column.Inputs[Derived Column Input].Columns[Copy of End Time]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Copy of End Time"
+                      lineageId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of End Time]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Data Flow Task 1\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 1]"
+                      dataType="dbTime"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 1]"
+                      name="Derived Column 1"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_DBTIME)([LEFT](#{Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Total Hours]},5) + ":00")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBTIME)(LEFT([Copy of Total Hours],5) + ":00")</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Derived Column.Outputs[Derived Column Output].Columns[Start Time]"
+                      dataType="dbTime"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Derived Column.Outputs[Derived Column Output].Columns[Start Time]"
+                      name="Start Time"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_DBTIME)([LEFT](#{Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Start Time]},5) + ":00")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBTIME)(LEFT([Copy of Start Time],5) + ":00")</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Derived Column.Outputs[Derived Column Output].Columns[End Time]"
+                      dataType="dbTime"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Derived Column.Outputs[Derived Column Output].Columns[End Time]"
+                      name="End Time"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_DBTIME)([LEFT](#{Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of End Time]},5) + ":00")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBTIME)(LEFT([Copy of End Time],5) + ":00")</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task 1\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Data Flow Task 1\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task 1\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT * FROM [Apr$A8:J]</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 1\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[AnotherTry]"
+                  connectionManagerRefId="Package.ConnectionManagers[AnotherTry]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Date]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date]"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Date]"
+                      name="Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[D of Week]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[D of Week]"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[D of Week]"
+                      name="D of Week"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Client]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Client]"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Client]"
+                      name="Client"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Client Project Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Client Project Name]"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Client Project Name]"
+                      name="Client Project Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Description]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Description]"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Description]"
+                      name="Description"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Billable or Non Billable]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billable or Non Billable]"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Billable or Non Billable]"
+                      name="Billable or Non Billable"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Comments]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Comments]"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Comments]"
+                      name="Comments"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Total Hours]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Total Hours]"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Total Hours]"
+                      name="Total Hours"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Start Time]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Start Time]"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[Start Time]"
+                      name="Start Time"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[End Time]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[End Time]"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].Columns[End Time]"
+                      name="End Time"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date]"
+                      dataType="date"
+                      name="Date" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[D of Week]"
+                      dataType="wstr"
+                      length="255"
+                      name="D of Week" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Client]"
+                      dataType="wstr"
+                      length="255"
+                      name="Client" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Client Project Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Client Project Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billable or Non Billable]"
+                      dataType="wstr"
+                      length="255"
+                      name="Billable or Non Billable" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Comments]"
+                      dataType="nText"
+                      name="Comments" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Total Hours]"
+                      dataType="date"
+                      name="Total Hours" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[Start Time]"
+                      dataType="date"
+                      name="Start Time" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output].ExternalColumns[End Time]"
+                      dataType="date"
+                      name="End Time" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Date]"
+                      dataType="date"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Date]"
+                      name="Date" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[D of Week]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[D of Week]"
+                      name="D of Week" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Client]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Client]"
+                      name="Client" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Client Project Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Client Project Name]"
+                      name="Client Project Name" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Description]"
+                      name="Description" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Billable or Non Billable]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Billable or Non Billable]"
+                      name="Billable or Non Billable" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Comments]"
+                      dataType="nText"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Comments]"
+                      name="Comments" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Total Hours]"
+                      dataType="date"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Total Hours]"
+                      name="Total Hours" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Start Time]"
+                      dataType="date"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[Start Time]"
+                      name="Start Time" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[End Time]"
+                      dataType="date"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[End Time]"
+                      name="End Time" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task 1.Paths[Data Conversion Output]"
+              endId="Package\Data Flow Task 1\Derived Column.Inputs[Derived Column Input]"
+              name="Data Conversion Output"
+              startId="Package\Data Flow Task 1\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Data Flow Task 1.Paths[Excel Source Output]"
+              endId="Package\Data Flow Task 1\Data Conversion.Inputs[Data Conversion Input]"
+              name="Excel Source Output"
+              startId="Package\Data Flow Task 1\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="150.4,41.6"
+          Id="Package\Data Flow Task"
+          TopLeft="163.333324409194,98.7999993129571" />
+        <NodeLayout
+          Size="159.2,41.6"
+          Id="Package\Data Flow Task 1"
+          TopLeft="367.499979920686,203.666665250394" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="140,41.6"
+          Id="Package\Data Flow Task\Excel Source"
+          TopLeft="309.166649774546,68.466666190558" />
+        <NodeLayout
+          Size="152.8,41.6"
+          Id="Package\Data Flow Task\Derived Column"
+          TopLeft="690.833295587866,288.666664726072" />
+        <NodeLayout
+          Size="156,41.6"
+          Id="Package\Data Flow Task\Data Conversion"
+          TopLeft="354.166647315854,172.533332200315" />
+        <NodeLayout
+          Size="171.2,41.6"
+          Id="Package\Data Flow Task\OLE DB Destination"
+          TopLeft="373.3333129353,268.666664798392" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Destination Error Output]"
+          TopLeft="544.5333129353,289.466664798392">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="146.299982652566,19.9999999276799"
+              Start="0,0"
+              End="138.799982652566,19.9999999276799">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="69.1499913262829,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="69.1499913262829,0"
+                    Point2="73.1499913262829,0"
+                    Point3="73.1499913262829,4" />
+                  <mssgle:LineSegment
+                    End="73.1499913262829,15.9999999276799" />
+                  <mssgle:CubicBezierSegment
+                    Point1="73.1499913262829,15.9999999276799"
+                    Point2="73.1499913262829,19.9999999276799"
+                    Point3="77.1499913262829,19.9999999276799" />
+                  <mssgle:LineSegment
+                    End="138.799982652566,19.9999999276799" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8.7200477362171,-22,163.740078125,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Excel Source Output]"
+          TopLeft="379.166649774546,110.066666190558">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="52.9999975413079,62.4666660097573"
+              Start="0,0"
+              End="52.9999975413079,54.9666660097573">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.2333330048786" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,27.2333330048786"
+                    Point2="0,31.2333330048786"
+                    Point3="4,31.2333330048786" />
+                  <mssgle:LineSegment
+                    End="48.9999975413079,31.2333330048786" />
+                  <mssgle:CubicBezierSegment
+                    Point1="48.9999975413079,31.2333330048786"
+                    Point2="52.9999975413079,31.2333330048786"
+                    Point3="52.9999975413079,35.2333330048786" />
+                  <mssgle:LineSegment
+                    End="52.9999975413079,54.9666660097573" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="18.4999987706539,36.2333330048786,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Data Conversion Output]"
+          TopLeft="432.166647315854,214.133332200315">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="26.7666656194461,54.5333325980767"
+              Start="0,0"
+              End="26.7666656194461,47.0333325980767">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.2666662990384" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.2666662990384"
+                    Point2="0,27.2666662990384"
+                    Point3="4,27.2666662990384" />
+                  <mssgle:LineSegment
+                    End="22.7666656194461,27.2666662990384" />
+                  <mssgle:CubicBezierSegment
+                    Point1="22.7666656194461,27.2666662990384"
+                    Point2="26.7666656194461,27.2666662990384"
+                    Point3="26.7666656194461,31.2666662990384" />
+                  <mssgle:LineSegment
+                    End="26.7666656194461,47.0333325980767" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="5.38333280972305,32.2666662990384,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Data Flow Task 1">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="140,41.6"
+          Id="Package\Data Flow Task 1\Excel Source"
+          TopLeft="477.999992877245,74.9999988824129" />
+        <NodeLayout
+          Size="156,41.6"
+          Id="Package\Data Flow Task 1\Data Conversion"
+          TopLeft="486.999992743135,219.399997958541" />
+        <EdgeLayout
+          Id="Package\Data Flow Task 1.Paths[Excel Source Output]"
+          TopLeft="547.999992877245,116.599998882413">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="16.9999998658895,102.799999076128"
+              Start="0,0"
+              End="16.9999998658895,95.299999076128">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.399999538064" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,47.399999538064"
+                    Point2="0,51.399999538064"
+                    Point3="4,51.399999538064" />
+                  <mssgle:LineSegment
+                    End="12.9999998658895,51.399999538064" />
+                  <mssgle:CubicBezierSegment
+                    Point1="12.9999998658895,51.399999538064"
+                    Point2="16.9999998658895,51.399999538064"
+                    Point3="16.9999998658895,55.399999538064" />
+                  <mssgle:LineSegment
+                    End="16.9999998658895,95.299999076128" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="152.8,41.6"
+          Id="Package\Data Flow Task 1\Derived Column"
+          TopLeft="760.999988660217,230.999996557832" />
+        <EdgeLayout
+          Id="Package\Data Flow Task 1.Paths[Data Conversion Output]"
+          TopLeft="642.999992743135,240.199997958541">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="117.999995917082,11.5999985992909"
+              Start="0,0"
+              End="110.499995917082,11.5999985992909">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="54.999997958541,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="54.999997958541,0"
+                    Point2="58.999997958541,0"
+                    Point3="58.999997958541,4" />
+                  <mssgle:LineSegment
+                    End="58.999997958541,7.59999859929093" />
+                  <mssgle:CubicBezierSegment
+                    Point1="58.999997958541,7.59999859929093"
+                    Point2="58.999997958541,11.5999985992909"
+                    Point3="62.999997958541,11.5999985992909" />
+                  <mssgle:LineSegment
+                    End="110.499995917082,11.5999985992909" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task 1\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
