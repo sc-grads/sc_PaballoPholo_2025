@@ -82,17 +82,29 @@ GO
 DROP TABLE IF EXISTS [dbo].[AuditLog]
 Go
 
-
--- Create the new table
 CREATE TABLE [dbo].[AuditLog] (
     AuditID INT IDENTITY(1,1) PRIMARY KEY,
     Timestamp DATETIME,
     EmployeeName NVARCHAR(100),
     Type NVARCHAR(50) DEFAULT 'Log',
-    Month AS DATENAME(month, Timestamp), -- Removed PERSISTED
+    Month VARCHAR(20), 
     Details NVARCHAR(255)
 );
 
+
+--Create ErrorLog table
+DROP TABLE IF EXISTS [dbo].[AuditLog]
+Go
+
+CREATE TABLE [dbo].[ErrorLog] (
+    ErrorID INT IDENTITY(1,1) PRIMARY KEY,
+    ErrorDate DATETIME DEFAULT GETDATE(),
+    SourceColumn NVARCHAR(100),
+    ErrorValue NVARCHAR(255),
+    ErrorDescription NVARCHAR(255),
+    ErrorCode INT,
+    RowNumber INT
+);
 /*
 CREATE TABLE [dbo].[AuditLog] (
     AuditID INT IDENTITY(1,1) PRIMARY KEY,
