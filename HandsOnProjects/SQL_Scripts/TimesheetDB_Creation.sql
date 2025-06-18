@@ -9,15 +9,21 @@ USE TimesheetDB;
 GO
 
 -- Create Consultant table
-CREATE TABLE Consultant (
-    ConsultantID INT IDENTITY(1,1) PRIMARY KEY,
-    ConsultantName NVARCHAR(100) NOT NULL
-);
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Consultant]') AND type IN (N'U'))
+BEGIN
+    CREATE TABLE Consultant (
+        ConsultantID INT IDENTITY(1,1) PRIMARY KEY,
+        ConsultantName NVARCHAR(100) NOT NULL
+    );
+END
 GO
 
 -- Create LeaveType table
-DROP TABLE IF EXISTS [dbo].[LeaveType]
-Go
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[LeaveType]') AND type IN (N'U'))
+BEGIN
+    DROP TABLE [dbo].[LeaveType];
+END
+GO
 CREATE TABLE LeaveType (
     LeaveTypeID INT IDENTITY(1,1) PRIMARY KEY,
     LeaveTypeName NVARCHAR(50) NOT NULL
@@ -25,63 +31,76 @@ CREATE TABLE LeaveType (
 GO
 
 -- Create Leave table
-CREATE TABLE Leave (
-    LeaveID INT IDENTITY(1,1) PRIMARY KEY,
-    ConsultantID INT FOREIGN KEY REFERENCES Consultant(ConsultantID),
-    LeaveTypeID INT FOREIGN KEY REFERENCES LeaveType(LeaveTypeID),
-    StartDate DATE NOT NULL,
-    EndDate DATE NOT NULL,
-    NumberOfDays DECIMAL(5,2) NOT NULL,
-    ApprovalObtained NVARCHAR(50)
-);
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Leave]') AND type IN (N'U'))
+BEGIN
+    CREATE TABLE Leave (
+        LeaveID INT IDENTITY(1,1) PRIMARY KEY,
+        ConsultantID INT FOREIGN KEY REFERENCES Consultant(ConsultantID),
+        LeaveTypeID INT FOREIGN KEY REFERENCES LeaveType(LeaveTypeID),
+        StartDate DATE NOT NULL,
+        EndDate DATE NOT NULL,
+        NumberOfDays DECIMAL(5,2) NOT NULL,
+        ApprovalObtained NVARCHAR(50)
+    );
+END
 GO
 
 -- Create Client table
-DROP TABLE IF EXISTS [dbo].[Client]
-Go
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Client]') AND type IN (N'U'))
+BEGIN
+    DROP TABLE [dbo].[Client];
+END
+GO
 CREATE TABLE Client (
     ClientID INT IDENTITY(1,1) PRIMARY KEY,
-    ClientName nvarchar(50) NOT NULL
+    ClientName NVARCHAR(50) NOT NULL
 );
 GO
 
-
--- Create Timesheet table with TIME datatypes and NULL allowances for testing
-DROP TABLE IF EXISTS [dbo].[Timesheet]
-Go
+-- Create Timesheet table
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Timesheet]') AND type IN (N'U'))
+BEGIN
+    DROP TABLE [dbo].[Timesheet];
+END
+GO
 CREATE TABLE Timesheet (
     TimesheetID INT IDENTITY(1,1) PRIMARY KEY,
     ConsultantID INT FOREIGN KEY REFERENCES Consultant(ConsultantID),
-	ClientID INT FOREIGN KEY REFERENCES Client(ClientID),
-    EntryDate DATE ,
-    DayOfWeek nvarchar(MAX),
-	ClientProjectName nvarchar(50),
-    Description nvarchar(MAX),
-    Billable nvarchar(50),
-    Comments nvarchar(MAX),
-    TotalHours TIME ,
-    StartTime TIME ,
-    EndTime TIME ,
+    ClientID INT FOREIGN KEY REFERENCES Client(ClientID),
+    EntryDate DATE,
+    DayOfWeek NVARCHAR(MAX),
+    ClientProjectName NVARCHAR(50),
+    Description NVARCHAR(MAX),
+    Billable NVARCHAR(50),
+    Comments NVARCHAR(MAX),
+    TotalHours TIME,
+    StartTime TIME,
+    EndTime TIME
     --CONSTRAINT CHK_Time CHECK (StartTime < EndTime)
 );
 GO
 
 -- Create Expense table
-CREATE TABLE Expense (
-    ExpenseID INT IDENTITY(1,1) PRIMARY KEY,
-    ConsultantID INT FOREIGN KEY REFERENCES Consultant(ConsultantID),
-    ExpenseDate DATE,
-    ExpenseDescription NVARCHAR(100) NULL,
-    ExpenseType NVARCHAR(50) NULL,
-    Cost DECIMAL(10,2) NULL,
-    --CONSTRAINT CHK_Cost CHECK (Cost >= 0)
-);
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Expense]') AND type IN (N'U'))
+BEGIN
+    CREATE TABLE Expense (
+        ExpenseID INT IDENTITY(1,1) PRIMARY KEY,
+        ConsultantID INT FOREIGN KEY REFERENCES Consultant(ConsultantID),
+        ExpenseDate DATE,
+        ExpenseDescription NVARCHAR(100) NULL,
+        ExpenseType NVARCHAR(50) NULL,
+        Cost DECIMAL(10,2) NULL
+        --CONSTRAINT CHK_Cost CHECK (Cost >= 0)
+    );
+END
 GO
 
---Create AuditLog table
-DROP TABLE IF EXISTS [dbo].[AuditLog]
-Go
-
+-- Create AuditLog table
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AuditLog]') AND type IN (N'U'))
+BEGIN
+    DROP TABLE [dbo].[AuditLog];
+END
+GO
 CREATE TABLE [dbo].[AuditLog] (
     AuditID INT IDENTITY(1,1) PRIMARY KEY,
     Timestamp DATETIME,
@@ -90,12 +109,14 @@ CREATE TABLE [dbo].[AuditLog] (
     Month VARCHAR(20), 
     Details NVARCHAR(255)
 );
+GO
 
-
---Create ErrorLog table
-DROP TABLE IF EXISTS [dbo].[AuditLog]
-Go
-
+-- Create ErrorLog table
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ErrorLog]') AND type IN (N'U'))
+BEGIN
+    DROP TABLE [dbo].[ErrorLog];
+END
+GO
 CREATE TABLE [dbo].[ErrorLog] (
     ErrorID INT IDENTITY(1,1) PRIMARY KEY,
     ErrorDate DATETIME DEFAULT GETDATE(),
@@ -105,17 +126,4 @@ CREATE TABLE [dbo].[ErrorLog] (
     ErrorCode INT,
     RowNumber INT
 );
-/*
-CREATE TABLE [dbo].[AuditLog] (
-    AuditID INT IDENTITY(1,1) PRIMARY KEY,
-    PackageName NVARCHAR(255),
-    SheetFileName NVARCHAR(255),
-    ExecutionStatus NVARCHAR(50),
-    StartTime DATETIME,
-	Destination NVARCHAR(100),
-	EndTime DATETIME,
-    RowsProcessed INT,
-    RowsFailed INT,
-    TaskName NVARCHAR(255)
-);	
-*/
+GO
