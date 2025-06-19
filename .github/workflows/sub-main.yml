@@ -1,95 +1,111 @@
-name: Deploy SSIS Packages and Jobs
+name: Deploy SSIS Package and Run Data Migration
+
 on:
-  repository_dispatch:
-    types: [deploy_ssis]
-  workflow_dispatch:
+  workflow_dispatch:  # Manual trigger
+  push:
+    branches:
+      - main
+    paths:
+      - 'HandsOnProjects/Timesheets/**'
 
 env:
-  SSIS_FOLDER_NAME: TimesheetDataMigration
-  SSIS_PROJECT_NAME: Timesheets
-  SSIS_PACKAGE_NAME: DataMigrationFINAL.dtsx
-  SQL_SERVER_NAME: ${{ secrets.SQL_SERVER_NAME }}
-  SQL_USERNAME: ${{ secrets.SQL_USERNAME }}
-  SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
-  SSIS_DB_USERNAME: ${{ secrets.SSIS_DB_USERNAME }}
-  SSIS_DB_PASSWORD: ${{ secrets.SSIS_DB_PASSWORD }}
+  SQL_SERVER: 'localhost'
+  SSIS_SOURCE_PATH: 'HandsOnProjects/Timesheets/bin/Development/Timesheets.ispac'
+  SSIS_DEST_PATH: 'SSISDB/TimesheetDataMigration/Timesheets'
+  JOB_NAME: 'RunDataMigrationPackage'
+  PACKAGE_NAME: 'DataMigrationFINAL.dtsx'  # Update if different
 
 jobs:
-  deploy-ssis:
-    runs-on: self-hosted  # Changed to self-hosted runner
+  deploy-and-run:
+    runs-on: self-hosted
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install SSIS Tools
+      - name: Verify SSIS Tools
+        shell: powershell
         run: |
-          choco install sql-server-management-studio -y
-        shell: pwsh
+          $ssisPath = "${env:ProgramFiles(x86)}\Microsoft SQL Server\160\DTS\Binn\ISDeploymentWizard.exe"
+          if (-not (Test-Path $ssisPath)) {
+              Write-Error "SSIS Deployment Wizard not found at $ssisPath"
+              exit 1
+          }
+          echo "SSIS_PATH=$ssisPath" >> $env:GITHUB_ENV
 
       - name: Deploy SSIS Package
+        shell: powershell
         run: |
-          $packagePath = "${{ github.workspace }}\HandsOnProjects\Timesheets\${{ env.SSIS_PACKAGE_NAME }}"
-          $server = "${{ env.SQL_SERVER_NAME }}"
+          & "$env:SSIS_PATH" /Silent `
+            /SourcePath:"${{ env.SSIS_SOURCE_PATH }}" `
+            /DestinationServer:"${{ env.SQL_SERVER }}" `
+            /DestinationPath:"${{ env.SSIS_DEST_PATH }}"
           
-          # Create SSISDB folder if needed
-          $sqlCreateFolder = @"
-          USE SSISDB;
-          IF NOT EXISTS (SELECT 1 FROM catalog.folders WHERE name = N'${{ env.SSIS_FOLDER_NAME }}')
-          BEGIN
-              EXEC catalog.create_folder @folder_name = N'${{ env.SSIS_FOLDER_NAME }}';
-          END
-          "@
-          sqlcmd -S "$server" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d SSISDB -Q "$sqlCreateFolder"
-          
-          # Deploy package using ISDeploymentWizard
-          ISDeploymentWizard.exe /Silent /ModelType:Project /SourcePath:"$packagePath" /DestinationServer:"$server" /DestinationPath:"/${{ env.SSIS_FOLDER_NAME }}/${{ env.SSIS_PROJECT_NAME }}"
-        shell: pwsh
+          if ($LASTEXITCODE -ne 0) {
+              Write-Error "SSIS deployment failed with exit code $LASTEXITCODE"
+              exit $LASTEXITCODE
+          }
+          Write-Output "SSIS package deployed successfully"
 
-      - name: Create SQL Agent Job
+      - name: Create SQL Agent Job (if needed)
+        shell: powershell
         run: |
-          $sqlJobCreation = @"
+          $createJobSQL = @"
           USE [msdb]
           GO
-          IF NOT EXISTS (SELECT 1 FROM sysjobs WHERE name = 'TimesheetProjectRun')
+          IF NOT EXISTS (SELECT 1 FROM sysjobs WHERE name = '${{ env.JOB_NAME }}')
           BEGIN
-              -- Add job
-              EXEC dbo.sp_add_job @job_name = N'TimesheetProjectRun';
+              -- Create the job
+              EXEC dbo.sp_add_job @job_name = N'${{ env.JOB_NAME }}';
               
-              -- Add job step
+              -- Add job step (SSIS package execution)
               EXEC sp_add_jobstep
-                  @job_name = N'TimesheetProjectRun',
-                  @step_name = N'Run SSIS Package',
+                  @job_name = N'${{ env.JOB_NAME }}',
+                  @step_name = N'Run Data Migration Package',
                   @subsystem = N'SSIS',
-                  @command = N'/ISSERVER "\"\SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"" /SERVER "${{ env.SQL_SERVER_NAME }}" /Par "\"\$SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"::ServerName(String)";"${{ env.SQL_SERVER_NAME }}" /Par "\"\$SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"::UserName(String)";"${{ env.SSIS_DB_USERNAME }}" /Par "\"\$SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"::Password(String)";"${{ env.SSIS_DB_PASSWORD }}" /Par "\$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "\$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E',
+                  @command = N'/ISSERVER "\"\${{ env.SSIS_DEST_PATH }}\${{ env.PACKAGE_NAME }}\"" /SERVER "${{ env.SQL_SERVER }}" /Par "\"\${{ env.SSIS_DEST_PATH }}\${{ env.PACKAGE_NAME }}\"::ServerName(String)";"${{ env.SQL_SERVER }}" /CALLERINFO SQLAGENT /REPORTING E',
                   @database_name = N'master';
               
-              -- Add schedule
+              -- Add schedule (run immediately)
               EXEC dbo.sp_add_jobschedule
-                  @job_name = N'TimesheetProjectRun',
-                  @name = N'RunNow',
+                  @job_name = N'${{ env.JOB_NAME }}',
+                  @name = N'RunOnce',
                   @enabled = 1,
                   @freq_type = 1,
                   @active_start_date = $(Get-Date -Format yyyyMMdd),
                   @active_start_time = $(Get-Date -Format HHmmss);
               
-              -- Add job server
-              EXEC dbo.sp_add_jobserver @job_name = N'TimesheetProjectRun';
+              -- Assign to local server
+              EXEC dbo.sp_add_jobserver @job_name = N'${{ env.JOB_NAME }}';
+              Write-Output "Created new SQL Agent Job: ${{ env.JOB_NAME }}"
           END
           ELSE
           BEGIN
-              -- Update existing job step
+              -- Update existing job if needed
               EXEC sp_update_jobstep
-                  @job_name = N'TimesheetProjectRun',
+                  @job_name = N'${{ env.JOB_NAME }}',
                   @step_id = 1,
-                  @command = N'/ISSERVER "\"\SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"" /SERVER "${{ env.SQL_SERVER_NAME }}" /Par "\"\$SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"::ServerName(String)";"${{ env.SQL_SERVER_NAME }}" /Par "\"\$SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"::UserName(String)";"${{ env.SSIS_DB_USERNAME }}" /Par "\"\$SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"::Password(String)";"${{ env.SSIS_DB_PASSWORD }}" /Par "\$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "\$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E';
+                  @command = N'/ISSERVER "\"\${{ env.SSIS_DEST_PATH }}\${{ env.PACKAGE_NAME }}\"" /SERVER "${{ env.SQL_SERVER }}" /Par "\"\${{ env.SSIS_DEST_PATH }}\${{ env.PACKAGE_NAME }}\"::ServerName(String)";"${{ env.SQL_SERVER }}" /CALLERINFO SQLAGENT /REPORTING E';
+              Write-Output "Updated existing SQL Agent Job: ${{ env.JOB_NAME }}"
           END
           GO
           "@
-          
-          sqlcmd -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -Q "$sqlJobCreation"
-        shell: pwsh
 
-      - name: Execute SQL Agent Job
+          sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$createJobSQL"
+          if ($LASTEXITCODE -ne 0) {
+              Write-Error "Failed to create/update SQL Agent Job"
+              exit $LASTEXITCODE
+          }
+
+      - name: Run Data Migration Job
+        shell: powershell
         run: |
-          sqlcmd -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -Q "EXEC msdb.dbo.sp_start_job N'TimesheetProjectRun';"
-        shell: pwsh
+          sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" `
+            -Q "EXEC msdb.dbo.sp_start_job @job_name='${{ env.JOB_NAME }}'"
+          
+          if ($LASTEXITCODE -ne 0) {
+              Write-Error "Failed to start job ${{ env.JOB_NAME }}"
+              exit $LASTEXITCODE
+          }
+          Write-Output "Successfully started job: ${{ env.JOB_NAME }}"
+          Write-Output "Monitor job execution in SQL Server Agent"
