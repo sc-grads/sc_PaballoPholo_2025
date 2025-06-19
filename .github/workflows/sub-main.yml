@@ -1,60 +1,57 @@
 name: Deploy SSIS Packages
-on:
-  repository_dispatch:
-    types: [deploy_ssis]
-  workflow_dispatch:
+       on:
+         repository_dispatch:
+           types: [deploy_ssis]
+         workflow_dispatch:
 
-env:
-  SSIS_PACKAGE_NAME: DataMigrationFINAL.dtsx
-  SSIS_FOLDER_NAME: TimesheetDataMigration
-  SSIS_PROJECT_NAME: Projects/Timesheets/Packages
-  SQL_SERVER_NAME: ${{ secrets.SQL_SERVER_NAME }}
-  SQL_USERNAME: ${{ secrets.SQL_USERNAME }}
-  SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
+       env:
+         SSIS_PACKAGE_NAME: DataMigrationFINAL.dtsx
+         SSIS_FOLDER_NAME: TimesheetDataMigration
+         SSIS_PROJECT_NAME: Projects/Timesheets/Packages
+         SQL_SERVER_NAME: ${{ secrets.SQL_SERVER_NAME }}
 
-jobs:
-  deploy-ssis:
-    runs-on: windows-latest
-    steps:
-      # Checkout repository code
-      - name: Checkout repository
-        uses: actions/checkout@v4
+       jobs:
+         deploy-ssis:
+           runs-on: windows-latest
+           steps:
+             # Checkout repository code
+             - name: Checkout repository
+               uses: actions/checkout@v4
 
-      # Install SQL Server Integration Services (SSIS) tools
-      - name: Install SSIS Tools
-        run: |
-          choco install sql-server-management-studio -y
-        shell: pwsh
+             # Install SQL Server Integration Services (SSIS) tools
+             - name: Install SSIS Tools
+               run: |
+                 choco install sql-server-management-studio -y
+               shell: pwsh
 
-      # Deploy SSIS Package to SSISDB
-      - name: Deploy SSIS Package
-        run: |
-          $packagePath = "${{ github.workspace }}\HandsOnProjects\Timesheets\${{ env.SSIS_PACKAGE_NAME }}"
-          $server = "${{ env.SQL_SERVER_NAME }}"
-          $catalogPath = "/SSISDB/${{ env.SSIS_FOLDER_NAME }}/${{ env.SSIS_PROJECT_NAME }}"
-          $connectionString = "Data Source=$server;User ID=${{ env.SQL_USERNAME }};Password=${{ env.SQL_PASSWORD }};Initial Catalog=SSISDB;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;"
-          
-          # Create folder if it doesn't exist
-          $sqlCreateFolder = @"
-          USE SSISDB;
-          IF NOT EXISTS (SELECT 1 FROM catalog.folders WHERE name = N'${{ env.SSIS_FOLDER_NAME }}')
-          BEGIN
-              EXEC catalog.create_folder @folder_name = N'${{ env.SSIS_FOLDER_NAME }}';
-          END
-          "@
-          echo "$sqlCreateFolder" | sqlcmd -S "$server" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d SSISDB
-          
-          # Create project if it doesn't exist
-          $sqlCreateProject = @"
-          USE SSISDB;
-          IF NOT EXISTS (SELECT 1 FROM catalog.projects WHERE folder_id = (SELECT folder_id FROM catalog.folders WHERE name = N'${{ env.SSIS_FOLDER_NAME }}') AND name = N'Timesheets')
-          BEGIN
-              DECLARE @project_id bigint;
-              EXEC catalog.create_project @folder_name = N'${{ env.SSIS_FOLDER_NAME }}', @project_name = N'Timesheets', @project_id = @project_id OUTPUT;
-          END
-          "@
-          echo "$sqlCreateProject" | sqlcmd -S "$server" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d SSISDB
-          
-          # Deploy package using DTExec
-          DTExec.exe /File "$packagePath" /DestServer "$server" /DestFolder "${{ env.SSIS_FOLDER_NAME }}" /ProjectName "Timesheets" /PackageName "${{ env.SSIS_PACKAGE_NAME }}"
-        shell: pwsh
+             # Deploy SSIS Package to SSISDB
+             - name: Deploy SSIS Package
+               run: |
+                 $packagePath = "${{ github.workspace }}\HandsOnProjects\Timesheets\${{ env.SSIS_PACKAGE_NAME }}"
+                 $server = "${{ env.SQL_SERVER_NAME }}"
+                 $catalogPath = "/SSISDB/${{ env.SSIS_FOLDER_NAME }}/${{ env.SSIS_PROJECT_NAME }}"
+                 
+                 # Create folder if it doesn't exist
+                 $sqlCreateFolder = @"
+                 USE SSISDB;
+                 IF NOT EXISTS (SELECT 1 FROM catalog.folders WHERE name = N'${{ env.SSIS_FOLDER_NAME }}')
+                 BEGIN
+                     EXEC catalog.create_folder @folder_name = N'${{ env.SSIS_FOLDER_NAME }}';
+                 END
+                 "@
+                 echo "$sqlCreateFolder" | sqlcmd -S "$server" -E -d SSISDB
+                 
+                 # Create project if it doesn't exist
+                 $sqlCreateProject = @"
+                 USE SSISDB;
+                 IF NOT EXISTS (SELECT 1 FROM catalog.projects WHERE folder_id = (SELECT folder_id FROM catalog.folders WHERE name = N'${{ env.SSIS_FOLDER_NAME }}') AND name = N'Timesheets')
+                 BEGIN
+                     DECLARE @project_id bigint;
+                     EXEC catalog.create_project @folder_name = N'${{ env.SSIS_FOLDER_NAME }}', @project_name = N'Timesheets', @project_id = @project_id OUTPUT;
+                 END
+                 "@
+                 echo "$sqlCreateProject" | sqlcmd -S "$server" -E -d SSISDB
+                 
+                 # Deploy package using DTExec
+                 DTExec.exe /File "$packagePath" /DestServer "$server" /DestFolder "${{ env.SSIS_FOLDER_NAME }}" /ProjectName "Timesheets" /PackageName "${{ env.SSIS_PACKAGE_NAME }}"
+               shell: pwsh
