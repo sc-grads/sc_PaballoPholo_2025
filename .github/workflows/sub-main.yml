@@ -1,7 +1,7 @@
 name: Deploy SSIS Package and Run Data Migration
 
 on:
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -11,9 +11,10 @@ on:
 env:
   SQL_SERVER: 'localhost'
   SSIS_SOURCE_PATH: 'HandsOnProjects/Timesheets/bin/Development/Timesheets.ispac'
-  SSIS_DEST_PATH: 'SSISDB/TimesheetDataMigration/Timesheets'
+  SSIS_DEST_FOLDER: 'TimesheetDataMigration'  # Just the folder name
+  SSIS_PROJECT: 'Timesheets'                 # Just the project name
   JOB_NAME: 'RunDataMigrationPackage'
-  PACKAGE_NAME: 'DataMigrationFINAL.dtsx'  # Update if different
+  PACKAGE_NAME: 'DataMigrationFINAL.dtsx'
 
 jobs:
   deploy-and-run:
@@ -23,77 +24,65 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Verify SSIS Tools
+      - name: Verify SSIS Tools (SQL 2022)
         shell: powershell
         run: |
+          # Correct path for SQL Server 2022
           $ssisPath = "${env:ProgramFiles(x86)}\Microsoft SQL Server\160\DTS\Binn\ISDeploymentWizard.exe"
           if (-not (Test-Path $ssisPath)) {
               Write-Error "SSIS Deployment Wizard not found at $ssisPath"
               exit 1
           }
           echo "SSIS_PATH=$ssisPath" >> $env:GITHUB_ENV
+          Write-Output "Verified SSIS tools at: $ssisPath"
 
       - name: Deploy SSIS Package
         shell: powershell
         run: |
-          & "$env:SSIS_PATH" /Silent `
-            /SourcePath:"${{ env.SSIS_SOURCE_PATH }}" `
-            /DestinationServer:"${{ env.SQL_SERVER }}" `
-            /DestinationPath:"${{ env.SSIS_DEST_PATH }}"
+          # Convert paths to Windows format
+          $sourcePath = (Resolve-Path "${{ env.SSIS_SOURCE_PATH }}").Path.Replace('/', '\')
           
+          Write-Output "Deploying package from: $sourcePath"
+          Write-Output "Destination: ${{ env.SQL_SERVER }} | Folder: ${{ env.SSIS_DEST_FOLDER }} | Project: ${{ env.SSIS_PROJECT }}"
+
+          & "$env:SSIS_PATH" /Silent `
+            /SourcePath:"$sourcePath" `
+            /DestinationServer:"${{ env.SQL_SERVER }}" `
+            /DestinationPath:"/${{ env.SSIS_DEST_FOLDER }}/${{ env.SSIS_PROJECT }}" `
+            /ModelType:Project
+
           if ($LASTEXITCODE -ne 0) {
               Write-Error "SSIS deployment failed with exit code $LASTEXITCODE"
               exit $LASTEXITCODE
           }
           Write-Output "SSIS package deployed successfully"
 
-      - name: Create SQL Agent Job (if needed)
+      - name: Create SQL Agent Job
         shell: powershell
         run: |
-          $createJobSQL = @"
+          $sql = @"
           USE [msdb]
           GO
           IF NOT EXISTS (SELECT 1 FROM sysjobs WHERE name = '${{ env.JOB_NAME }}')
           BEGIN
-              -- Create the job
               EXEC dbo.sp_add_job @job_name = N'${{ env.JOB_NAME }}';
               
-              -- Add job step (SSIS package execution)
               EXEC sp_add_jobstep
                   @job_name = N'${{ env.JOB_NAME }}',
-                  @step_name = N'Run Data Migration Package',
+                  @step_name = N'Run Data Migration',
                   @subsystem = N'SSIS',
-                  @command = N'/ISSERVER "\"\${{ env.SSIS_DEST_PATH }}\${{ env.PACKAGE_NAME }}\"" /SERVER "${{ env.SQL_SERVER }}" /Par "\"\${{ env.SSIS_DEST_PATH }}\${{ env.PACKAGE_NAME }}\"::ServerName(String)";"${{ env.SQL_SERVER }}" /CALLERINFO SQLAGENT /REPORTING E',
+                  @command = N'/ISSERVER "\"\SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECT }}\${{ env.PACKAGE_NAME }}\"" /SERVER "${{ env.SQL_SERVER }}" /Par "\"\$SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECT }}\${{ env.PACKAGE_NAME }}\"::ServerName(String)";"${{ env.SQL_SERVER }}" /CALLERINFO SQLAGENT /REPORTING E',
                   @database_name = N'master';
               
-              -- Add schedule (run immediately)
-              EXEC dbo.sp_add_jobschedule
-                  @job_name = N'${{ env.JOB_NAME }}',
-                  @name = N'RunOnce',
-                  @enabled = 1,
-                  @freq_type = 1,
-                  @active_start_date = $(Get-Date -Format yyyyMMdd),
-                  @active_start_time = $(Get-Date -Format HHmmss);
-              
-              -- Assign to local server
               EXEC dbo.sp_add_jobserver @job_name = N'${{ env.JOB_NAME }}';
-              Write-Output "Created new SQL Agent Job: ${{ env.JOB_NAME }}"
-          END
-          ELSE
-          BEGIN
-              -- Update existing job if needed
-              EXEC sp_update_jobstep
-                  @job_name = N'${{ env.JOB_NAME }}',
-                  @step_id = 1,
-                  @command = N'/ISSERVER "\"\${{ env.SSIS_DEST_PATH }}\${{ env.PACKAGE_NAME }}\"" /SERVER "${{ env.SQL_SERVER }}" /Par "\"\${{ env.SSIS_DEST_PATH }}\${{ env.PACKAGE_NAME }}\"::ServerName(String)";"${{ env.SQL_SERVER }}" /CALLERINFO SQLAGENT /REPORTING E';
-              Write-Output "Updated existing SQL Agent Job: ${{ env.JOB_NAME }}"
+              Write-Output "Created new job: ${{ env.JOB_NAME }}"
           END
           GO
           "@
 
-          sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$createJobSQL"
+          sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql"
           if ($LASTEXITCODE -ne 0) {
-              Write-Error "Failed to create/update SQL Agent Job"
+              Write-Error "Failed to create job"
               exit $LASTEXITCODE
           }
 
@@ -104,8 +93,7 @@ jobs:
             -Q "EXEC msdb.dbo.sp_start_job @job_name='${{ env.JOB_NAME }}'"
           
           if ($LASTEXITCODE -ne 0) {
-              Write-Error "Failed to start job ${{ env.JOB_NAME }}"
+              Write-Error "Failed to start job"
               exit $LASTEXITCODE
           }
-          Write-Output "Successfully started job: ${{ env.JOB_NAME }}"
-          Write-Output "Monitor job execution in SQL Server Agent"
+          Write-Output "Job started successfully. Check SQL Agent for status."
