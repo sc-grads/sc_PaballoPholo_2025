@@ -42,19 +42,22 @@ jobs:
         run: |
           /opt/mssql-tools/bin/sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d master -i HandsOnProjects/SQL_Scripts/TimesheetDB_Creation.sql
 
-      # Trigger Sub-Main workflow to deploy SSIS packages
-      - name: Trigger Sub-Main Workflow
+      # Trigger Sub-Main Workflow to deploy SSIS packages
+      - name: Debug Dispatch
         run: |
-          curl -X POST \
+          echo "Dispatching event to sub-main workflow"
+          curl -v -X POST \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/dispatches \
             -d '{"event_type":"deploy_ssis"}'
+        shell: bash
 
       # Create or update SQL Server Agent Job
       - name: Setup SQL Server Agent Job
         run: |
-          cat << 'EOF' > setup_job.sql
+          set -e
+          cat << EOF > setup_job.sql
           USE msdb;
           IF NOT EXISTS (SELECT 1 FROM sysjobs WHERE name = 'TimesheetProjectRun')
           BEGIN
@@ -83,8 +86,10 @@ jobs:
           END
           EOF
           /opt/mssql-tools/bin/sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -i setup_job.sql
+        shell: bash
 
       # Execute SQL Server Agent Job
       - name: Execute SQL Server Agent Job
         run: |
           /opt/mssql-tools/bin/sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -Q "EXEC msdb.dbo.sp_start_job N'TimesheetProjectRun';"
+        shell: bash
