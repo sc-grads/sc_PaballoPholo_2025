@@ -1,74 +1,60 @@
-name: Full SSIS Deployment
-
+name: Deploy SSIS Packages
 on:
+  repository_dispatch:
+    types: [deploy_ssis]
   workflow_dispatch:
 
+env:
+  SSIS_PACKAGE_NAME: DataMigrationFINAL.dtsx
+  SSIS_FOLDER_NAME: TimesheetDataMigration
+  SSIS_PROJECT_NAME: Projects/Timesheets/Packages
+  SQL_SERVER_NAME: ${{ secrets.SQL_SERVER_NAME }}
+  SQL_USERNAME: ${{ secrets.SQL_USERNAME }}
+  SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
+
 jobs:
-
-  deploy-ssis-project:
-    name: Deploy SSIS Project
-    runs-on: [self-hosted, windows]
-
+  deploy-ssis:
+    runs-on: windows-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      # Checkout repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Deploy SSIS Project (.ispac)
-        env:
-          SQL_SERVER2: ${{ secrets.SQL_SERVER2 }}
-        shell: powershell
+      # Install SQL Server Integration Services (SSIS) tools
+      - name: Install SSIS Tools
         run: |
-          echo "Deploying SSIS project..."
-          $ispacPath = "Timesheets/bin/Development/Timesheets.ispac"
-          Write-Host "Current working directory: $(Get-Location)"
-          Write-Host "Checking ISPAC at path: $ispacPath"
-          if (!(Test-Path $ispacPath)) {
-            Write-Error "ISPAC file not found at $ispacPath"
-            exit 1
-          }
-          $deployArgs = @(
-            "/Silent",
-            "/SourcePath:`"$ispacPath`"",
-            "/DestinationServer:`"$env:SQL_SERVER2`"",
-            "/DestinationPath:""/SSISDB/MyPackageDemos/TimeSheet"""
-          )
-          $process = Start-Process `
-            -FilePath "C:\Program Files (x86)\Microsoft SQL Server\160\DTS\Binn\ISDeploymentWizard.exe" `
-            -ArgumentList $deployArgs `
-            -Wait `
-            -PassThru `
-            -NoNewWindow
-          if ($process.ExitCode -ne 0) {
-            Write-Error "Deployment failed with exit code $($process.ExitCode)"
-            exit $process.ExitCode
-          }
-          echo "SSIS project deployed successfully."
+          choco install sql-server-management-studio -y
+        shell: pwsh
 
-  create-and-run-agent-job:
-    name: Create and Run SQL Server Agent Job
-    needs: deploy-ssis-project
-    runs-on: [self-hosted, windows]
-
-    steps: 
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Run PowerShell script to create and start SQL Server Agent Job
-        env:
-          SQL_SERVER2: ${{ secrets.SQL_SERVER2 }}
-          SQL_USERNAME: ${{ secrets.SQL_USERNAME }}
-          SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
-        shell: powershell
+      # Deploy SSIS Package to SSISDB
+      - name: Deploy SSIS Package
         run: |
-          $ErrorActionPreference = "Stop"
-
-          # Create job and steps
-          .\Timesheet\SqlScripts\create_jobs.ps1 `
-            -SqlServer $env:SQL_SERVER2 `
-            -Username $env:SQL_USERNAME `
-            -Password $env:SQL_PASSWORD
-
-          # Start the job immediately
-          sqlcmd -S $env:SQL_SERVER2 -U $env:SQL_USERNAME -P $env:SQL_PASSWORD -Q "EXEC msdb.dbo.sp_start_job N'TimesheetProjectRun';"
-
-          echo "SQL Server Agent Job triggered."
+          $packagePath = "${{ github.workspace }}\HandsOnProjects\Timesheets\${{ env.SSIS_PACKAGE_NAME }}"
+          $server = "${{ env.SQL_SERVER_NAME }}"
+          $catalogPath = "/SSISDB/${{ env.SSIS_FOLDER_NAME }}/${{ env.SSIS_PROJECT_NAME }}"
+          $connectionString = "Data Source=$server;User ID=${{ env.SQL_USERNAME }};Password=${{ env.SQL_PASSWORD }};Initial Catalog=SSISDB;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;"
+          
+          # Create folder if it doesn't exist
+          $sqlCreateFolder = @"
+          USE SSISDB;
+          IF NOT EXISTS (SELECT 1 FROM catalog.folders WHERE name = N'${{ env.SSIS_FOLDER_NAME }}')
+          BEGIN
+              EXEC catalog.create_folder @folder_name = N'${{ env.SSIS_FOLDER_NAME }}';
+          END
+          "@
+          echo "$sqlCreateFolder" | sqlcmd -S "$server" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d SSISDB
+          
+          # Create project if it doesn't exist
+          $sqlCreateProject = @"
+          USE SSISDB;
+          IF NOT EXISTS (SELECT 1 FROM catalog.projects WHERE folder_id = (SELECT folder_id FROM catalog.folders WHERE name = N'${{ env.SSIS_FOLDER_NAME }}') AND name = N'Timesheets')
+          BEGIN
+              DECLARE @project_id bigint;
+              EXEC catalog.create_project @folder_name = N'${{ env.SSIS_FOLDER_NAME }}', @project_name = N'Timesheets', @project_id = @project_id OUTPUT;
+          END
+          "@
+          echo "$sqlCreateProject" | sqlcmd -S "$server" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d SSISDB
+          
+          # Deploy package using DTExec
+          DTExec.exe /File "$packagePath" /DestServer "$server" /DestFolder "${{ env.SSIS_FOLDER_NAME }}" /ProjectName "Timesheets" /PackageName "${{ env.SSIS_PACKAGE_NAME }}"
+        shell: pwsh
