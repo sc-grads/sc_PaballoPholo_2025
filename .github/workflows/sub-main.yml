@@ -43,7 +43,7 @@ jobs:
 
           # Deploy package (local deployment)
           DTExec.exe /File "$packagePath" /DestServer "$server" /DestFolder "${{ env.SSIS_FOLDER_NAME }}" /ProjectName "${{ env.SSIS_PROJECT_NAME }}" /PackageName "${{ env.SSIS_PACKAGE_NAME }}"
-        shell: pwsh
+        shell: powershell
 
       - name: Create and Trigger SQL Agent Job
         run: |
@@ -77,4 +77,4 @@ jobs:
           EXEC msdb.dbo.sp_start_job @job_name = 'TimesheetProjectRun';
           "@
           echo $jobSQL | sqlcmd -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}"
-        shell: pwsh
+        shell: powershell
