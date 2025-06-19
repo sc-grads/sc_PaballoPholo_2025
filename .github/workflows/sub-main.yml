@@ -25,11 +25,13 @@ jobs:
           $packagePath = "${{ github.workspace }}\HandsOnProjects\Timesheets\${{ env.SSIS_PACKAGE_NAME }}"
           $server = "${{ env.SQL_SERVER_NAME }}"
 
-          # Ensure folder and project exist
           $sqlEnsureFolder = @"
           IF NOT EXISTS (SELECT 1 FROM catalog.folders WHERE name = N'${{ env.SSIS_FOLDER_NAME }}')
               EXEC catalog.create_folder @folder_name = N'${{ env.SSIS_FOLDER_NAME }}';
           "@
+          Set-Content -Path EnsureFolder.sql -Value $sqlEnsureFolder
+          sqlcmd -S $server -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d SSISDB -i EnsureFolder.sql
+
           $sqlEnsureProject = @"
           IF NOT EXISTS (
               SELECT 1 FROM catalog.projects p
@@ -38,11 +40,10 @@ jobs:
           )
               EXEC catalog.create_project @folder_name = N'${{ env.SSIS_FOLDER_NAME }}', @project_name = N'${{ env.SSIS_PROJECT_NAME }}', @project_id = 0;
           "@
-          echo $sqlEnsureFolder | sqlcmd -S $server -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d SSISDB
-          echo $sqlEnsureProject | sqlcmd -S $server -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d SSISDB
+          Set-Content -Path EnsureProject.sql -Value $sqlEnsureProject
+          sqlcmd -S $server -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d SSISDB -i EnsureProject.sql
 
-          # Deploy package (local deployment)
-          DTExec.exe /File "$packagePath" /DestServer "$server" /DestFolder "${{ env.SSIS_FOLDER_NAME }}" /ProjectName "${{ env.SSIS_PROJECT_NAME }}" /PackageName "${{ env.SSIS_PACKAGE_NAME }}"
+          DTExec.exe /F "$packagePath"
         shell: powershell
 
       - name: Create and Trigger SQL Agent Job
