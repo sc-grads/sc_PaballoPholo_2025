@@ -23,6 +23,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          repository: sc_PaballoPholo_2025  # Ensure correct repository name
+          path: sc_PaballoPholo_2025        # Set the checkout path to avoid duplication
 
       - name: Verify SSIS Tools (SQL 2022)
         shell: powershell
@@ -40,13 +43,13 @@ jobs:
         shell: powershell
         run: |
           Write-Output "GITHUB_WORKSPACE: $env:GITHUB_WORKSPACE"
-          dir "$env:GITHUB_WORKSPACE\*" -Recurse -ErrorAction Continue
+          dir "$env:GITHUB_WORKSPACE\sc_PaballoPholo_2025\HandsOnProjects\Timesheets\bin\Development" -Recurse -ErrorAction Continue
 
       - name: Deploy SSIS Package
         shell: powershell
         run: |
-          # Use the full path from the repository root, adjusting for potential subdirectory
-          $repoRoot = $env:GITHUB_WORKSPACE
+          # Use the full path from the repository root, adjusting for checkout path
+          $repoRoot = Join-Path -Path $env:GITHUB_WORKSPACE -ChildPath "sc_PaballoPholo_2025"
           $sourcePath = (Join-Path -Path $repoRoot -ChildPath "HandsOnProjects/Timesheets/bin/Development/Timesheets.ispac").Replace('/', '\')
           if (-not (Test-Path $sourcePath)) {
               Write-Error "SSIS package not found at: $sourcePath"
