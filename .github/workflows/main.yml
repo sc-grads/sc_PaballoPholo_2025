@@ -1,4 +1,4 @@
-name: Deploy TimesheetDB and Run SSIS Package
+name: Deploy TimesheetDB and Trigger SSIS Jobs
 
 on:
   push:
@@ -19,7 +19,7 @@ env:
   SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
 
 jobs:
-  deploy-database-and-run-ssis:
+  deploy-database:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -36,20 +36,15 @@ jobs:
           echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
           source ~/.bashrc
 
-      - name: Execute SQL Script to create database
+      - name: Execute SQL Script
         run: |
           /opt/mssql-tools/bin/sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d master -i HandsOnProjects/SQL_Scripts/TimesheetDB_Creation.sql
 
-      - name: Run SSIS Package from SSISDB (Direct)
+      - name: Trigger SSIS Workflow
         run: |
-          /opt/mssql-tools/bin/sqlcmd -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -Q "
-          DECLARE @execution_id bigint;
-          EXEC [SSISDB].[catalog].[create_execution]
-              @package_name = N'${{ env.SSIS_PACKAGE_NAME }}',
-              @execution_id = @execution_id OUTPUT,
-              @folder_name = N'${{ env.SSIS_FOLDER_NAME }}',
-              @project_name = N'${{ env.SSIS_PROJECT_NAME }}',
-              @use32bitruntime = False,
-              @reference_id = NULL;
-          EXEC [SSISDB].[catalog].[start_execution] @execution_id;
-          "
+          curl -v -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/dispatches \
+            -d '{"event_type":"deploy_ssis"}'
+        shell: bash
