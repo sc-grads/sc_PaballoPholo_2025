@@ -36,16 +36,18 @@ jobs:
           echo "SSIS_PATH=$ssisPath" >> $env:GITHUB_ENV
           Write-Output "Verified SSIS tools at: $ssisPath"
 
-      - name: Debug File Location
+      - name: Debug Working Directory and File Location
         shell: powershell
         run: |
-          dir "$env:GITHUB_WORKSPACE\HandsOnProjects\Timesheets\bin\Development" -Recurse
+          Write-Output "GITHUB_WORKSPACE: $env:GITHUB_WORKSPACE"
+          dir "$env:GITHUB_WORKSPACE\*" -Recurse -ErrorAction Continue
 
       - name: Deploy SSIS Package
         shell: powershell
         run: |
-          # Use the full path from the repository root
-          $sourcePath = (Join-Path -Path $env:GITHUB_WORKSPACE -ChildPath "HandsOnProjects/Timesheets/bin/Development/Timesheets.ispac").Replace('/', '\')
+          # Use the full path from the repository root, adjusting for potential subdirectory
+          $repoRoot = $env:GITHUB_WORKSPACE
+          $sourcePath = (Join-Path -Path $repoRoot -ChildPath "HandsOnProjects/Timesheets/bin/Development/Timesheets.ispac").Replace('/', '\')
           if (-not (Test-Path $sourcePath)) {
               Write-Error "SSIS package not found at: $sourcePath"
               exit 1
