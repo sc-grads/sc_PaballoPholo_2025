@@ -24,8 +24,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          repository: sc_PaballoPholo_2025  # Ensure correct repository name
-          path: sc_PaballoPholo_2025        # Set the checkout path to avoid duplication
+          repository: PaballoPholo/sc_PaballoPholo_2025  # Correct format: owner/repo
+          path: sc_PaballoPholo_2025                    # Set the checkout path
+          token: ${{ secrets.PAT }}                     # Optional: Add PAT if accessing a different repo
 
       - name: Verify SSIS Tools (SQL 2022)
         shell: powershell
