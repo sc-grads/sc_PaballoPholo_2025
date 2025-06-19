@@ -1,33 +1,25 @@
-name: Deploy TimesheetDB and Trigger SSIS Jobs
+name: Deploy TimesheetDB
 on:
   push:
     branches:
       - main
     paths:
       - 'HandsOnProjects/SQL_Scripts/**'
-      - 'HandsOnProjects/Timesheets/**'
   workflow_dispatch:
 
 env:
   DATABASE_NAME: TimesheetDB
-  SSIS_FOLDER_NAME: TimesheetDataMigration
-  SSIS_PROJECT_NAME: Projects/Timesheets/Packages
-  SSIS_PACKAGE_NAME: DataMigrationFINAL.dtsx
   SQL_SERVER_NAME: ${{ secrets.SQL_SERVER_NAME }}
   SQL_USERNAME: ${{ secrets.SQL_USERNAME }}
   SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
-  SSIS_CONNECTION_USERNAME: ${{ secrets.SSIS_CONNECTION_USERNAME }}
-  SSIS_CONNECTION_PASSWORD: ${{ secrets.SSIS_CONNECTION_PASSWORD }}
 
 jobs:
   deploy-database:
     runs-on: ubuntu-latest
     steps:
-      # Checkout repository code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Install SQL Server tools (sqlcmd) on the runner
       - name: Install SQL Server tools
         run: |
           sudo apt-get update
@@ -39,59 +31,14 @@ jobs:
           echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
           source ~/.bashrc
 
-      # Execute SQL Script to create database and tables
       - name: Execute SQL Script
         run: |
           /opt/mssql-tools/bin/sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d master -i HandsOnProjects/SQL_Scripts/TimesheetDB_Creation.sql
 
-      # Trigger Sub-Main Workflow to deploy SSIS packages
-      - name: Debug Dispatch
+      - name: Trigger SSIS Deployment
         run: |
-          echo "Dispatching event to sub-main workflow"
-          curl -v -X POST \
+          curl -X POST \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/dispatches \
             -d '{"event_type":"deploy_ssis"}'
-        shell: bash
-
-      # Create or update SQL Server Agent Job with credentials
-      - name: Setup SQL Server Agent Job
-        run: |
-          set -e
-          cat << EOF > setup_job.sql
-          USE msdb;
-          IF NOT EXISTS (SELECT 1 FROM sysjobs WHERE name = 'TimesheetProjectRun')
-          BEGIN
-              EXEC dbo.sp_add_job @job_name = N'TimesheetProjectRun';
-              EXEC sp_add_jobstep
-                  @job_name = N'TimesheetProjectRun',
-                  @step_name = N'Run SSIS Package',
-                  @subsystem = N'SSIS',
-                  @command = N'/ISSERVER "\\SSISDB\\${{ env.SSIS_FOLDER_NAME }}\\${{ env.SSIS_PROJECT_NAME }}\\${{ env.SSIS_PACKAGE_NAME }}" /SERVER "${{ env.SQL_SERVER_NAME }}" /Par "\\$SSISDB\\${{ env.SSIS_FOLDER_NAME }}\\${{ env.SSIS_PROJECT_NAME }}\\${{ env.SSIS_PACKAGE_NAME }}::[YourConnectionName].UserName(String)";"${{ env.SSIS_CONNECTION_USERNAME }}" /Par "\\$SSISDB\\${{ env.SSIS_FOLDER_NAME }}\\${{ env.SSIS_PROJECT_NAME }}\\${{ env.SSIS_PACKAGE_NAME }}::[YourConnectionName].Password(String)";"${{ env.SSIS_CONNECTION_PASSWORD }}" /Par "\$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "\$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E',
-                  @database_name = N'master';
-              EXEC dbo.sp_add_jobschedule
-                  @job_name = N'TimesheetProjectRun',
-                  @name = N'RunNow',
-                  @enabled = 1,
-                  @freq_type = 1,
-                  @active_start_date = $(date +%Y%m%d),
-                  @active_start_time = $(date +%H%M%S);
-              EXEC dbo.sp_add_jobserver @job_name = N'TimesheetProjectRun';
-          END
-          ELSE
-          BEGIN
-              EXEC sp_update_jobstep
-                  @job_name = N'TimesheetProjectRun',
-                  @step_id = 1,
-                  @command = N'/ISSERVER "\\SSISDB\\${{ env.SSIS_FOLDER_NAME }}\\${{ env.SSIS_PROJECT_NAME }}\\${{ env.SSIS_PACKAGE_NAME }}" /SERVER "${{ env.SQL_SERVER_NAME }}" /Par "\\$SSISDB\\${{ env.SSIS_FOLDER_NAME }}\\${{ env.SSIS_PROJECT_NAME }}\\${{ env.SSIS_PACKAGE_NAME }}::[YourConnectionName].UserName(String)";"${{ env.SSIS_CONNECTION_USERNAME }}" /Par "\\$SSISDB\\${{ env.SSIS_FOLDER_NAME }}\\${{ env.SSIS_PROJECT_NAME }}\\${{ env.SSIS_PACKAGE_NAME }}::[YourConnectionName].Password(String)";"${{ env.SSIS_CONNECTION_PASSWORD }}" /Par "\$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "\$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E';
-          END
-          EOF
-          /opt/mssql-tools/bin/sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -i setup_job.sql
-        shell: bash
-
-      # Execute SQL Server Agent Job
-      - name: Execute SQL Server Agent Job
-        run: |
-          /opt/mssql-tools/bin/sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -Q "EXEC msdb.dbo.sp_start_job N'TimesheetProjectRun';"
-        shell: bash
