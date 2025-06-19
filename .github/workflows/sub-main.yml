@@ -15,18 +15,66 @@ env:
 
 jobs:
   deploy-ssis:
-    runs-on: windows-latest
+    runs-on: self-hosted  # <- your self-hosted runner
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Install SSMS (if needed)
-        run: choco install sql-server-management-studio -y
-        shell: pwsh
 
       - name: Deploy SSIS Package using DTExec
         run: |
           $packagePath = "${{ github.workspace }}\HandsOnProjects\Timesheets\${{ env.SSIS_PACKAGE_NAME }}"
           $server = "${{ env.SQL_SERVER_NAME }}"
+
+          # Ensure folder and project exist
+          $sqlEnsureFolder = @"
+          IF NOT EXISTS (SELECT 1 FROM catalog.folders WHERE name = N'${{ env.SSIS_FOLDER_NAME }}')
+              EXEC catalog.create_folder @folder_name = N'${{ env.SSIS_FOLDER_NAME }}';
+          "@
+          $sqlEnsureProject = @"
+          IF NOT EXISTS (
+              SELECT 1 FROM catalog.projects p
+              JOIN catalog.folders f ON p.folder_id = f.folder_id
+              WHERE f.name = N'${{ env.SSIS_FOLDER_NAME }}' AND p.name = N'${{ env.SSIS_PROJECT_NAME }}'
+          )
+              EXEC catalog.create_project @folder_name = N'${{ env.SSIS_FOLDER_NAME }}', @project_name = N'${{ env.SSIS_PROJECT_NAME }}', @project_id = 0;
+          "@
+          echo $sqlEnsureFolder | sqlcmd -S $server -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d SSISDB
+          echo $sqlEnsureProject | sqlcmd -S $server -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d SSISDB
+
+          # Deploy package (local deployment)
           DTExec.exe /File "$packagePath" /DestServer "$server" /DestFolder "${{ env.SSIS_FOLDER_NAME }}" /ProjectName "${{ env.SSIS_PROJECT_NAME }}" /PackageName "${{ env.SSIS_PACKAGE_NAME }}"
+        shell: pwsh
+
+      - name: Create and Trigger SQL Agent Job
+        run: |
+          $jobSQL = @"
+          USE msdb;
+          IF NOT EXISTS (SELECT 1 FROM sysjobs WHERE name = 'TimesheetProjectRun')
+          BEGIN
+              EXEC dbo.sp_add_job @job_name = N'TimesheetProjectRun';
+              EXEC sp_add_jobstep
+                  @job_name = N'TimesheetProjectRun',
+                  @step_name = N'Run SSIS Package',
+                  @subsystem = N'SSIS',
+                  @command = N'/ISSERVER "\SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}" /SERVER "${{ env.SQL_SERVER_NAME }}" /Par "$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E',
+                  @database_name = N'master';
+              EXEC dbo.sp_add_jobschedule
+                  @job_name = N'TimesheetProjectRun',
+                  @name = N'RunNow',
+                  @enabled = 1,
+                  @freq_type = 1,
+                  @active_start_date = CONVERT(INT, CONVERT(VARCHAR, GETDATE(), 112)),
+                  @active_start_time = CONVERT(INT, FORMAT(GETDATE(), 'HHmmss'));
+              EXEC dbo.sp_add_jobserver @job_name = N'TimesheetProjectRun';
+          END
+          ELSE
+          BEGIN
+              EXEC sp_update_jobstep
+                  @job_name = N'TimesheetProjectRun',
+                  @step_id = 1,
+                  @command = N'/ISSERVER "\SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}" /SERVER "${{ env.SQL_SERVER_NAME }}" /Par "$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E';
+          END
+          EXEC msdb.dbo.sp_start_job @job_name = 'TimesheetProjectRun';
+          "@
+          echo $jobSQL | sqlcmd -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}"
         shell: pwsh
