@@ -19,7 +19,7 @@ jobs:
         shell: powershell
         run: |
           echo "Deploying SSIS project..."
-          $ispacPath = "sc_PaballoPholo_2025\HandsOnProjects\Timesheets\bin\Development\Timesheets.ispac"
+          $ispacPath = "HandsOnProjects\Timesheets\bin\Development\Timesheets.ispac"
           Write-Host "Current working directory: $(Get-Location)"
           Write-Host "Checking ISPAC at path: $ispacPath"
           if (!(Test-Path $ispacPath)) {
