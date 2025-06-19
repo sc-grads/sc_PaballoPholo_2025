@@ -16,6 +16,8 @@ env:
   SQL_SERVER_NAME: ${{ secrets.SQL_SERVER_NAME }}
   SQL_USERNAME: ${{ secrets.SQL_USERNAME }}
   SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
+  SSIS_CONNECTION_USERNAME: ${{ secrets.SSIS_CONNECTION_USERNAME }}
+  SSIS_CONNECTION_PASSWORD: ${{ secrets.SSIS_CONNECTION_PASSWORD }}
 
 jobs:
   deploy-database:
@@ -53,7 +55,7 @@ jobs:
             -d '{"event_type":"deploy_ssis"}'
         shell: bash
 
-      # Create or update SQL Server Agent Job
+      # Create or update SQL Server Agent Job with credentials
       - name: Setup SQL Server Agent Job
         run: |
           set -e
@@ -66,7 +68,7 @@ jobs:
                   @job_name = N'TimesheetProjectRun',
                   @step_name = N'Run SSIS Package',
                   @subsystem = N'SSIS',
-                  @command = N'/ISSERVER "\SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}" /SERVER "${{ env.SQL_SERVER_NAME }}" /Par "$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E',
+                  @command = N'/ISSERVER "\\SSISDB\\${{ env.SSIS_FOLDER_NAME }}\\${{ env.SSIS_PROJECT_NAME }}\\${{ env.SSIS_PACKAGE_NAME }}" /SERVER "${{ env.SQL_SERVER_NAME }}" /Par "\\$SSISDB\\${{ env.SSIS_FOLDER_NAME }}\\${{ env.SSIS_PROJECT_NAME }}\\${{ env.SSIS_PACKAGE_NAME }}::[YourConnectionName].UserName(String)";"${{ env.SSIS_CONNECTION_USERNAME }}" /Par "\\$SSISDB\\${{ env.SSIS_FOLDER_NAME }}\\${{ env.SSIS_PROJECT_NAME }}\\${{ env.SSIS_PACKAGE_NAME }}::[YourConnectionName].Password(String)";"${{ env.SSIS_CONNECTION_PASSWORD }}" /Par "\$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "\$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E',
                   @database_name = N'master';
               EXEC dbo.sp_add_jobschedule
                   @job_name = N'TimesheetProjectRun',
@@ -82,7 +84,7 @@ jobs:
               EXEC sp_update_jobstep
                   @job_name = N'TimesheetProjectRun',
                   @step_id = 1,
-                  @command = N'/ISSERVER "\SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}" /SERVER "${{ env.SQL_SERVER_NAME }}" /Par "$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E';
+                  @command = N'/ISSERVER "\\SSISDB\\${{ env.SSIS_FOLDER_NAME }}\\${{ env.SSIS_PROJECT_NAME }}\\${{ env.SSIS_PACKAGE_NAME }}" /SERVER "${{ env.SQL_SERVER_NAME }}" /Par "\\$SSISDB\\${{ env.SSIS_FOLDER_NAME }}\\${{ env.SSIS_PROJECT_NAME }}\\${{ env.SSIS_PACKAGE_NAME }}::[YourConnectionName].UserName(String)";"${{ env.SSIS_CONNECTION_USERNAME }}" /Par "\\$SSISDB\\${{ env.SSIS_FOLDER_NAME }}\\${{ env.SSIS_PROJECT_NAME }}\\${{ env.SSIS_PACKAGE_NAME }}::[YourConnectionName].Password(String)";"${{ env.SSIS_CONNECTION_PASSWORD }}" /Par "\$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "\$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E';
           END
           EOF
           /opt/mssql-tools/bin/sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -i setup_job.sql
