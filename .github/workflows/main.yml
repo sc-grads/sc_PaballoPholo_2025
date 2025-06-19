@@ -1,5 +1,4 @@
 name: Deploy TimesheetDB and Trigger SSIS Jobs
-
 on:
   push:
     branches:
@@ -15,14 +14,18 @@ env:
   SSIS_PROJECT_NAME: Projects/Timesheets/Packages
   SSIS_PACKAGE_NAME: DataMigrationFINAL.dtsx
   SQL_SERVER_NAME: ${{ secrets.SQL_SERVER_NAME }}
+  SQL_USERNAME: ${{ secrets.SQL_USERNAME }}
+  SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
 
 jobs:
   deploy-database:
     runs-on: ubuntu-latest
     steps:
+      # Checkout repository code
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Install SQL Server tools (sqlcmd) on the runner
       - name: Install SQL Server tools
         run: |
           sudo apt-get update
@@ -34,10 +37,12 @@ jobs:
           echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
           source ~/.bashrc
 
+      # Execute SQL Script to create database and tables
       - name: Execute SQL Script
         run: |
-          sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -E -d master -i HandsOnProjects/SQL_Scripts/TimesheetDB_Creation.sql
+          /opt/mssql-tools/bin/sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d master -i HandsOnProjects/SQL_Scripts/TimesheetDB_Creation.sql
 
+      # Trigger Sub-Main Workflow to deploy SSIS packages
       - name: Debug Dispatch
         run: |
           echo "Dispatching event to sub-main workflow"
@@ -48,6 +53,7 @@ jobs:
             -d '{"event_type":"deploy_ssis"}'
         shell: bash
 
+      # Create or update SQL Server Agent Job
       - name: Setup SQL Server Agent Job
         run: |
           set -e
@@ -79,10 +85,12 @@ jobs:
                   @command = N'/ISSERVER "\SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}" /SERVER "${{ env.SQL_SERVER_NAME }}" /Par "$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E';
           END
           EOF
-          sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -E -i setup_job.sql
+          /opt/mssql-tools/bin/sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -i setup_job.sql
         shell: bash
 
+      # Execute SQL Server Agent Job
       - name: Execute SQL Server Agent Job
         run: |
-          sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -E -Q "EXEC msdb.dbo.sp_start_job N'TimesheetProjectRun';"
+          /opt/mssql-tools/bin/sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -Q "EXEC msdb.dbo.sp_start_job N'TimesheetProjectRun';"
         shell: bash
+
