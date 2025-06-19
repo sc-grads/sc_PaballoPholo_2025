@@ -1,40 +1,37 @@
-name: Deploy SSIS Packages
+name: Deploy SSIS Packages and Jobs
 on:
   repository_dispatch:
     types: [deploy_ssis]
   workflow_dispatch:
 
 env:
-  SSIS_PACKAGE_NAME: DataMigrationFINAL.dtsx
   SSIS_FOLDER_NAME: TimesheetDataMigration
-  SSIS_PROJECT_NAME: Projects/Timesheets/Packages
+  SSIS_PROJECT_NAME: Timesheets
+  SSIS_PACKAGE_NAME: DataMigrationFINAL.dtsx
   SQL_SERVER_NAME: ${{ secrets.SQL_SERVER_NAME }}
   SQL_USERNAME: ${{ secrets.SQL_USERNAME }}
   SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
+  SSIS_DB_USERNAME: ${{ secrets.SSIS_DB_USERNAME }}
+  SSIS_DB_PASSWORD: ${{ secrets.SSIS_DB_PASSWORD }}
 
 jobs:
   deploy-ssis:
-    runs-on: windows-latest
+    runs-on: self-hosted  # Changed to self-hosted runner
     steps:
-      # Checkout repository code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Install SQL Server Integration Services (SSIS) tools
       - name: Install SSIS Tools
         run: |
           choco install sql-server-management-studio -y
         shell: pwsh
 
-      # Deploy SSIS Package to SSISDB
       - name: Deploy SSIS Package
         run: |
           $packagePath = "${{ github.workspace }}\HandsOnProjects\Timesheets\${{ env.SSIS_PACKAGE_NAME }}"
           $server = "${{ env.SQL_SERVER_NAME }}"
-          $catalogPath = "/SSISDB/${{ env.SSIS_FOLDER_NAME }}/${{ env.SSIS_PROJECT_NAME }}"
-          $connectionString = "Data Source=$server;User ID=${{ env.SQL_USERNAME }};Password=${{ env.SQL_PASSWORD }};Initial Catalog=SSISDB;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;"
           
-          # Create folder if it doesn't exist
+          # Create SSISDB folder if needed
           $sqlCreateFolder = @"
           USE SSISDB;
           IF NOT EXISTS (SELECT 1 FROM catalog.folders WHERE name = N'${{ env.SSIS_FOLDER_NAME }}')
@@ -42,19 +39,57 @@ jobs:
               EXEC catalog.create_folder @folder_name = N'${{ env.SSIS_FOLDER_NAME }}';
           END
           "@
-          echo "$sqlCreateFolder" | sqlcmd -S "$server" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d SSISDB
+          sqlcmd -S "$server" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d SSISDB -Q "$sqlCreateFolder"
           
-          # Create project if it doesn't exist
-          $sqlCreateProject = @"
-          USE SSISDB;
-          IF NOT EXISTS (SELECT 1 FROM catalog.projects WHERE folder_id = (SELECT folder_id FROM catalog.folders WHERE name = N'${{ env.SSIS_FOLDER_NAME }}') AND name = N'Timesheets')
+          # Deploy package using ISDeploymentWizard
+          ISDeploymentWizard.exe /Silent /ModelType:Project /SourcePath:"$packagePath" /DestinationServer:"$server" /DestinationPath:"/${{ env.SSIS_FOLDER_NAME }}/${{ env.SSIS_PROJECT_NAME }}"
+        shell: pwsh
+
+      - name: Create SQL Agent Job
+        run: |
+          $sqlJobCreation = @"
+          USE [msdb]
+          GO
+          IF NOT EXISTS (SELECT 1 FROM sysjobs WHERE name = 'TimesheetProjectRun')
           BEGIN
-              DECLARE @project_id bigint;
-              EXEC catalog.create_project @folder_name = N'${{ env.SSIS_FOLDER_NAME }}', @project_name = N'Timesheets', @project_id = @project_id OUTPUT;
+              -- Add job
+              EXEC dbo.sp_add_job @job_name = N'TimesheetProjectRun';
+              
+              -- Add job step
+              EXEC sp_add_jobstep
+                  @job_name = N'TimesheetProjectRun',
+                  @step_name = N'Run SSIS Package',
+                  @subsystem = N'SSIS',
+                  @command = N'/ISSERVER "\"\SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"" /SERVER "${{ env.SQL_SERVER_NAME }}" /Par "\"\$SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"::ServerName(String)";"${{ env.SQL_SERVER_NAME }}" /Par "\"\$SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"::UserName(String)";"${{ env.SSIS_DB_USERNAME }}" /Par "\"\$SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"::Password(String)";"${{ env.SSIS_DB_PASSWORD }}" /Par "\$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "\$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E',
+                  @database_name = N'master';
+              
+              -- Add schedule
+              EXEC dbo.sp_add_jobschedule
+                  @job_name = N'TimesheetProjectRun',
+                  @name = N'RunNow',
+                  @enabled = 1,
+                  @freq_type = 1,
+                  @active_start_date = $(Get-Date -Format yyyyMMdd),
+                  @active_start_time = $(Get-Date -Format HHmmss);
+              
+              -- Add job server
+              EXEC dbo.sp_add_jobserver @job_name = N'TimesheetProjectRun';
           END
+          ELSE
+          BEGIN
+              -- Update existing job step
+              EXEC sp_update_jobstep
+                  @job_name = N'TimesheetProjectRun',
+                  @step_id = 1,
+                  @command = N'/ISSERVER "\"\SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"" /SERVER "${{ env.SQL_SERVER_NAME }}" /Par "\"\$SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"::ServerName(String)";"${{ env.SQL_SERVER_NAME }}" /Par "\"\$SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"::UserName(String)";"${{ env.SSIS_DB_USERNAME }}" /Par "\"\$SSISDB\${{ env.SSIS_FOLDER_NAME }}\${{ env.SSIS_PROJECT_NAME }}\${{ env.SSIS_PACKAGE_NAME }}\"::Password(String)";"${{ env.SSIS_DB_PASSWORD }}" /Par "\$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "\$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E';
+          END
+          GO
           "@
-          echo "$sqlCreateProject" | sqlcmd -S "$server" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d SSISDB
           
-          # Deploy package using DTExec
-          DTExec.exe /File "$packagePath" /DestServer "$server" /DestFolder "${{ env.SSIS_FOLDER_NAME }}" /ProjectName "Timesheets" /PackageName "${{ env.SSIS_PACKAGE_NAME }}"
+          sqlcmd -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -Q "$sqlJobCreation"
+        shell: pwsh
+
+      - name: Execute SQL Agent Job
+        run: |
+          sqlcmd -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -Q "EXEC msdb.dbo.sp_start_job N'TimesheetProjectRun';"
         shell: pwsh
