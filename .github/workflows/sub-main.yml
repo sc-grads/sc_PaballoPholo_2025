@@ -73,12 +73,16 @@ jobs:
               Write-Error "Failed to create SSIS catalog folder. Exit code: $LASTEXITCODE. Log: $logContent"
               exit $LASTEXITCODE
           }
-          # Check if the result indicates an error or unexpected outcome
-          if ($result -match "ErrorMessage" -or [string]::IsNullOrEmpty($result)) {
+          # Check if the result indicates a successful outcome
+          if ($result -match "Folder created: ${{ env.SSIS_DEST_FOLDER }}" -or $result -match "Folder already exists: ${{ env.SSIS_DEST_FOLDER }}") {
+              Write-Output "Verified folder creation or existence: ${{ env.SSIS_DEST_FOLDER }}"
+          } elseif ($result -match "ErrorMessage" -or [string]::IsNullOrEmpty($result)) {
               Write-Error "Unexpected error during folder creation: $result"
               exit 1
+          } else {
+              Write-Error "Unexpected result during folder creation: $result"
+              exit 1
           }
-          Write-Output "Verified folder creation or existence: ${{ env.SSIS_DEST_FOLDER }}"
           Start-Sleep -Seconds 30
 
       - name: Verify SSIS Catalog State
