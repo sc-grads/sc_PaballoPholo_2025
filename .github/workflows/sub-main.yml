@@ -14,7 +14,7 @@ env:
   SSIS_DEST_FOLDER: 'NewDataMigration'
   SSIS_PROJECTS_FOLDER: 'Timesheets'
   JOB_NAME: 'RunNewDataMigrationPackage'
-  PACKAGE_NAME: 'DataMigrationFINAL.dtsx'
+  PACKAGE_NAME: 'DataMigrationFINAL'
 
 jobs:
   deploy-and-run:
@@ -113,7 +113,7 @@ jobs:
                   @job_name = N'${{ env.JOB_NAME }}',
                   @step_name = N'Run Data Migration',
                   @subsystem = N'SSIS',
-                  @command = N'/ISSERVER "\"\SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECTS_FOLDER }}\${{ env.PACKAGE_NAME }}\"" /SERVER "${{ env.SQL_SERVER }}"',
+                  @command = N'/ISSERVER "\SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECTS_FOLDER }}\${{ env.PACKAGE_NAME }}" /SERVER "${{ env.SQL_SERVER }}"',
                   @database_name = N'master';
               EXEC sp_add_jobserver @job_name = N'${{ env.JOB_NAME }}';
               PRINT 'Created new SQL Agent job: ${{ env.JOB_NAME }}';
@@ -123,10 +123,20 @@ jobs:
               PRINT 'Job already exists: ${{ env.JOB_NAME }}';
           END
           "@
-          sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql"
+          Write-Output "Executing SQL script for job creation: $sql"
+          sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql" -b 2>&1
+          if ($LASTEXITCODE -ne 0) {
+              Write-Error "sqlcmd failed with code $LASTEXITCODE. Output: $sqlcmdOutput"
+              exit $LASTEXITCODE
+          }
 
       - name: Run Data Migration Job
         shell: powershell
         run: |
           $sql = "EXEC msdb.dbo.sp_start_job @job_name = N'${{ env.JOB_NAME }}'; PRINT 'Job started: ${{ env.JOB_NAME }}';"
-          sqlcmd -S "${{ env.SQL_SERVER }}" -Q $sql
+          Write-Output "Executing SQL to start job: $sql"
+          sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql" -b 2>&1
+          if ($LASTEXITCODE -ne 0) {
+              Write-Error "sqlcmd failed with code $LASTEXITCODE. Output: $sqlcmdOutput"
+              exit $LASTEXITCODE
+          }
