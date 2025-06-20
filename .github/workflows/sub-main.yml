@@ -42,6 +42,44 @@ jobs:
           Write-Output "GITHUB_WORKSPACE: $env:GITHUB_WORKSPACE"
           dir "$env:GITHUB_WORKSPACE\HandsOnProjects\Timesheets\bin\Development" -Recurse -ErrorAction Continue
 
+      - name: Create SSIS Catalog Folder (if not exists)
+        shell: powershell
+        run: |
+          $sql = @"
+          USE SSISDB
+          GO
+          IF NOT EXISTS (SELECT 1 FROM [catalog].[folders] WHERE name = '${{ env.SSIS_DEST_FOLDER }}')
+          BEGIN
+              EXEC [catalog].[create_folder] @folder_name = N'${{ env.SSIS_DEST_FOLDER }}';
+              Write-Output "Created folder: ${{ env.SSIS_DEST_FOLDER }}";
+          END
+          GO
+          "@
+          sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql"
+          if ($LASTEXITCODE -ne 0) {
+              Write-Error "Failed to create SSIS catalog folder"
+              exit $LASTEXITCODE
+          }
+
+      - name: Create SSIS Project (if not exists)
+        shell: powershell
+        run: |
+          $sql = @"
+          USE SSISDB
+          GO
+          IF NOT EXISTS (SELECT 1 FROM [catalog].[projects] WHERE name = '${{ env.SSIS_PROJECT }}' AND folder_name = '${{ env.SSIS_DEST_FOLDER }}')
+          BEGIN
+              EXEC [catalog].[create_project] @folder_name = N'${{ env.SSIS_DEST_FOLDER }}', @project_name = N'${{ env.SSIS_PROJECT }}';
+              Write-Output "Created project: ${{ env.SSIS_PROJECT }} in folder ${{ env.SSIS_DEST_FOLDER }}";
+          END
+          GO
+          "@
+          sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql"
+          if ($LASTEXITCODE -ne 0) {
+              Write-Error "Failed to create SSIS project"
+              exit $LASTEXITCODE
+          }
+
       - name: Deploy SSIS Package
         shell: powershell
         run: |
