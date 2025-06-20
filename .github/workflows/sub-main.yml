@@ -55,11 +55,12 @@ jobs:
           GO
           "@
           $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql"
+          Write-Output "Folder creation result: $result"
           if ($LASTEXITCODE -eq 0) {
               Write-Output "Created folder: ${{ env.SSIS_DEST_FOLDER }} (if it didn't exist)"
-              Start-Sleep -Seconds 10
+              Start-Sleep -Seconds 20
           } else {
-              Write-Error "Failed to create SSIS catalog folder"
+              Write-Error "Failed to create SSIS catalog folder. Exit code: $LASTEXITCODE"
               exit $LASTEXITCODE
           }
 
@@ -76,11 +77,12 @@ jobs:
           GO
           "@
           $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql"
+          Write-Output "Project creation result: $result"
           if ($LASTEXITCODE -eq 0) {
               Write-Output "Created project: ${{ env.SSIS_PROJECT }} in folder ${{ env.SSIS_DEST_FOLDER }} (if it didn't exist)"
-              Start-Sleep -Seconds 10
+              Start-Sleep -Seconds 20
           } else {
-              Write-Error "Failed to create SSIS project"
+              Write-Error "Failed to create SSIS project. Exit code: $LASTEXITCODE"
               exit $LASTEXITCODE
           }
 
