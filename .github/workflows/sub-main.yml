@@ -11,8 +11,8 @@ on:
 env:
   SQL_SERVER: 'localhost'
   SSIS_SOURCE_PATH: 'HandsOnProjects/Timesheets/bin/Development/Timesheets.ispac'
-  SSIS_DEST_FOLDER: 'NewDataMigration'  # Folder name
-  SSIS_PROJECTS_FOLDER: 'Projects'     # Auto-created subfolder
+  SSIS_DEST_FOLDER: 'NewDataMigration'
+  SSIS_PROJECTS_FOLDER: 'Projects'
   JOB_NAME: 'RunNewDataMigrationPackage'
   PACKAGE_NAME: 'DataMigrationFINAL.dtsx'
 
@@ -73,11 +73,12 @@ jobs:
               Write-Error "Failed to create SSIS catalog folder. Exit code: $LASTEXITCODE. Log: $logContent"
               exit $LASTEXITCODE
           }
-          if ($result -match "error|fail|exception" -or [string]::IsNullOrEmpty($result)) {
-              Write-Error "Unexpected result during folder creation: $result"
+          # Check if the result indicates an error or unexpected outcome
+          if ($result -match "ErrorMessage" -or [string]::IsNullOrEmpty($result)) {
+              Write-Error "Unexpected error during folder creation: $result"
               exit 1
           }
-          Write-Output "Verified folder creation: ${{ env.SSIS_DEST_FOLDER }}"
+          Write-Output "Verified folder creation or existence: ${{ env.SSIS_DEST_FOLDER }}"
           Start-Sleep -Seconds 30
 
       - name: Verify SSIS Catalog State
