@@ -15,6 +15,7 @@ env:
   SSIS_PROJECTS_FOLDER: 'Timesheets'
   JOB_NAME: 'RunNewDataMigrationPackage'
   PACKAGE_NAME: 'DataMigrationFINAL.dtsx'
+  SQL_AUTH_ARGS: ''  # Will be set conditionally
 
 jobs:
   deploy-and-run:
@@ -29,6 +30,11 @@ jobs:
         run: |
           Write-Output "GITHUB_WORKSPACE: $env:GITHUB_WORKSPACE"
           dir "$env:GITHUB_WORKSPACE\HandsOnProjects\Timesheets\bin\Development" -ErrorAction Continue
+
+      - name: Set SQL Authentication Arguments
+        if: env.SQL_AUTH_ARGS == '' && secrets.SQL_USERNAME != null
+        run: |
+          echo "SQL_AUTH_ARGS=-U '${{ secrets.SQL_USERNAME }}' -P '${{ secrets.SQL_PASSWORD }}'" >> $env:GITHUB_ENV
 
       - name: Create SSIS Catalog Folder (if not exists)
         shell: powershell
@@ -50,7 +56,7 @@ jobs:
               THROW;
           END CATCH
           "@
-          sqlcmd -S "${{ env.SQL_SERVER }}" ${{ secrets.SQL_USERNAME && "-U '${{ secrets.SQL_USERNAME }}' -P '${{ secrets.SQL_PASSWORD }}'" }} -Q "$sql"
+          sqlcmd -S "${{ env.SQL_SERVER }}" $env:SQL_AUTH_ARGS -Q "$sql"
 
       - name: Deploy SSIS ISPAC via T-SQL
         shell: powershell
@@ -80,7 +86,7 @@ jobs:
           Set-Content -Path $tempSqlFile -Value $sqlContent -Force
 
           Write-Output "Executing SQL script file with sqlcmd..."
-          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" ${{ secrets.SQL_USERNAME && "-U '${{ secrets.SQL_USERNAME }}' -P '${{ secrets.SQL_PASSWORD }}'" }} -i $tempSqlFile -b -v 2>&1
+          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" $env:SQL_AUTH_ARGS -i $tempSqlFile -b -v 2>&1
           Write-Output $sqlcmdOutput
 
           if ($LASTEXITCODE -ne 0) {
@@ -91,7 +97,7 @@ jobs:
           $operationId = ($sqlcmdOutput | Select-String "\d+").Matches.Value
           if ($operationId) {
               $sql = "SELECT message_type, message FROM SSISDB.catalog.operation_messages WHERE operation_id = $operationId"
-              $messages = sqlcmd -S "${{ env.SQL_SERVER }}" ${{ secrets.SQL_USERNAME && "-U '${{ secrets.SQL_USERNAME }}' -P '${{ secrets.SQL_PASSWORD }}'" }} -Q $sql -h -1
+              $messages = sqlcmd -S "${{ env.SQL_SERVER }}" $env:SQL_AUTH_ARGS -Q $sql -h -1
               Write-Output "Operation Messages for operation_id $operationId :"
               Write-Output $messages
           }
@@ -120,10 +126,10 @@ jobs:
               PRINT 'Job already exists: ${{ env.JOB_NAME }}';
           END
           "@
-          sqlcmd -S "${{ env.SQL_SERVER }}" ${{ secrets.SQL_USERNAME && "-U '${{ secrets.SQL_USERNAME }}' -P '${{ secrets.SQL_PASSWORD }}'" }} -Q "$sql"
+          sqlcmd -S "${{ env.SQL_SERVER }}" $env:SQL_AUTH_ARGS -Q "$sql"
 
       - name: Run Data Migration Job
         shell: powershell
         run: |
           $sql = "EXEC msdb.dbo.sp_start_job @job_name = N'${{ env.JOB_NAME }}'; PRINT 'Job started: ${{ env.JOB_NAME }}';"
-          sqlcmd -S "${{ env.SQL_SERVER }}" ${{ secrets.SQL_USERNAME && "-U '${{ secrets.SQL_USERNAME }}' -P '${{ secrets.SQL_PASSWORD }}'" }} -Q $sql
+          sqlcmd -S "${{ env.SQL_SERVER }}" $env:SQL_AUTH_ARGS -Q $sql
