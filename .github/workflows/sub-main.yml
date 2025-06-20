@@ -11,9 +11,9 @@ on:
 env:
   SQL_SERVER: 'localhost'
   SSIS_SOURCE_PATH: 'HandsOnProjects/Timesheets/bin/Development/Timesheets.ispac'
-  SSIS_DEST_FOLDER: 'TimesheetDataMigration'  # Just the folder name
-  SSIS_PROJECT: 'Timesheets'                 # Just the project name
-  JOB_NAME: 'RunDataMigrationPackage'
+  SSIS_DEST_FOLDER: 'NewDataMigration'  # New folder name
+  SSIS_PROJECT: 'NewTimesheets'        # New project name
+  JOB_NAME: 'RunNewDataMigrationPackage'
   PACKAGE_NAME: 'DataMigrationFINAL.dtsx'
 
 jobs:
@@ -57,7 +57,6 @@ jobs:
           $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql"
           if ($LASTEXITCODE -eq 0) {
               Write-Output "Created folder: ${{ env.SSIS_DEST_FOLDER }} (if it didn't exist)"
-              # Increased delay to allow catalog sync
               Start-Sleep -Seconds 10
           } else {
               Write-Error "Failed to create SSIS catalog folder"
@@ -79,7 +78,6 @@ jobs:
           $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql"
           if ($LASTEXITCODE -eq 0) {
               Write-Output "Created project: ${{ env.SSIS_PROJECT }} in folder ${{ env.SSIS_DEST_FOLDER }} (if it didn't exist)"
-              # Increased delay to allow catalog sync
               Start-Sleep -Seconds 10
           } else {
               Write-Error "Failed to create SSIS project"
@@ -121,8 +119,10 @@ jobs:
           "@
           $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql" -h -1
           Write-Output "Connection test result: $result"
-          if ($result -eq $null -or $result -notmatch "Connection Valid") {
-              Write-Error "SSIS catalog connection validation failed"
+          # Trim the result and check for "Connection Valid"
+          $trimmedResult = $result.Trim()
+          if ([string]::IsNullOrEmpty($trimmedResult) -or $trimmedResult -notmatch "Connection Valid") {
+              Write-Error "SSIS catalog connection validation failed. Result: $trimmedResult"
               exit 1
           } else {
               Write-Output "SSIS catalog connection validated successfully"
@@ -137,4 +137,58 @@ jobs:
               Write-Error "SSIS package not found at: $sourcePath"
               exit 1
           }
-          Write-Output
+          Write-Output "Deploying package from: $sourcePath"
+          Write-Output "Destination: ${{ env.SQL_SERVER }} | Folder: ${{ env.SSIS_DEST_FOLDER }} | Project: ${{ env.SSIS_PROJECT }}"
+
+          & "$env:SSIS_PATH" /Silent `
+            /SourcePath:"$sourcePath" `
+            /DestinationServer:"${{ env.SQL_SERVER }}" `
+            /DestinationPath:"/${{ env.SSIS_DEST_FOLDER }}/${{ env.SSIS_PROJECT }}" `
+            /ModelType:Project
+
+          if ($LASTEXITCODE -ne 0) {
+              Write-Error "SSIS deployment failed with exit code $LASTEXITCODE"
+              exit $LASTEXITCODE
+          }
+          Write-Output "SSIS package deployed successfully"
+
+      - name: Create SQL Agent Job
+        shell: powershell
+        run: |
+          $sql = @"
+          USE [msdb]
+          GO
+          IF NOT EXISTS (SELECT 1 FROM sysjobs WHERE name = '${{ env.JOB_NAME }}')
+          BEGIN
+              EXEC dbo.sp_add_job @job_name = N'${{ env.JOB_NAME }}';
+              
+              EXEC sp_add_jobstep
+                  @job_name = N'${{ env.JOB_NAME }}',
+                  @step_name = N'Run Data Migration',
+                  @subsystem = N'SSIS',
+                  @command = N'/ISSERVER "\"\SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECT }}\${{ env.PACKAGE_NAME }}\"" /SERVER "${{ env.SQL_SERVER }}" /Par "\"\$SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECT }}\${{ env.PACKAGE_NAME }}\"::ServerName(String)";"${{ env.SQL_SERVER }}" /CALLERINFO SQLAGENT /REPORTING E',
+                  @database_name = N'master';
+              
+              EXEC dbo.sp_add_jobserver @job_name = N'${{ env.JOB_NAME }}';
+              Write-Output "Created new job: ${{ env.JOB_NAME }}"
+          END
+          GO
+          "@
+
+          sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql"
+          if ($LASTEXITCODE -ne 0) {
+              Write-Error "Failed to create job"
+              exit $LASTEXITCODE
+          }
+
+      - name: Run Data Migration Job
+        shell: powershell
+        run: |
+          sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" `
+            -Q "EXEC msdb.dbo.sp_start_job @job_name='${{ env.JOB_NAME }}'"
+          
+          if ($LASTEXITCODE -ne 0) {
+              Write-Error "Failed to start job"
+              exit $LASTEXITCODE
+          }
+          Write-Output "Job started successfully. Check SQL Agent for status."
