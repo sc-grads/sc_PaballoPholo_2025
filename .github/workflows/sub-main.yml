@@ -13,7 +13,7 @@ env:
   SSIS_SOURCE_PATH: 'HandsOnProjects/Timesheets/bin/Development/Timesheets.ispac'
   SSIS_DEST_FOLDER: 'NewDataMigration'
   SSIS_PROJECTS_FOLDER: 'Timesheets'
-  JOB_NAME: 'RunDataMigrationPackage'  # Aligned with manual script
+  JOB_NAME: 'RunDataMigrationPackage'
   PACKAGE_NAME: 'DataMigrationFINAL'
 
 jobs:
@@ -158,7 +158,7 @@ jobs:
           QuitWithRollback:
               IF (@@TRANCOUNT > 0) ROLLBACK TRANSACTION
           EndSave:
-          "
+          "@
           Write-Output "Writing SQL script to file: $tempSqlFile"
           Set-Content -Path $tempSqlFile -Value $sql -Force
           Write-Output "Executing SQL script for job creation..."
