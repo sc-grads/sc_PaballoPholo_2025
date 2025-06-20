@@ -24,19 +24,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Ensure SqlServer Module Installed
-        shell: powershell
-        run: |
-          Write-Output "Installing SqlServer module with AllowClobber"
-          Install-Module -Name SqlServer -AllowClobber -Force -Scope AllUsers
-          Import-Module SqlServer -Force
-          Write-Output "SqlServer module installed and loaded."
-
       - name: Debug Working Directory and File Location
         shell: powershell
         run: |
           Write-Output "GITHUB_WORKSPACE: $env:GITHUB_WORKSPACE"
-          dir "$env:GITHUB_WORKSPACE\HandsOnProjects\Timesheets\bin\Development" -Recurse -ErrorAction Continue
+          dir "$env:GITHUB_WORKSPACE\HandsOnProjects\Timesheets\bin\Development" -ErrorAction Continue
 
       - name: Create SSIS Catalog Folder (if not exists)
         shell: powershell
@@ -47,33 +39,36 @@ jobs:
               IF NOT EXISTS (SELECT 1 FROM [catalog].[folders] WHERE name = '${{ env.SSIS_DEST_FOLDER }}')
               BEGIN
                   EXEC [catalog].[create_folder] @folder_name = N'${{ env.SSIS_DEST_FOLDER }}';
-                  SELECT 'Folder created: ${{ env.SSIS_DEST_FOLDER }}' AS Result;
+                  PRINT 'Created SSIS folder: ${{ env.SSIS_DEST_FOLDER }}';
               END
               ELSE
               BEGIN
-                  SELECT 'Folder already exists: ${{ env.SSIS_DEST_FOLDER }}' AS Result;
+                  PRINT 'Folder already exists: ${{ env.SSIS_DEST_FOLDER }}';
               END
           END TRY
           BEGIN CATCH
               THROW;
           END CATCH
-          GO
           "@
           sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql"
 
-      - name: Deploy SSIS Package
+      - name: Deploy SSIS ISPAC via T-SQL
         shell: powershell
         run: |
-          Import-Module SqlServer -Force
-          $sourcePath = Join-Path -Path $env:GITHUB_WORKSPACE -ChildPath "${{ env.SSIS_SOURCE_PATH }}"
-          $sourcePath = $sourcePath.Replace('/', '\')
-          if (-not (Test-Path $sourcePath)) {
-              Write-Error "SSIS package not found at: $sourcePath"
+          $ispacPath = Join-Path -Path $env:GITHUB_WORKSPACE -ChildPath "${{ env.SSIS_SOURCE_PATH }}"
+          if (-not (Test-Path $ispacPath)) {
+              Write-Error "ISPAC file not found at: $ispacPath"
               exit 1
           }
-          Write-Output "Publishing ISPAC file at $sourcePath to SSISDB: ${{ env.SSIS_DEST_FOLDER }}/${{ env.SSIS_PROJECTS_FOLDER }} on ${{ env.SQL_SERVER }}"
-          Publish-ISPACProject -Path $sourcePath -Server ${{ env.SQL_SERVER }} -Folder ${{ env.SSIS_DEST_FOLDER }} -Project ${{ env.SSIS_PROJECTS_FOLDER }} -AllowOverwrite
-          Write-Output "SSIS package deployed successfully."
+          Write-Output "Reading ISPAC file: $ispacPath"
+          $binaryContent = [System.IO.File]::ReadAllBytes($ispacPath)
+          $hexString = ($binaryContent | ForEach-Object { $_.ToString('X2') }) -join ''
+          $sql = @"
+          DECLARE @ispac varbinary(max) = 0x$hexString;
+          EXEC [SSISDB].[catalog].[deploy_project] @folder_name=N'${{ env.SSIS_DEST_FOLDER }}', @project_name=N'${{ env.SSIS_PROJECTS_FOLDER }}', @project_stream=@ispac;
+          "@
+          sqlcmd -S "${{ env.SQL_SERVER }}" -Q $sql
+          Write-Output "ISPAC deployed successfully to SSISDB/${{ env.SSIS_DEST_FOLDER }}/${{ env.SSIS_PROJECTS_FOLDER }}"
 
       - name: Create SQL Agent Job
         shell: powershell
@@ -90,17 +85,17 @@ jobs:
                   @command = N'/ISSERVER "\"\SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECTS_FOLDER }}\${{ env.PACKAGE_NAME }}\"" /SERVER "${{ env.SQL_SERVER }}"',
                   @database_name = N'master';
               EXEC sp_add_jobserver @job_name = N'${{ env.JOB_NAME }}';
-              SELECT 'Created new job: ${{ env.JOB_NAME }}' AS Result;
+              PRINT 'Created new job: ${{ env.JOB_NAME }}';
           END
           ELSE
           BEGIN
-              SELECT 'Job already exists: ${{ env.JOB_NAME }}' AS Result;
+              PRINT 'Job already exists: ${{ env.JOB_NAME }}';
           END
           "@
-          sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql"
+          sqlcmd -S "${{ env.SQL_SERVER }}" -Q $sql
 
       - name: Run Data Migration Job
         shell: powershell
         run: |
-          $sql = "EXEC msdb.dbo.sp_start_job @job_name = N'${{ env.JOB_NAME }}'; SELECT 'Job started: ${{ env.JOB_NAME }}' AS Result;"
-          sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql"
+          $sql = "EXEC msdb.dbo.sp_start_job @job_name = N'${{ env.JOB_NAME }}'; PRINT 'Job started: ${{ env.JOB_NAME }}';"
+          sqlcmd -S "${{ env.SQL_SERVER }}" -Q $sql
