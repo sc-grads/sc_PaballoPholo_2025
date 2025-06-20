@@ -54,13 +54,14 @@ jobs:
           END
           GO
           "@
-          $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql"
+          $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql" -o "folder_creation.log" 2>&1
           Write-Output "Folder creation result: $result"
+          Get-Content "folder_creation.log" | Write-Output
           if ($LASTEXITCODE -eq 0) {
               Write-Output "Created folder: ${{ env.SSIS_DEST_FOLDER }} (if it didn't exist)"
               Start-Sleep -Seconds 20
           } else {
-              Write-Error "Failed to create SSIS catalog folder. Exit code: $LASTEXITCODE"
+              Write-Error "Failed to create SSIS catalog folder. Exit code: $LASTEXITCODE. Log: $(Get-Content 'folder_creation.log')"
               exit $LASTEXITCODE
           }
 
@@ -76,13 +77,14 @@ jobs:
           END
           GO
           "@
-          $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql"
+          $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql" -o "project_creation.log" 2>&1
           Write-Output "Project creation result: $result"
+          Get-Content "project_creation.log" | Write-Output
           if ($LASTEXITCODE -eq 0) {
               Write-Output "Created project: ${{ env.SSIS_PROJECT }} in folder ${{ env.SSIS_DEST_FOLDER }} (if it didn't exist)"
               Start-Sleep -Seconds 20
           } else {
-              Write-Error "Failed to create SSIS project. Exit code: $LASTEXITCODE"
+              Write-Error "Failed to create SSIS project. Exit code: $LASTEXITCODE. Log: $(Get-Content 'project_creation.log')"
               exit $LASTEXITCODE
           }
 
