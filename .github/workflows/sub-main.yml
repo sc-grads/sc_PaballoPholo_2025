@@ -110,50 +110,58 @@ jobs:
           BEGIN TRANSACTION
           DECLARE @ReturnCode INT
           SELECT @ReturnCode = 0
-          IF NOT EXISTS (SELECT name FROM msdb.dbo.syscategories WHERE name=N'[Uncategorized (Local)]' AND category_class=1)
+          IF NOT EXISTS (SELECT name FROM msdb.dbo.sysjobs WHERE name = '${{ env.JOB_NAME }}')
           BEGIN
-              EXEC @ReturnCode = msdb.dbo.sp_add_category @class=N'JOB', @type=N'LOCAL', @name=N'[Uncategorized (Local)]'
+              IF NOT EXISTS (SELECT name FROM msdb.dbo.syscategories WHERE name=N'[Uncategorized (Local)]' AND category_class=1)
+              BEGIN
+                  EXEC @ReturnCode = msdb.dbo.sp_add_category @class=N'JOB', @type=N'LOCAL', @name=N'[Uncategorized (Local)]'
+                  IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+              END
+
+              DECLARE @jobId BINARY(16)
+              EXEC @ReturnCode = msdb.dbo.sp_add_job @job_name=N'${{ env.JOB_NAME }}',
+                  @enabled=1,
+                  @notify_level_eventlog=0,
+                  @notify_level_email=0,
+                  @notify_level_netsend=0,
+                  @notify_level_page=0,
+                  @delete_level=0,
+                  @description=N'No description available.',
+                  @category_name=N'[Uncategorized (Local)]',
+                  @owner_login_name=N'LAPTOP-NTKM1UMO\PaballoPholo',
+                  @job_id = @jobId OUTPUT
               IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+
+              EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'LoadTimeSheetData',
+                  @step_id=1,
+                  @cmdexec_success_code=0,
+                  @on_success_action=1,
+                  @on_success_step_id=0,
+                  @on_fail_action=2,
+                  @on_fail_step_id=0,
+                  @retry_attempts=0,
+                  @retry_interval=0,
+                  @os_run_priority=0,
+                  @subsystem=N'SSIS',
+                  @command=N'/ISSERVER "\SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECTS_FOLDER }}\${{ env.PACKAGE_NAME }}" /SERVER "." /Par "$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E',
+                  @database_name=N'master',
+                  @flags=0
+              IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+
+              EXEC @ReturnCode = msdb.dbo.sp_update_job @job_id = @jobId, @start_step_id = 1
+              IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+
+              EXEC @ReturnCode = msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N'(local)'
+              IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+
+              COMMIT TRANSACTION
+              PRINT 'Created new SQL Agent job: ${{ env.JOB_NAME }}';
           END
-
-          DECLARE @jobId BINARY(16)
-          EXEC @ReturnCode = msdb.dbo.sp_add_job @job_name=N'${{ env.JOB_NAME }}',
-              @enabled=1,
-              @notify_level_eventlog=0,
-              @notify_level_email=0,
-              @notify_level_netsend=0,
-              @notify_level_page=0,
-              @delete_level=0,
-              @description=N'No description available.',
-              @category_name=N'[Uncategorized (Local)]',
-              @owner_login_name=N'LAPTOP-NTKM1UMO\PaballoPholo',
-              @job_id = @jobId OUTPUT
-          IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-
-          EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'LoadTimeSheetData',
-              @step_id=1,
-              @cmdexec_success_code=0,
-              @on_success_action=1,
-              @on_success_step_id=0,
-              @on_fail_action=2,
-              @on_fail_step_id=0,
-              @retry_attempts=0,
-              @retry_interval=0,
-              @os_run_priority=0,
-              @subsystem=N'SSIS',
-              @command=N'/ISSERVER "\SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECTS_FOLDER }}\${{ env.PACKAGE_NAME }}" /SERVER "." /Par "$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E',
-              @database_name=N'master',
-              @flags=0
-          IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-
-          EXEC @ReturnCode = msdb.dbo.sp_update_job @job_id = @jobId, @start_step_id = 1
-          IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-
-          EXEC @ReturnCode = msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N'(local)'
-          IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-
-          COMMIT TRANSACTION
-          PRINT 'Created new SQL Agent job: ${{ env.JOB_NAME }}';
+          ELSE
+          BEGIN
+              COMMIT TRANSACTION
+              PRINT 'Job already exists: ${{ env.JOB_NAME }}';
+          END
           GOTO EndSave
           QuitWithRollback:
               IF (@@TRANCOUNT > 0) ROLLBACK TRANSACTION
@@ -165,8 +173,13 @@ jobs:
           $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -i $tempSqlFile -b 2>&1
           Write-Output $sqlcmdOutput
           if ($LASTEXITCODE -ne 0) {
-              Write-Error "sqlcmd failed with code $LASTEXITCODE. Output: $sqlcmdOutput"
-              exit $LASTEXITCODE
+              # Check if the failure is due to the job already existing
+              if ($sqlcmdOutput -like "*The specified @name ('${{ env.JOB_NAME }}') already exists*") {
+                  Write-Output "Job '${{ env.JOB_NAME }}' already exists, continuing..."
+              } else {
+                  Write-Error "sqlcmd failed with code $LASTEXITCODE. Output: $sqlcmdOutput"
+                  exit $LASTEXITCODE
+              }
           }
 
       - name: Run Data Migration Job
