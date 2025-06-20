@@ -123,13 +123,9 @@ jobs:
               exit 1
           }
           Write-Output "Deploying package from: $sourcePath"
-          $destinationPath = "/${{ env.SSIS_DEST_FOLDER }}/${{ env.SSIS_PROJECTS_FOLDER }}"
+          $destinationPath = "/SSISDB/${{ env.SSIS_DEST_FOLDER }}/${{ env.SSIS_PROJECTS_FOLDER }}"
           Write-Output "Destination: ${{ env.SQL_SERVER }} | Path: $destinationPath"
-          & "$env:SSIS_PATH" /Silent `
-            /SourcePath:"$sourcePath" `
-            /DestinationServer:"${{ env.SQL_SERVER }}" `
-            /DestinationPath:"$destinationPath" `
-            /ModelType:Project
+          & "C:\Program Files (x86)\Microsoft SQL Server\160\DTS\Binn\dtutil.exe" /SOURCESERVER "${{ env.SQL_SERVER }}" /FILE "$sourcePath" /COPY SQL;"$destinationPath" /QUIET
           if ($LASTEXITCODE -ne 0) {
               Write-Error "SSIS deployment failed with exit code $LASTEXITCODE"
               exit $LASTEXITCODE
