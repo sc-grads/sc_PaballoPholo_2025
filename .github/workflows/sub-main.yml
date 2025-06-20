@@ -80,7 +80,7 @@ jobs:
           Set-Content -Path $tempSqlFile -Value $sqlContent -Force
 
           Write-Output "Executing SQL script file with sqlcmd..."
-          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -i $tempSqlFile -b -v 2>&1
+          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -i $tempSqlFile -b 2>&1  # Removed -v
           Write-Output $sqlcmdOutput
 
           if ($LASTEXITCODE -ne 0) {
