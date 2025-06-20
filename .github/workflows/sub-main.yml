@@ -54,7 +54,7 @@ jobs:
           END
           GO
           "@
-          $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql" -o "folder_creation.log" 2>&1
+          $result = sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql" -o "folder_creation.log" 2>&1
           Write-Output "Folder creation result: $result"
           Get-Content "folder_creation.log" | Write-Output
           if ($LASTEXITCODE -eq 0) {
@@ -77,7 +77,7 @@ jobs:
           END
           GO
           "@
-          $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql" -o "project_creation.log" 2>&1
+          $result = sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql" -o "project_creation.log" 2>&1
           Write-Output "Project creation result: $result"
           Get-Content "project_creation.log" | Write-Output
           if ($LASTEXITCODE -eq 0) {
@@ -100,7 +100,7 @@ jobs:
           WHERE f.name = '${{ env.SSIS_DEST_FOLDER }}' AND p.name = '${{ env.SSIS_PROJECT }}'
           GO
           "@
-          $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql" -h -1
+          $result = sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql" -h -1
           Write-Output "Catalog state: $result"
 
       - name: Validate SSIS Connection
@@ -121,7 +121,7 @@ jobs:
           END
           GO
           "@
-          $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql" -h -1
+          $result = sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql" -h -1
           Write-Output "Connection test result: $result"
           # Trim the result and check for "Connection Valid"
           $trimmedResult = $result.Trim()
@@ -179,7 +179,7 @@ jobs:
           GO
           "@
 
-          sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql"
+          sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql"
           if ($LASTEXITCODE -ne 0) {
               Write-Error "Failed to create job"
               exit $LASTEXITCODE
@@ -188,8 +188,7 @@ jobs:
       - name: Run Data Migration Job
         shell: powershell
         run: |
-          sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" `
-            -Q "EXEC msdb.dbo.sp_start_job @job_name='${{ env.JOB_NAME }}'"
+          sqlcmd -S "${{ env.SQL_SERVER }}" -Q "EXEC msdb.dbo.sp_start_job @job_name='${{ env.JOB_NAME }}'"
           
           if ($LASTEXITCODE -ne 0) {
               Write-Error "Failed to start job"
