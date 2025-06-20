@@ -32,7 +32,7 @@ jobs:
           dir "$env:GITHUB_WORKSPACE\HandsOnProjects\Timesheets\bin\Development" -ErrorAction Continue
 
       - name: Set SQL Authentication Arguments
-        if: ${{ env.SQL_AUTH_ARGS == '' && secrets.SQL_USERNAME != null }}
+        if: ${{ env.SQL_AUTH_ARGS == '' && secrets.SQL_USERNAME != '' }}
         run: |
           echo "SQL_AUTH_ARGS=-U '${{ secrets.SQL_USERNAME }}' -P '${{ secrets.SQL_PASSWORD }}'" >> $env:GITHUB_ENV
 
