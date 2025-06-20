@@ -80,7 +80,7 @@ jobs:
           Set-Content -Path $tempSqlFile -Value $sqlContent -Force
 
           Write-Output "Executing SQL script file with sqlcmd..."
-          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -i $tempSqlFile -b 2>&1  # Removed -v
+          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -i $tempSqlFile -b 2>&1
           Write-Output $sqlcmdOutput
 
           if ($LASTEXITCODE -ne 0) {
@@ -91,9 +91,12 @@ jobs:
           $operationId = ($sqlcmdOutput | Select-String "\d+").Matches.Value
           if ($operationId) {
               $sql = "SELECT message_type, message FROM SSISDB.catalog.operation_messages WHERE operation_id = $operationId"
-              $messages = sqlcmd -S "${{ env.SQL_SERVER }}" -Q $sql -h -1
+              Write-Output "Executing operation messages query: $sql"
+              $messages = sqlcmd -S "${{ env.SQL_SERVER }}" -Q $sql -h -1 2>&1
               Write-Output "Operation Messages for operation_id $operationId :"
               Write-Output $messages
+          } else {
+              Write-Output "No operation_id found, skipping operation messages query."
           }
 
           Write-Output "ISPAC deployed successfully to SSISDB/${{ env.SSIS_DEST_FOLDER }}/${{ env.SSIS_PROJECTS_FOLDER }}"
