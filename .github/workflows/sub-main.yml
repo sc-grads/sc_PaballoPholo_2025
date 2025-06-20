@@ -57,8 +57,8 @@ jobs:
           $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql"
           if ($LASTEXITCODE -eq 0) {
               Write-Output "Created folder: ${{ env.SSIS_DEST_FOLDER }} (if it didn't exist)"
-              # Add a short delay to allow catalog sync
-              Start-Sleep -Seconds 5
+              # Increased delay to allow catalog sync
+              Start-Sleep -Seconds 10
           } else {
               Write-Error "Failed to create SSIS catalog folder"
               exit $LASTEXITCODE
@@ -79,8 +79,8 @@ jobs:
           $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql"
           if ($LASTEXITCODE -eq 0) {
               Write-Output "Created project: ${{ env.SSIS_PROJECT }} in folder ${{ env.SSIS_DEST_FOLDER }} (if it didn't exist)"
-              # Add a short delay to allow catalog sync
-              Start-Sleep -Seconds 5
+              # Increased delay to allow catalog sync
+              Start-Sleep -Seconds 10
           } else {
               Write-Error "Failed to create SSIS project"
               exit $LASTEXITCODE
@@ -101,6 +101,31 @@ jobs:
           $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql" -h -1
           Write-Output "Catalog state: $result"
 
+      - name: Validate SSIS Connection
+        shell: powershell
+        run: |
+          $testPath = "/${{ env.SSIS_DEST_FOLDER }}/${{ env.SSIS_PROJECT }}"
+          Write-Output "Testing connection to path: $testPath"
+          $sql = @"
+          USE SSISDB
+          GO
+          IF EXISTS (SELECT 1 FROM [catalog].[folders] f JOIN [catalog].[projects] p ON f.folder_id = p.folder_id WHERE f.name = '${{ env.SSIS_DEST_FOLDER }}' AND p.name = '${{ env.SSIS_PROJECT }}')
+          BEGIN
+              SELECT 'Connection Valid' AS Status
+          END
+          ELSE
+          BEGIN
+              SELECT 'Connection Invalid' AS Status
+          END
+          GO
+          "@
+          $result = sqlcmd -S "${{ env.SQL_SERVER }}" -U "${{ secrets.SQL_USERNAME }}" -P "${{ secrets.SQL_PASSWORD }}" -Q "$sql" -h -1
+          Write-Output "Connection test result: $result"
+          if ($result -notlike "*Connection Valid*") {
+              Write-Error "SSIS catalog connection validation failed"
+              exit 1
+          }
+
       - name: Deploy SSIS Package
         shell: powershell
         run: |
@@ -116,7 +141,7 @@ jobs:
           & "$env:SSIS_PATH" /Silent `
             /SourcePath:"$sourcePath" `
             /DestinationServer:"${{ env.SQL_SERVER }}" `
-            /DestinationPath:"/SSISDB/${{ env.SSIS_DEST_FOLDER }}/${{ env.SSIS_PROJECT }}" `
+            /DestinationPath:"/${{ env.SSIS_DEST_FOLDER }}/${{ env.SSIS_PROJECT }}" `
             /ModelType:Project
 
           if ($LASTEXITCODE -ne 0) {
