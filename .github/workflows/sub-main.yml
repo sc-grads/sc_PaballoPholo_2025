@@ -114,53 +114,6 @@ jobs:
               exit 1
           }
 
-      - name: Validate SSIS Connection
-        shell: powershell
-        run: |
-          $testPath = "/${{ env.SSIS_DEST_FOLDER }}"
-          Write-Output "Testing connection to path: $testPath"
-          $sql = @"
-          USE SSISDB
-          GO
-          SET NOCOUNT ON;
-          IF EXISTS (SELECT 1 FROM [catalog].[folders] WHERE name = '${{ env.SSIS_DEST_FOLDER }}')
-          BEGIN
-              SELECT 'Connection Valid' AS Status
-          END
-          ELSE
-          BEGIN
-              SELECT 'Connection Invalid' AS Status
-              RAISERROR ('Folder does not exist in SSISDB.', 16, 1);
-          END
-          GO
-          "@
-          $maxRetries = 3
-          $retryCount = 0
-          $success = $false
-          while (-not $success -and $retryCount -lt $maxRetries) {
-              $result = sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql" -h -1 -W -o "connection_test.log" 2>&1
-              $logContent = Get-Content "connection_test.log" -Raw
-              Write-Output "Connection test log: $logContent"
-              Write-Output "Connection test result: $result"
-              if ($LASTEXITCODE -ne 0) {
-                  Write-Error "SSIS catalog connection validation failed. Exit code: $LASTEXITCODE. Log: $logContent"
-                  exit $LASTEXITCODE
-              }
-              $trimmedResult = $result.Trim()
-              if ($trimmedResult -eq "Connection Valid") {
-                  $success = $true
-                  Write-Output "SSIS catalog connection validated successfully"
-              } else {
-                  Write-Output "Retry $($retryCount + 1)/$maxRetries: Folder not yet available"
-                  $retryCount++
-                  Start-Sleep -Seconds 30
-              }
-          }
-          if (-not $success) {
-              Write-Error "SSIS catalog connection validation failed after $maxRetries retries. Result: $trimmedResult"
-              exit 1
-          }
-
       - name: Deploy SSIS Package
         shell: powershell
         run: |
