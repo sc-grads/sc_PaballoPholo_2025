@@ -67,20 +67,20 @@ jobs:
           "@
           $result = sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql" -h -1 -W -o "folder_creation.log" 2>&1
           $logContent = Get-Content "folder_creation.log" -Raw
-          Write-Output "Folder creation result: $result"
+          Write-Output "Folder creation result: $logContent"
           Write-Output "Folder creation log: $logContent"
           if ($LASTEXITCODE -ne 0) {
               Write-Error "Failed to create SSIS catalog folder. Exit code: $LASTEXITCODE. Log: $logContent"
               exit $LASTEXITCODE
           }
-          # Check if the result indicates a successful outcome
-          if ($result -match "Folder created: ${{ env.SSIS_DEST_FOLDER }}" -or $result -match "Folder already exists: ${{ env.SSIS_DEST_FOLDER }}") {
+          # Check if the log content indicates a successful outcome
+          if ($logContent -match "Folder created: ${{ env.SSIS_DEST_FOLDER }}" -or $logContent -match "Folder already exists: ${{ env.SSIS_DEST_FOLDER }}") {
               Write-Output "Verified folder creation or existence: ${{ env.SSIS_DEST_FOLDER }}"
-          } elseif ($result -match "ErrorMessage" -or [string]::IsNullOrEmpty($result)) {
-              Write-Error "Unexpected error during folder creation: $result"
+          } elseif ($logContent -match "ErrorMessage" -or [string]::IsNullOrEmpty($logContent)) {
+              Write-Error "Unexpected error during folder creation: $logContent"
               exit 1
           } else {
-              Write-Error "Unexpected result during folder creation: $result"
+              Write-Error "Unexpected result during folder creation: $logContent"
               exit 1
           }
           Start-Sleep -Seconds 30
