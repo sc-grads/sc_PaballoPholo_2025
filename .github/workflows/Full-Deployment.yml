@@ -19,7 +19,7 @@ env:
   SSIS_DEST_FOLDER: 'NewDataMigration'
   SSIS_PROJECTS_FOLDER: 'Timesheets'
   JOB_NAME: 'RunDataMigrationPackage'
-  PACKAGE_NAME: 'DataMigrationFINAL'
+  PACKAGE_NAME: 'DataMigrationFINAL.dtsx'
 
 jobs:
   deploy-database:
@@ -44,7 +44,7 @@ jobs:
         run: |
           /opt/mssql-tools/bin/sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d master -i HandsOnProjects/SQL_Scripts/TimesheetDB_Creation.sql
 
-  deploy-and-run:
+  deploy-SSIS-packages-and-run-jobs:
     if: contains(github.event.commits.*.modified, 'HandsOnProjects/Timesheets/') || github.event_name == 'workflow_dispatch'
     needs: deploy-database
     runs-on: self-hosted
