@@ -121,9 +121,7 @@ CREATE TABLE [dbo].[ErrorLog] (
     ErrorID INT IDENTITY(1,1) PRIMARY KEY,
     ErrorDate DATETIME DEFAULT GETDATE(),
     SourceColumn NVARCHAR(100),
-    ErrorValue NVARCHAR(255),
     ErrorDescription NVARCHAR(255),
-    ErrorCode INT,
-    RowNumber INT
+    ErrorCode INT
 );
 GO
