@@ -11,20 +11,18 @@ on:
 
 env:
   DATABASE_NAME: TimesheetDB
-  SQL_SERVER_NAME: ${{ secrets.SQL_SERVER_NAME }}
-  SQL_USERNAME: ${{ secrets.SQL_USERNAME }}
-  SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
-  SQL_SERVER: 'LAPTOP-NTKM1UMO'
+  SQL_SERVER_NAME: 'LAPTOP-NTKM1UMO'  # Updated to match manual server name
+  SQL_SERVER: 'LAPTOP-NTKM1UMO'      # Consistent with manual connection
   SSIS_SOURCE_PATH: 'HandsOnProjects/Timesheets/bin/Development/Timesheets.ispac'
   SSIS_DEST_FOLDER: 'NewDataMigration'
   SSIS_PROJECTS_FOLDER: 'Timesheets'
   JOB_NAME: 'RunDataMigrationPackage'
-  PACKAGE_NAME: 'DataMigrationFINAL.dtsx'
+  PACKAGE_NAME: 'DataMigrationFINAL.dtsx'  # Matches catalog name
 
 jobs:
   deploy-database:
     if: contains(github.event.commits.*.modified, 'HandsOnProjects/SQL_Scripts/') || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
+    runs-on: self-hosted  # Changed to self-hosted to match Windows Authentication context
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -42,9 +40,10 @@ jobs:
 
       - name: Execute SQL Script
         run: |
-          /opt/mssql-tools/bin/sqlcmd -b -S "${{ env.SQL_SERVER_NAME }}" -U "${{ env.SQL_USERNAME }}" -P "${{ env.SQL_PASSWORD }}" -d master -i HandsOnProjects/SQL_Scripts/TimesheetDB_Creation.sql
+          /opt/mssql-tools/bin/sqlcmd -S "${{ env.SQL_SERVER_NAME }}" -E -d master -i HandsOnProjects/SQL_Scripts/TimesheetDB_Creation.sql
+        shell: bash  # Ensure compatibility with Windows Authentication
 
-  deploy-SSIS-packages-and-run-jobs:
+  deploy-and-run:
     if: contains(github.event.commits.*.modified, 'HandsOnProjects/Timesheets/') || github.event_name == 'workflow_dispatch'
     needs: deploy-database
     runs-on: self-hosted
@@ -78,7 +77,7 @@ jobs:
               THROW;
           END CATCH
           "@
-          sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql"
+          sqlcmd -S "${{ env.SQL_SERVER }}" -E -Q "$sql"  # Updated to use -E for Windows Authentication
 
       - name: Deploy SSIS ISPAC via T-SQL
         shell: powershell
@@ -108,7 +107,7 @@ jobs:
           Set-Content -Path $tempSqlFile -Value $sqlContent -Force
 
           Write-Output "Executing SQL script file with sqlcmd..."
-          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -i $tempSqlFile -b 2>&1
+          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -E -i $tempSqlFile -b 2>&1  # Updated to use -E
           Write-Output $sqlcmdOutput
 
           if ($LASTEXITCODE -ne 0) {
@@ -120,7 +119,7 @@ jobs:
           if ($operationId) {
               $sql = "SELECT message_type, message FROM SSISDB.catalog.operation_messages WHERE operation_id = $operationId"
               Write-Output "Executing operation messages query: $sql"
-              $messages = sqlcmd -S "${{ env.SQL_SERVER }}" -Q $sql -h -1 2>&1
+              $messages = sqlcmd -S "${{ env.SQL_SERVER }}" -E -Q $sql -h -1 2>&1  # Updated to use -E
               Write-Output "Operation Messages for operation_id $operationId :"
               Write-Output $messages
           } else {
@@ -156,7 +155,7 @@ jobs:
                   @delete_level=0,
                   @description=N'No description available.',
                   @category_name=N'[Uncategorized (Local)]',
-                  @owner_login_name=N'LAPTOP-NTKM1UMO\PaballoPholo',
+                  @owner_login_name=N'LAPTOP-NTKM1UMO\PaballoPholo',  # Matches manual user
                   @job_id = @jobId OUTPUT
               IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 
@@ -171,7 +170,7 @@ jobs:
                   @retry_interval=0,
                   @os_run_priority=0,
                   @subsystem=N'SSIS',
-                  @command=N'/ISSERVER "\SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECTS_FOLDER }}\${{ env.PACKAGE_NAME }}" /SERVER "." /Par "$ServerOption::LOGGING_LEVEL(Int16)";1 /Par "$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E',
+                  @command=N'/ISSERVER "\SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECTS_FOLDER }}\${{ env.PACKAGE_NAME }}" /SERVER "." /Par "$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E',
                   @database_name=N'master',
                   @flags=0
               IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
@@ -198,7 +197,7 @@ jobs:
           Write-Output "Writing SQL script to file: $tempSqlFile"
           Set-Content -Path $tempSqlFile -Value $sql -Force
           Write-Output "Executing SQL script for job creation..."
-          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -i $tempSqlFile -b 2>&1
+          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -E -i $tempSqlFile -b 2>&1  # Updated to use -E
           Write-Output $sqlcmdOutput
           if ($LASTEXITCODE -ne 0) {
               if ($sqlcmdOutput -like "*The specified @name ('${{ env.JOB_NAME }}') already exists*") {
@@ -214,7 +213,7 @@ jobs:
         run: |
           $sql = "EXEC msdb.dbo.sp_start_job @job_name = N'${{ env.JOB_NAME }}'; PRINT 'Job started: ${{ env.JOB_NAME }}';"
           Write-Output "Executing SQL to start job: $sql"
-          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -Q "$sql" -b 2>&1
+          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -E -Q "$sql" -b 2>&1  # Updated to use -E
           Write-Output $sqlcmdOutput
           if ($LASTEXITCODE -ne 0) {
               Write-Error "sqlcmd failed with code $LASTEXITCODE. Output: $sqlcmdOutput"
