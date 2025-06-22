@@ -14,7 +14,7 @@ env:
   SQL_SERVER_NAME: ${{ secrets.SQL_SERVER_NAME }}
   SQL_USERNAME: ${{ secrets.SQL_USERNAME }}
   SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
-  SQL_SERVER: 'LAPTOP-NTKM1UMO'  # Matches your manual Windows server
+  SQL_SERVER: 'LAPTOP-NTKM1UMO'
   SSIS_SOURCE_PATH: 'HandsOnProjects/Timesheets/bin/Development/Timesheets.ispac'
   SSIS_DEST_FOLDER: 'NewDataMigration'
   SSIS_PROJECTS_FOLDER: 'Timesheets'
@@ -78,7 +78,7 @@ jobs:
               THROW;
           END CATCH
           "@
-          sqlcmd -S "${{ env.SQL_SERVER }}" -E -Q "$sql"  # Windows Authentication
+          sqlcmd -S "${{ env.SQL_SERVER }}" -E -Q "$sql"
 
       - name: Deploy SSIS ISPAC via T-SQL
         shell: powershell
@@ -108,7 +108,7 @@ jobs:
           Set-Content -Path $tempSqlFile -Value $sqlContent -Force
 
           Write-Output "Executing SQL script file with sqlcmd..."
-          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -E -i $tempSqlFile -b 2>&1  # Windows Authentication
+          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -E -i $tempSqlFile -b 2>&1
           Write-Output $sqlcmdOutput
 
           if ($LASTEXITCODE -ne 0) {
@@ -120,7 +120,7 @@ jobs:
           if ($operationId) {
               $sql = "SELECT message_type, message FROM SSISDB.catalog.operation_messages WHERE operation_id = $operationId"
               Write-Output "Executing operation messages query: $sql"
-              $messages = sqlcmd -S "${{ env.SQL_SERVER }}" -E -Q $sql -h -1 2>&1  # Windows Authentication
+              $messages = sqlcmd -S "${{ env.SQL_SERVER }}" -E -Q $sql -h -1 2>&1
               Write-Output "Operation Messages for operation_id $operationId :"
               Write-Output $messages
           } else {
@@ -138,7 +138,7 @@ jobs:
           BEGIN TRANSACTION
           DECLARE @ReturnCode INT
           SELECT @ReturnCode = 0
-          IF NOT EXISTS (SELECT name FROM msdb.dbo.sysjobs WHERE name = '${{ env.JOB_NAME }}')
+          IF NOT EXISTS (SELECT name FROM msdb.dbo.sysjobs WHERE name = N'${{ env.JOB_NAME }}')
           BEGIN
               IF NOT EXISTS (SELECT name FROM msdb.dbo.syscategories WHERE name=N'[Uncategorized (Local)]' AND category_class=1)
               BEGIN
@@ -156,7 +156,7 @@ jobs:
                   @delete_level=0,
                   @description=N'No description available.',
                   @category_name=N'[Uncategorized (Local)]',
-                  @owner_login_name=N'LAPTOP-NTKM1UMO\PaballoPholo',  # Matches your manual user
+                  @owner_login_name=N'LAPTOP-NTKM1UMO\PaballoPholo',
                   @job_id = @jobId OUTPUT
               IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 
@@ -171,7 +171,7 @@ jobs:
                   @retry_interval=0,
                   @os_run_priority=0,
                   @subsystem=N'SSIS',
-                  @command=N'/ISSERVER "\SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECTS_FOLDER }}\${{ env.PACKAGE_NAME }}" /SERVER "." /Par "$ServerOption::SYNCHRONIZED(Boolean)";True /CALLERINFO SQLAGENT /REPORTING E',
+                  @command=N'/ISSERVER "\SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECTS_FOLDER }}\${{ env.PACKAGE_NAME }}" /SERVER "." /Par ""$ServerOption::SYNCHRONIZED(Boolean)"";True /CALLERINFO SQLAGENT /REPORTING E',
                   @database_name=N'master',
                   @flags=0
               IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
@@ -198,7 +198,7 @@ jobs:
           Write-Output "Writing SQL script to file: $tempSqlFile"
           Set-Content -Path $tempSqlFile -Value $sql -Force
           Write-Output "Executing SQL script for job creation..."
-          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -E -i $tempSqlFile -b 2>&1  # Windows Authentication
+          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -E -i $tempSqlFile -b 2>&1
           Write-Output $sqlcmdOutput
           if ($LASTEXITCODE -ne 0) {
               if ($sqlcmdOutput -like "*The specified @name ('${{ env.JOB_NAME }}') already exists*") {
@@ -214,7 +214,7 @@ jobs:
         run: |
           $sql = "EXEC msdb.dbo.sp_start_job @job_name = N'${{ env.JOB_NAME }}'; PRINT 'Job started: ${{ env.JOB_NAME }}';"
           Write-Output "Executing SQL to start job: $sql"
-          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -E -Q "$sql" -b 2>&1  # Windows Authentication
+          $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -E -Q "$sql" -b 2>&1
           Write-Output $sqlcmdOutput
           if ($LASTEXITCODE -ne 0) {
               Write-Error "sqlcmd failed with code $LASTEXITCODE. Output: $sqlcmdOutput"
