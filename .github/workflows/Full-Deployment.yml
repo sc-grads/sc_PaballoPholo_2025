@@ -64,7 +64,7 @@ jobs:
           $sql = @"
           USE SSISDB;
           BEGIN TRY
-              IF NOT EXISTS (SELECT 1 FROM [catalog].[folders] WHERE name = '${{ env.SSIS_DEST_FOLDER }}')
+              IF NOT EXISTS (SELECT 1 FROM [catalog].[folders] WHERE name = N'${{ env.SSIS_DEST_FOLDER }}')
               BEGIN
                   EXEC [catalog].[create_folder] @folder_name = N'${{ env.SSIS_DEST_FOLDER }}';
                   PRINT 'Created SSIS folder: ${{ env.SSIS_DEST_FOLDER }}';
@@ -96,9 +96,9 @@ jobs:
           SELECT @ispac = BulkColumn
           FROM OPENROWSET(BULK '$ispacPath', SINGLE_BLOB) AS ProjectBinary;
           EXEC [SSISDB].[catalog].[deploy_project]
-              @folder_name=N'${{ env.SSIS_DEST_FOLDER }}',
-              @project_name=N'${{ env.SSIS_PROJECTS_FOLDER }}',
-              @project_stream=@ispac;
+              @folder_name = N'${{ env.SSIS_DEST_FOLDER }}',
+              @project_name = N'${{ env.SSIS_PROJECTS_FOLDER }}',
+              @project_stream = @ispac;
           SELECT operation_id
           FROM SSISDB.catalog.operations
           WHERE created_time = (SELECT MAX(created_time) FROM SSISDB.catalog.operations);
@@ -116,10 +116,9 @@ jobs:
               exit $LASTEXITCODE
           }
 
-          $operationId = ($sqlcmdOutput | Select-String "\d+").Matches.Value
+          $operationId = ($sqlcmdOutput | Select-String '\d+').Matches.Value
           if ($operationId) {
               $sql = "SELECT message_type, message FROM SSISDB.catalog.operation_messages WHERE operation_id = $operationId"
-              Write-Output "Executing operation messages query: $sql"
               $messages = sqlcmd -S "${{ env.SQL_SERVER }}" -E -Q $sql -h -1 2>&1
               Write-Output "Operation Messages for operation_id $operationId :"
               Write-Output $messages
@@ -128,6 +127,37 @@ jobs:
           }
 
           Write-Output "ISPAC deployed successfully to SSISDB/${{ env.SSIS_DEST_FOLDER }}/${{ env.SSIS_PROJECTS_FOLDER }}"
+
+      - name: Grant SSIS Project Permissions
+        shell: powershell
+        run: |
+          $sql = @"
+          DECLARE @object_id BIGINT;
+
+          -- Get the object id for the deployed project
+          SELECT @object_id = project_id 
+          FROM SSISDB.catalog.projects 
+          WHERE name = N'${{ env.SSIS_PROJECTS_FOLDER }}';
+
+          IF @object_id IS NOT NULL
+          BEGIN
+              PRINT 'Found project ${{ env.SSIS_PROJECTS_FOLDER }} with object_id=' + CAST(@object_id AS VARCHAR(10));
+
+              -- Grant required permissions
+              EXEC [SSISDB].[catalog].[grant_permission] @object_type=2, @object_id=@object_id, @principal_id=14, @permission_type=1;
+              EXEC [SSISDB].[catalog].[grant_permission] @object_type=2, @object_id=@object_id, @principal_id=14, @permission_type=2;
+              EXEC [SSISDB].[catalog].[grant_permission] @object_type=2, @object_id=@object_id, @principal_id=14, @permission_type=3;
+              EXEC [SSISDB].[catalog].[grant_permission] @object_type=2, @object_id=@object_id, @principal_id=14, @permission_type=4;
+
+              PRINT 'Permissions granted successfully.';
+          END
+          ELSE
+          BEGIN
+              PRINT 'Error: Project ${{ env.SSIS_PROJECTS_FOLDER }} not found in SSISDB.';
+              RAISERROR('Project not found', 16, 1);
+          END
+          "@
+          sqlcmd -S "${{ env.SQL_SERVER }}" -E -Q $sql
 
       - name: Create SQL Agent Job
         shell: powershell
@@ -140,46 +170,53 @@ jobs:
           SELECT @ReturnCode = 0
           IF NOT EXISTS (SELECT name FROM msdb.dbo.sysjobs WHERE name = N'${{ env.JOB_NAME }}')
           BEGIN
-              IF NOT EXISTS (SELECT name FROM msdb.dbo.syscategories WHERE name=N'[Uncategorized (Local)]' AND category_class=1)
+              IF NOT EXISTS (SELECT name FROM msdb.dbo.syscategories WHERE name = N'[Uncategorized (Local)]' AND category_class = 1)
               BEGIN
-                  EXEC @ReturnCode = msdb.dbo.sp_add_category @class=N'JOB', @type=N'LOCAL', @name=N'[Uncategorized (Local)]'
+                  EXEC @ReturnCode = msdb.dbo.sp_add_category @class = N'JOB', @type = N'LOCAL', @name = N'[Uncategorized (Local)]'
                   IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
               END
 
               DECLARE @jobId BINARY(16)
-              EXEC @ReturnCode = msdb.dbo.sp_add_job @job_name=N'${{ env.JOB_NAME }}',
-                  @enabled=1,
-                  @notify_level_eventlog=0,
-                  @notify_level_email=0,
-                  @notify_level_netsend=0,
-                  @notify_level_page=0,
-                  @delete_level=0,
-                  @description=N'No description available.',
-                  @category_name=N'[Uncategorized (Local)]',
-                  @owner_login_name=N'LAPTOP-NTKM1UMO\PaballoPholo',
+              EXEC @ReturnCode = msdb.dbo.sp_add_job
+                  @job_name = N'${{ env.JOB_NAME }}',
+                  @enabled = 1,
+                  @notify_level_eventlog = 0,
+                  @notify_level_email = 0,
+                  @notify_level_netsend = 0,
+                  @notify_level_page = 0,
+                  @delete_level = 0,
+                  @description = N'No description available.',
+                  @category_name = N'[Uncategorized (Local)]',
+                  @owner_login_name = N'LAPTOP-NTKM1UMO\PaballoPholo',
                   @job_id = @jobId OUTPUT
               IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 
-              EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'LoadTimeSheetData',
-                  @step_id=1,
-                  @cmdexec_success_code=0,
-                  @on_success_action=1,
-                  @on_success_step_id=0,
-                  @on_fail_action=2,
-                  @on_fail_step_id=0,
-                  @retry_attempts=0,
-                  @retry_interval=0,
-                  @os_run_priority=0,
-                  @subsystem=N'SSIS',
-                  @command=N'/ISSERVER "\SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECTS_FOLDER }}\${{ env.PACKAGE_NAME }}" /SERVER "." /Par ""$ServerOption::SYNCHRONIZED(Boolean)"";True /CALLERINFO SQLAGENT /REPORTING E',
-                  @database_name=N'master',
-                  @flags=0
+              EXEC @ReturnCode = msdb.dbo.sp_add_jobstep
+                  @job_id = @jobId,
+                  @step_name = N'LoadTimeSheetData',
+                  @step_id = 1,
+                  @cmdexec_success_code = 0,
+                  @on_success_action = 1,
+                  @on_success_step_id = 0,
+                  @on_fail_action = 2,
+                  @on_fail_step_id = 0,
+                  @retry_attempts = 0,
+                  @retry_interval = 0,
+                  @os_run_priority = 0,
+                  @subsystem = N'SSIS',
+                  @command = N'/ISSERVER "\\SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECTS_FOLDER }}\${{ env.PACKAGE_NAME }}" /SERVER "LAPTOP-NTKM1UMO" /REPORTING E',
+                  @database_name = N'master',
+                  @flags = 0
               IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 
-              EXEC @ReturnCode = msdb.dbo.sp_update_job @job_id = @jobId, @start_step_id = 1
+              EXEC @ReturnCode = msdb.dbo.sp_update_job
+                  @job_id = @jobId,
+                  @start_step_id = 1
               IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 
-              EXEC @ReturnCode = msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N'(local)'
+              EXEC @ReturnCode = msdb.dbo.sp_add_jobserver
+                  @job_id = @jobId,
+                  @server_name = N'(local)';
               IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 
               COMMIT TRANSACTION
