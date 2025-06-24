@@ -134,7 +134,6 @@ jobs:
           $sql = @"
           DECLARE @object_id BIGINT;
 
-          -- Get the object id for the deployed project
           SELECT @object_id = project_id 
           FROM SSISDB.catalog.projects 
           WHERE name = N'${{ env.SSIS_PROJECTS_FOLDER }}';
@@ -143,7 +142,6 @@ jobs:
           BEGIN
               PRINT 'Found project ${{ env.SSIS_PROJECTS_FOLDER }} with object_id=' + CAST(@object_id AS VARCHAR(10));
 
-              -- Grant required permissions
               EXEC [SSISDB].[catalog].[grant_permission] @object_type=2, @object_id=@object_id, @principal_id=14, @permission_type=1;
               EXEC [SSISDB].[catalog].[grant_permission] @object_type=2, @object_id=@object_id, @principal_id=14, @permission_type=2;
               EXEC [SSISDB].[catalog].[grant_permission] @object_type=2, @object_id=@object_id, @principal_id=14, @permission_type=3;
@@ -204,7 +202,7 @@ jobs:
                   @retry_interval = 0,
                   @os_run_priority = 0,
                   @subsystem = N'SSIS',
-                  @command = N'/ISSERVER "\\SSISDB\${{ env.SSIS_DEST_FOLDER }}\${{ env.SSIS_PROJECTS_FOLDER }}\${{ env.PACKAGE_NAME }}" /SERVER "LAPTOP-NTKM1UMO" /REPORTING E',
+                  @command = N'/ISSERVER "\SSISDB\NewDataMigration\Timesheets\DataMigrationFINAL.dtsx" /SERVER "LAPTOP-NTKM1UMO" /REPORTING E',
                   @database_name = N'master',
                   @flags = 0
               IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
@@ -232,11 +230,14 @@ jobs:
               IF (@@TRANCOUNT > 0) ROLLBACK TRANSACTION
           EndSave:
           "@
+          
           Write-Output "Writing SQL script to file: $tempSqlFile"
           Set-Content -Path $tempSqlFile -Value $sql -Force
+          
           Write-Output "Executing SQL script for job creation..."
           $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -E -i $tempSqlFile -b 2>&1
           Write-Output $sqlcmdOutput
+          
           if ($LASTEXITCODE -ne 0) {
               if ($sqlcmdOutput -like "*The specified @name ('${{ env.JOB_NAME }}') already exists*") {
                   Write-Output "Job '${{ env.JOB_NAME }}' already exists, continuing..."
@@ -251,8 +252,10 @@ jobs:
         run: |
           $sql = "EXEC msdb.dbo.sp_start_job @job_name = N'${{ env.JOB_NAME }}'; PRINT 'Job started: ${{ env.JOB_NAME }}';"
           Write-Output "Executing SQL to start job: $sql"
+          
           $sqlcmdOutput = sqlcmd -S "${{ env.SQL_SERVER }}" -E -Q "$sql" -b 2>&1
           Write-Output $sqlcmdOutput
+          
           if ($LASTEXITCODE -ne 0) {
               Write-Error "sqlcmd failed with code $LASTEXITCODE. Output: $sqlcmdOutput"
               exit $LASTEXITCODE
