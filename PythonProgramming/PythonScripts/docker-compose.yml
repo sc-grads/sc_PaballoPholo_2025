@@ -1,0 +1,9 @@
+version: '3'  # Specifies the Docker Compose file format version
+
+services:
+  web:  # Defines a service named "web"
+    build: .  # Builds the Docker image from the current directory using the Dockerfile
+    ports:
+      - "5000:5000"  # Maps host port 5000 to container port 5000 so you can access the app via localhost:5000
+    volumes:
+      - .:/app  # Mounts the current directory (host) into /app inside the container for live file sync
