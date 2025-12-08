@@ -123,7 +123,8 @@ FROM [Sales].[SalesOrderHeader]
 GROUP BY YEAR([OrderDate])
 ORDER BY YEAR([OrderDate]) ASC;
 
--- 18. Write a query in SQL to retrieve the total sales for each year. Filter the result set for those orders where order year is on or before 2016. Return the year part of orderdate and total due amount. Sort the result in ascending order on year part of order date.
+-- 18. Write a query in SQL to retrieve the total sales for each year. Filter the result set for those orders where order year is on or before 2016. Return the year part of orderdate and total due amount. Sort the result in ascending order on year part of order date.
+
 SELECT YEAR([OrderDate]) AS Year, SUM([TotalDue]) AS OrderAmount
 FROM [Sales].[SalesOrderHeader]
 WHERE YEAR([OrderDate]) <= '2026'
@@ -137,7 +138,18 @@ FROM [Person].[ContactType]
 WHERE [Name] LIKE '%Manager'
 ORDER BY [ContactTypeID] DESC;
 
--- 20. From the following tables write a query in SQL to make a list of contacts who are designated as 'Purchasing Manager'. Return BusinessEntityID, LastName, and FirstName columns. Sort the result set in ascending order of LastName, and FirstName.SELECT [BusinessEntityID],[LastName],[FirstName]FROM [Person].[Person] AS pJOIN [Person].[ContactType] AS cON p.[BusinessEntityID] = c.[ContactTypeID]WHERE c.[Name] = 'Purchasing Manager'--WRONG -- 21. Write a query in SQL to retrieve the salesperson for each PostalCode who belongs to a territory and SalesYTD is not zero. Return row numbers of each group of PostalCode, last name, salesytd, postalcode column. Sort the salesytd of each postalcode group in descending order. Shorts the postalcode in ascending order.SELECT 
+-- 20. From the following tables write a query in SQL to make a list of contacts who are designated as 'Purchasing Manager'. Return BusinessEntityID, LastName, and FirstName columns. Sort the result set in ascending order of LastName, and FirstName.
+
+SELECT [BusinessEntityID],[LastName],[FirstName]
+FROM [Person].[Person] AS p
+JOIN [Person].[ContactType] AS c
+ON p.[BusinessEntityID] = c.[ContactTypeID]
+WHERE c.[Name] = 'Purchasing Manager';
+--WRONG 
+
+-- 21. Write a query in SQL to retrieve the salesperson for each PostalCode who belongs to a territory and SalesYTD is not zero. Return row numbers of each group of PostalCode, last name, salesytd, postalcode column. Sort the salesytd of each postalcode group in descending order. Shorts the postalcode in ascending order.
+
+SELECT 
     ROW_NUMBER() OVER(PARTITION BY a.[PostalCode] ORDER BY s.[SalesYTD] DESC) AS RowNumber,
     p.[LastName],
     s.[SalesYTD],
@@ -149,7 +161,11 @@ JOIN [Person].[BusinessEntityAddress] AS b
 ON b.[AddressID] = p.[BusinessEntityID]
 JOIN [Person].[Address] AS a
 ON a.[AddressID] = b.[AddressID]
-ORDER BY s.[SalesYTD] DESC, a.[PostalCode] ASC-- 22. Write a query in SQL to count the number of contacts for combination of each type and name. Filter the output for those who have 100 or more contacts. Return ContactTypeID and ContactTypeName and BusinessEntityContact. Sort the result set in descending order on number of contacts.SELECT b.[ContactTypeID], c.[Name], COUNT(*) AS NoOfContacts
+ORDER BY s.[SalesYTD] DESC, a.[PostalCode] ASC;
+
+-- 22. Write a query in SQL to count the number of contacts for combination of each type and name. Filter the output for those who have 100 or more contacts. Return ContactTypeID and ContactTypeName and BusinessEntityContact. Sort the result set in descending order on number of contacts.
+
+SELECT b.[ContactTypeID], c.[Name], COUNT(*) AS NoOfContacts
 FROM [Person].[BusinessEntityContact] AS b
 JOIN [Person].[ContactType] AS c
 ON b.[ContactTypeID] = c.[ContactTypeID]
